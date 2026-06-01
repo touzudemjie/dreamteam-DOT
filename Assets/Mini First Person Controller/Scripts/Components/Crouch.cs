@@ -1,8 +1,8 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
+using UsefulClasses;
 public class Crouch : MonoBehaviour
 {
-    public KeyCode key = KeyCode.LeftControl;
 
     [Header("Slow Movement")]
     [Tooltip("Movement to slow down when crouched.")]
@@ -16,7 +16,7 @@ public class Crouch : MonoBehaviour
     [HideInInspector]
     public float? defaultHeadYLocalPosition;
     public float crouchYHeadPosition = 1;
-    
+
     [Tooltip("Collider to lower when crouched.")]
     public CapsuleCollider colliderToLower;
     [HideInInspector]
@@ -24,7 +24,7 @@ public class Crouch : MonoBehaviour
 
     public bool IsCrouched { get; private set; }
     public event System.Action CrouchStart, CrouchEnd;
-
+    private InputAction _crouchAction;
 
     void Reset()
     {
@@ -33,10 +33,13 @@ public class Crouch : MonoBehaviour
         headToLower = movement.GetComponentInChildren<Camera>().transform;
         colliderToLower = movement.GetComponentInChildren<CapsuleCollider>();
     }
-
+    private void Start()
+    {
+        _crouchAction = PlayerInputHandler.GetInputAction(PlayerInputHandler.PlayerAction.Crouch);
+    }
     void LateUpdate()
     {
-        if (Input.GetKey(key))
+        if (_crouchAction.IsPressed())
         {
             // Enforce a low head.
             if (headToLower)
@@ -62,7 +65,7 @@ public class Crouch : MonoBehaviour
 
                 // Get lowering amount.
                 float loweringAmount;
-                if(defaultHeadYLocalPosition.HasValue)
+                if (defaultHeadYLocalPosition.HasValue)
                 {
                     loweringAmount = defaultHeadYLocalPosition.Value - crouchYHeadPosition;
                 }
@@ -114,7 +117,7 @@ public class Crouch : MonoBehaviour
     void SetSpeedOverrideActive(bool state)
     {
         // Stop if there is no movement component.
-        if(!movement)
+        if (!movement)
         {
             return;
         }

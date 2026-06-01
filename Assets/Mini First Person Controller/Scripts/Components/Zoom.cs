@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 [ExecuteInEditMode]
 public class Zoom : MonoBehaviour
@@ -24,7 +25,12 @@ public class Zoom : MonoBehaviour
     void Update()
     {
         // Update the currentZoom and the camera's fieldOfView.
-        currentZoom += Input.mouseScrollDelta.y * sensitivity * .05f;
+        float scrollDelta = 0;
+        if (Mouse.current != null)
+        {
+            scrollDelta = Mouse.current.scroll.ReadValue().y;
+        }
+        currentZoom += scrollDelta * sensitivity;
         currentZoom = Mathf.Clamp01(currentZoom);
         camera.fieldOfView = Mathf.Lerp(defaultFOV, maxZoomFOV, currentZoom);
     }

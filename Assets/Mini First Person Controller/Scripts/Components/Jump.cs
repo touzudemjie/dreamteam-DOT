@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-
+using UnityEngine.InputSystem;
+using UsefulClasses;
 public class Jump : MonoBehaviour
 {
     Rigidbody rigidbody;
@@ -8,14 +9,18 @@ public class Jump : MonoBehaviour
 
     [SerializeField, Tooltip("Prevents jumping when the transform is in mid-air.")]
     GroundCheck groundCheck;
-
+    private InputAction _jumpAction;
 
     void Reset()
     {
         // Try to get groundCheck.
         groundCheck = GetComponentInChildren<GroundCheck>();
-    }
 
+    }
+    private void Start()
+    {
+        _jumpAction = PlayerInputHandler.GetInputAction(PlayerInputHandler.PlayerAction.Jump);
+    }
     void Awake()
     {
         // Get rigidbody.
@@ -25,7 +30,7 @@ public class Jump : MonoBehaviour
     void LateUpdate()
     {
         // Jump when the Jump button is pressed and we are on the ground.
-        if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))
+        if (_jumpAction.WasPerformedThisFrame() && (!groundCheck || groundCheck.isGrounded))
         {
             rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
             Jumped?.Invoke();
