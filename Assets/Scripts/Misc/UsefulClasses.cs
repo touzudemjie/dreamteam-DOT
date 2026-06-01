@@ -76,6 +76,7 @@ namespace UsefulClasses
         public UnityTimer(float duration)
         {
             this._duration = duration;
+            PrepareStart();
         }
 
         public void PrepareStart()
