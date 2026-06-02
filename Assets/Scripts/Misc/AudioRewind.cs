@@ -18,9 +18,6 @@ public class AudioRewind : MonoBehaviour
     [Tooltip("Wie viel Zeit pro Frame zurückgespult wird (in Sekunden).")]
     [SerializeField] private float _rewindStepSize = 0.016f;
 
-    [Tooltip("Wenn Audio während Rewind nicht gestoppt wird, hier nur Zeit zurücksetzen beim Rewind-Ende.")]
-    [SerializeField] private bool _playAudioWhileRewinding = false;
-
     private AudioSource _audioSource;
 
     // Zustand zum Zeitpunkt des Rewind-Starts
@@ -30,8 +27,12 @@ public class AudioRewind : MonoBehaviour
     private float _volumeAtReverseStart;
     private bool _wasLoopingAtReverseStart;
 
+    // Logische Zeit für Audio (unabhängig von AudioSource.time, wenn nicht playing)
+    private float _currentAudioTime;
+
     // Status
     private bool _isRewinding;
+    [SerializeField] private TimeReverse _timeReverse;
 
     private void Awake()
     {
@@ -41,23 +42,21 @@ public class AudioRewind : MonoBehaviour
     private void OnEnable()
     {
         // Eigener TimeReverse auf demselben GameObject suchen
-        var timeReverse = GetComponent<TimeReverse>();
-        if (timeReverse != null)
+        if (_timeReverse != null)
         {
-            timeReverse.OnReverseStart += OnReverseStart;
-            timeReverse.OnReverseEnd += OnReverseEnd;
-            timeReverse.OnReverseStep += OnReverseStep;
+            _timeReverse.OnReverseStart += OnReverseStart;
+            _timeReverse.OnReverseEnd += OnReverseEnd;
+            _timeReverse.OnReverseStep += OnReverseStep;
         }
     }
 
     private void OnDisable()
     {
-        var timeReverse = GetComponent<TimeReverse>();
-        if (timeReverse != null)
+        if (_timeReverse != null)
         {
-            timeReverse.OnReverseStart -= OnReverseStart;
-            timeReverse.OnReverseEnd -= OnReverseEnd;
-            timeReverse.OnReverseStep -= OnReverseStep;
+            _timeReverse.OnReverseStart -= OnReverseStart;
+            _timeReverse.OnReverseEnd -= OnReverseEnd;
+            _timeReverse.OnReverseStep -= OnReverseStep;
         }
     }
 
@@ -75,6 +74,9 @@ public class AudioRewind : MonoBehaviour
         _pitchAtReverseStart = _audioSource.pitch;
         _volumeAtReverseStart = _audioSource.volume;
         _wasLoopingAtReverseStart = _audioSource.loop;
+
+        // Logische Zeit initialisieren
+        _currentAudioTime = _audioSource.time;
 
         if (_stopOnReverseStart)
         {
@@ -95,16 +97,15 @@ public class AudioRewind : MonoBehaviour
         if (!_rewindAudioDuringReverse)
             return;
 
-        // Wenn Audio nicht played, aber wir wollen zurückspulen:
-        // Zeit einfach reduzieren, egal ob played oder nicht.
-        float newTime = _audioSource.time - _rewindStepSize;
+        // Logische Zeit zurückspulen
+        float newTime = _currentAudioTime - _rewindStepSize;
         if (newTime < 0f)
             newTime = 0f;
 
-        _audioSource.time = newTime;
+        _currentAudioTime = newTime;
 
-        // Optional: wenn Audio während Rewind laufen soll (ohne Ton)
-        // Hier: selbst wenn not playing, setzen wir time; bei Play wird es sichtbar.
+        // AudioSource.time setzen (funktioniert auch, wenn nicht playing)
+        _audioSource.time = _currentAudioTime;
     }
 
     /// <summary>
@@ -115,8 +116,9 @@ public class AudioRewind : MonoBehaviour
     {
         _isRewinding = false;
 
-        // Zeit zurücksetzen
-        _audioSource.time = _audioTimeAtReverseStart;
+        // Zeit zurücksetzen auf den Zeitpunkt am Rewind-Start
+        _currentAudioTime = _audioTimeAtReverseStart;
+        _audioSource.time = _currentAudioTime;
 
         // Pitch / Volume / Loop wiederherstellen
         _audioSource.pitch = _pitchAtReverseStart;
