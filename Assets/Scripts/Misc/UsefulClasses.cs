@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -65,68 +66,101 @@ namespace UsefulClasses
 
     }
     [System.Serializable]
-    public class UnityTimer
+    public class UnityTimer : ISerializationCallbackReceiver
     {
-        [SerializeField] private float _minDuration;
-        [SerializeField] private float _duration;
+        [field: SerializeField] public float MinDuration { get; private set; }
+        [SerializeField] public float Duration;
         [SerializeField] private bool _hasRandomRange;
-        private float _currentTime;
-        private bool _canRun;
-
+        public float CurrentTime { get; private set; }
+        public bool CanRun {get; private set; }
+        public bool IsRunning => CanRun && CurrentTime > 0;
+        public event Action OnTimerFinished;
         public UnityTimer(float duration)
         {
-            this._duration = duration;
-            PrepareStart();
+            this.Duration = duration;
         }
-
         public void PrepareStart()
         {
             if (_hasRandomRange)
             {
-                _currentTime = Random.Range(_minDuration, _duration);
+                CurrentTime = UnityEngine.Random.Range(MinDuration, Duration);
             }
             else
             {
-                _currentTime = _duration;
+                CurrentTime = Duration;
             }
-            _canRun = true;
+            CanRun = true;
         }
 
         public void Tick()
         {
-            if (_canRun)
+            if (CanRun)
             {
-                _currentTime -= Time.deltaTime;
-                if (_currentTime <= 0)
+                CurrentTime -= Time.deltaTime;
+                if (CurrentTime <= 0)
                 {
-                    _canRun = false;
+                    CanRun = false;
                 }
             }
         }
         public void TickUnscaled()
         {
-            if (_canRun)
+            if (CanRun)
             {
-                _currentTime -= Time.unscaledDeltaTime;
-                if (_currentTime <= 0)
+                CurrentTime -= Time.unscaledDeltaTime;
+                if (CurrentTime <= 0)
                 {
-                    _canRun = false;
+                    CanRun = false;
                 }
             }
         }
-
-        public bool IsFinished() => !_canRun && _currentTime <= 0;
-        public bool IsRunning() => _canRun;
-        public float Progress() => 1 - (_currentTime / _duration);
-        public void Reset() => _currentTime = _duration;
-        public float GetDuration() { return _duration; }
+        public bool IsFinished() => !CanRun && CurrentTime <= 0;
+        public bool IsFinishedAndReset()
+        {
+           if(!CanRun && CurrentTime <= 0)
+            {
+                PrepareStart();
+                OnTimerFinished?.Invoke();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public float Progress()
+        {
+            if (Duration == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                return Mathf.Clamp01(1 - (CurrentTime / Duration));
+            }
+        }
+        public void Reset()
+        {
+            CurrentTime = Duration;
+            CanRun = true;
+        }
         public void SetDuration(float maxDuration, float minDuration = 0f)
         {
-            _minDuration = minDuration;
-            _duration = maxDuration;
+            MinDuration = minDuration;
+            Duration = maxDuration;
         }
-        public void Stop() => _canRun = false;
-        public float GiveRandomLength() => UnityEngine.Random.Range(0, _duration);
+        public void Stop() => CanRun = false;
+        public void Resume() => CanRun = true;
+        public float GiveRandomLength() => UnityEngine.Random.Range(MinDuration, Duration);
+
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
+        {
+            PrepareStart();
+        }
     }
 
     public static class Helpers
@@ -195,7 +229,7 @@ namespace UsefulClasses
         {
             foreach(Transform child in transform)
             {
-                Object.Destroy(child.gameObject);
+                UnityEngine.Object.Destroy(child.gameObject);
             }
         }
         

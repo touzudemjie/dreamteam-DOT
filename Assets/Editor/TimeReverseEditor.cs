@@ -15,11 +15,17 @@ public static class TimeReverseEditor
     {
         if (component is TimeReverse tr)
         {
-            Debug.Log(AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(component as MonoBehaviour)));
-            //SerializedObject so = new SerializedObject(component);
-            //so.FindProperty("<MaxTimeCaptured>k__BackingField").floatValue = 6f;
-            //so.ApplyModifiedProperties();
-            tr.SetDefaultValues();
+            EditorApplication.delayCall += () =>
+            {
+                if (tr == null)
+                {
+                    return;
+                }
+
+                //Debug.Log(AssetDatabase.GetAssetPath(
+                //    MonoScript.FromMonoBehaviour(tr)));
+                tr.SetDefaultValues();
+            };
         }
     }
 }

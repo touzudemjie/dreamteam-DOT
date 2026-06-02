@@ -1,7 +1,7 @@
 using UnityEngine;
 using UsefulClasses;
 
-public class ChurchButton : MonoBehaviour
+public class ChurchButton : MonoBehaviour, IInteractable 
 {
     private static int _churchButtonslength;
     private static int _pressedButtonCount;
@@ -29,15 +29,20 @@ public class ChurchButton : MonoBehaviour
     {
         SetColorToDefault();
     }
+    public void OnInteract()
+    {
+        ActivateButton();
+    }
     private void SetColorToDefault()
     {
         if (_isButtonPressed)
         {
             _colorToDefaultTimer.Tick();
-            if (_colorToDefaultTimer.IsFinished())
+            if (_colorToDefaultTimer.IsFinishedAndReset())
             {
+                Debug.Log("Set color to default");
                 _isButtonPressed = false;
-                _colorToDefaultTimer.PrepareStart();
+              //  _colorToDefaultTimer.PrepareStart();
                 _pressedButtonCount--;
                 _buttonMaterial.color = _startColor;
             }
@@ -49,12 +54,16 @@ public class ChurchButton : MonoBehaviour
         {
             return;
         }
+        Debug.Log("Activat Button");
         _isButtonPressed = true;
         _pressedButtonCount++;
         _buttonMaterial.color = _pressedColor;
         if (_churchButtonslength == _pressedButtonCount)
         {
-           // ChurchDoor.Instance.OpenDoor();
+            Debug.LogWarning("All buttons are pressed");
+            // ChurchDoor.Instance.OpenDoor();
         }
     }
+
+
 }

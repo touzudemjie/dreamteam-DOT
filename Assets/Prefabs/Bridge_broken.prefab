@@ -344,18 +344,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &6927956729264013865
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -424,18 +425,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &6490985943267379330
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -504,18 +506,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &8172492200430879027
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -584,18 +587,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &2102415723207465289
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -664,18 +668,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &3362629812579252781
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -744,18 +749,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &9039234776733926099
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -824,18 +830,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &3698339043398665393
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -904,18 +911,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &2949198312616341717
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -984,18 +992,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &4169278006368071120
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1064,18 +1073,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &2883842474215226847
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1144,18 +1154,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &5924495397665946977
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1224,18 +1235,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &7918347670256566220
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1304,18 +1316,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &7029417828123597577
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1384,18 +1397,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &6064432449932738113
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1464,18 +1478,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &5670548935951903600
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1544,18 +1559,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &3755791958631989213
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1624,18 +1640,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &5337879137224150596
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1704,18 +1721,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &3800905536831639806
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1784,18 +1802,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &3639725616250486701
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1864,18 +1883,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &2311130657997983459
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1944,18 +1964,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &2672058595242039834
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2024,18 +2045,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &3867959085237549313
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2104,18 +2126,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &4518332040398849505
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2184,18 +2207,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &7991591590906470282
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2264,18 +2288,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
   _isReversingRealtime: 1
-  _reverseInterval:
-    _minDuration: 0
-    _duration: 0
-    _hasRandomRange: 0
-  <MaxTimeCaptured>k__BackingField: 6
-  _reverseAmountTimer:
-    _minDuration: 0
-    _duration: 6
-    _hasRandomRange: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
+  _reverseWhilePressingDown: 1
+  <MaxTimeCaptured>k__BackingField: 6
+  _reverseInterval:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
+  _reverseAmountTimer:
+    <MinDuration>k__BackingField: 0
+    Duration: 0
+    _hasRandomRange: 0
 --- !u!64 &6319276155242623892
 MeshCollider:
   m_ObjectHideFlags: 0

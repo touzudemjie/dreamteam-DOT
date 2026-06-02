@@ -49,7 +49,7 @@ public class GhostLine : MonoBehaviour
         if (_hasWon || _hasLost)
         {
             _resetColorTimer.Tick();
-            if (_resetColorTimer.IsFinished())
+            if (_resetColorTimer.IsFinishedAndReset())
             {
                 _hasWon = false;
                 _hasLost = false;
