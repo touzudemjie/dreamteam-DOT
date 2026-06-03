@@ -2145,13 +2145,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361886839}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29d5ee684ebf0494f886fde5155e5c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 0
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 0
   _forceKinematicWhenReverseEnds: 0

@@ -343,12 +343,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -424,12 +424,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -505,12 +505,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -586,12 +586,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -667,12 +667,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -748,12 +748,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -829,12 +829,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -910,12 +910,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -991,12 +991,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1072,12 +1072,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1153,12 +1153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1234,12 +1234,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1315,12 +1315,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1396,12 +1396,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1477,12 +1477,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1558,12 +1558,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1639,12 +1639,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1720,12 +1720,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1801,12 +1801,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1882,12 +1882,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -1963,12 +1963,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -2044,12 +2044,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -2125,12 +2125,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -2206,12 +2206,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0
@@ -2287,12 +2287,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeReverse
   _alwaysReverseToStartPosition: 1
-  _isReversingRealtime: 1
+  _isReversingRealtime: 0
   _timeReverseTrigger: 26
   _shouldReverseRotation: 1
   _forceKinematicWhenReverseEnds: 1
-  _reverseWhilePressingDown: 1
-  <MaxTimeCaptured>k__BackingField: 6
+  _reverseWhilePressingDown: 0
+  <MaxTimeCaptured>k__BackingField: 20
   _reverseInterval:
     <MinDuration>k__BackingField: 0
     Duration: 0

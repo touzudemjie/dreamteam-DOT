@@ -72,15 +72,6 @@ public class TimeReverse : MonoBehaviour
     void Start()
     {
         ConfigureRigidbody();
-        _circularTest.Add(1);
-        _circularTest.Add(4);
-        _circularTest.Add(2);
-        _circularTest.Add(3);
-
-        for (int i = 0; i < _circularTest.Count; i++)
-        {
-            Debug.Log(_circularTest[i]);
-        }
     }
     private void ConfigureRigidbody()
     {
@@ -160,6 +151,11 @@ public class TimeReverse : MonoBehaviour
             transform.rotation,
             Time.deltaTime
         ));
+        //if (_snapshots.Count == 1) 
+        //{
+        //    Debug.Log("Gameobject "+ gameObject.name + " " + _snapshots.First.Value.position);
+
+        //}
         _currentTimeCaptured += Time.deltaTime;
         if (_currentTimeCaptured > MaxTimeCaptured && _snapshots.Last != null && !_alwaysReverseToStartPosition)
         {
@@ -175,6 +171,7 @@ public class TimeReverse : MonoBehaviour
         }
         if ((!_alwaysReverseToStartPosition && ReverseTimerExpired()) || _snapshots.Count == 0)
         {
+            Debug.Log("Name: " +  gameObject.name + " " + _snapshots.Count);
             StopReversing();
             _snapshots.Clear();
             return;
@@ -207,6 +204,7 @@ public class TimeReverse : MonoBehaviour
         else
         {
             _reverseInterval.Tick();
+            Debug.Log( "Gamobecjt " + gameObject.name + " " + _reverseInterval.IsFinished());
             return _reverseInterval.IsFinishedAndReset();
         }
     }
