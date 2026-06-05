@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +12,8 @@ namespace UsefulClasses
 {
     public enum Tag
     {
-        Player
+        Player,
+        Choices
     }
     public readonly struct TransformSnapshot
     {
@@ -160,6 +162,22 @@ namespace UsefulClasses
         public void OnAfterDeserialize()
         {
             PrepareStart();
+        }
+    }
+    public static class ReflectionExtensions
+    {
+        public static object[] GetAllFields(this object obj)
+        {
+            FieldInfo[] fields = obj.GetType().GetFields(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+            );
+
+            List<object> result = new List<object>(fields.Length);
+            foreach (FieldInfo field in fields)
+            {
+                result.Add(field.GetValue(obj));
+            }
+            return result.ToArray();
         }
     }
     public static class CollectionExtension

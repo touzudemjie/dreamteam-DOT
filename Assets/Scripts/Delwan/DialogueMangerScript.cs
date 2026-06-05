@@ -1,59 +1,114 @@
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UsefulClasses;
 
 public class DialogueMangerScript : MonoBehaviour
 {
     [System.Serializable]
-    public class DialogueReferences
+    private class DialogueReferences
     {
-        [SerializeField] public GameObject dialoguePanel;
-        [SerializeField] public TextMeshProUGUI nameText;
-        [SerializeField] public TextMeshProUGUI textBox;
-        [SerializeField] public Image dialogueSprite;
-        [SerializeField] public GameObject dialogueObject;
+        public GameObject dialoguePanel;
+        public TextMeshProUGUI nameText;
+        public TextMeshProUGUI textBox;
+        public Image dialogueSprite;
+        public GameObject dialogueParent;
         public GameObject continueSign;
+        public GameObject choicesObject;
     }
     [SerializeField] private DialogueReferences[] dialogueReferences;
 
-    public DialogueReferences currentReference;
-    public static DialogueMangerScript instance;
-    private GameObject[] dialogObjects;
+    [SerializeField] private DialogueReferences _currentReference;
+    public Key[] continueKeys;
+
+    public static DialogueMangerScript Instance { get; private set; }
+
+    
     private void Awake()
     {
-        if (instance != this && instance != null)
+        if (Instance != this && Instance != null)
         {
             Destroy(gameObject);
             return;
         }
         else
         {
-            instance = this;
+            Instance = this;
         }
+
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
-        currentReference = dialogueReferences[0];
-    }
-    private void GetAllGameObjects()
-    {
-        int index = 0;
-        dialogObjects = new GameObject[transform.childCount];
-        foreach (Transform child in gameObject.transform)
-        {
-            dialogObjects[index] = child.gameObject;
-            index++; 
-        }
+      _currentReference = dialogueReferences[0];
     }
     public void SetNextDialogueObject(int index)
     {
         if (index > dialogueReferences.Length) return;
-        currentReference = dialogueReferences[index];
+        _currentReference = dialogueReferences[index];
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+    }
+    public void SetLineReferences(DialogueLine line)
+    {
+        _currentReference.dialogueSprite.sprite = line.sprite;   
+        _currentReference.nameText.text = line.speaker;
+    }
+    public void ShowText(string text)
+    {
+        _currentReference.textBox.text = text;
+    }
+    public bool TextFitsInTextLine(string text) 
+    {
+        Vector2 size = _currentReference.textBox.GetPreferredValues(text);
+        return size.x < _currentReference.textBox.rectTransform.rect.width;
+    }
+    public void ActivateChoices(bool isActive)
+    {
+        foreach(Transform child in _currentReference.choicesObject.transform)
+        {
+            child.gameObject.SetActive(isActive);
+        }
+    }
+    public void ActivateAllReferences(bool isActive)
+    {
+        foreach (object reference in _currentReference.GetAllFields())
+        {
+            if (reference == null)
+                continue;
+
+            if (reference is GameObject go)
+            {
+                if (!go.CompareTag(Tag.Choices.ToString()))
+                {
+                    go.SetActive(isActive);
+                }
+            }
+            else if (reference is Component component)
+            {
+                if (component is TextMeshProUGUI textMesh)
+                {
+                    textMesh.text = string.Empty;
+                }
+
+                if (!component.gameObject.CompareTag(Tag.Choices.ToString()))
+                {
+                    component.gameObject.SetActive(isActive);
+                }
+            }
+        }
+    }
+    public void ActivateText(bool isActive)
+    {
+        _currentReference.textBox.text = string.Empty;
+        _currentReference.textBox.gameObject.SetActive(isActive);
     }
 }

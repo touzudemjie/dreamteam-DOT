@@ -35,13 +35,11 @@ public class Explosion : MonoBehaviour
     public void Explode(Vector3 explosionPos, float force, float radius)
     {
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
-        Debug.Log(colliders.Length);
         foreach (Collider hit in colliders)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                Debug.Log(rb.gameObject.name);
                 if (_neglectPlayer && rb.gameObject.CompareTag(Tag.Player.ToString()))
                 {
                     return;
