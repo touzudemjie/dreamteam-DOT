@@ -162,9 +162,24 @@ namespace UsefulClasses
             PrepareStart();
         }
     }
-
+    public static class CollectionExtension
+    {
+        public static bool IsEmpty<T>(this ICollection<T> collection)
+        {
+            if (collection.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     public static class Helpers
     {
+
+
         private static Camera _camera;
 
         public static Camera Camera

@@ -15,6 +15,8 @@ public class AudioRewind : MonoBehaviour
     [Tooltip("Während Rewind das Audio aktiv zurückspulen (Frame-by-Frame).")]
     [SerializeField] private bool _rewindAudioDuringReverse = true;
 
+    [SerializeField] private bool _keepAudioTimeBeforeRewind;
+
     [Tooltip("Wie viel Zeit pro Frame zurückgespult wird (in Sekunden).")]
     [SerializeField] private float _rewindStepSize = 0.016f;
 
@@ -115,32 +117,34 @@ public class AudioRewind : MonoBehaviour
     public void OnReverseEnd()
     {
         _isRewinding = false;
+        if (_keepAudioTimeBeforeRewind)
+        {
+            _currentAudioTime = _audioTimeAtReverseStart;
+            _audioSource.time = _currentAudioTime;
 
-        // Zeit zurücksetzen auf den Zeitpunkt am Rewind-Start
-        _currentAudioTime = _audioTimeAtReverseStart;
-        _audioSource.time = _currentAudioTime;
+            // Pitch / Volume / Loop wiederherstellen
+            _audioSource.pitch = _pitchAtReverseStart;
+            _audioSource.volume = _volumeAtReverseStart;
+            _audioSource.loop = _wasLoopingAtReverseStart;
+        }
 
-        // Pitch / Volume / Loop wiederherstellen
-        _audioSource.pitch = _pitchAtReverseStart;
-        _audioSource.volume = _volumeAtReverseStart;
-        _audioSource.loop = _wasLoopingAtReverseStart;
 
         // Play-Status wiederherstellen
-        if (_wasPlayingAtReverseStart && !_stopOnReverseStart)
-        {
-            // Audio war während Rewind nicht gestoppt, einfach weiterlaufen lassen
-            if (!_audioSource.isPlaying)
-                _audioSource.Play();
-        }
-        else if (_wasPlayingAtReverseStart)
-        {
-            // Audio wurde gestoppt, jetzt neu an der gespeicherten Zeit starten
-            _audioSource.Play();
-        }
-        else
-        {
-            // Audio war nicht playing, einfach so lassen
-        }
+        //if (_wasPlayingAtReverseStart && !_stopOnReverseStart)
+        //{
+        //    // Audio war während Rewind nicht gestoppt, einfach weiterlaufen lassen
+        //    if (!_audioSource.isPlaying)
+        //        _audioSource.Play();
+        //}
+        //else if (_wasPlayingAtReverseStart)
+        //{
+        //    // Audio wurde gestoppt, jetzt neu an der gespeicherten Zeit starten
+        //    _audioSource.Play();
+        //}
+        //else
+        //{
+        //    // Audio war nicht playing, einfach so lassen
+        //}
     }
 
     /// <summary>

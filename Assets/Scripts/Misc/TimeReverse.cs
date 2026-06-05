@@ -39,11 +39,10 @@ public class TimeReverse : MonoBehaviour
     [SerializeField] private bool _shouldReverseRotation = true;
     [SerializeField] private bool _forceKinematicWhenReverseEnds;
     [SerializeField] private bool _reverseWhilePressingDown;
+    [SerializeField] private bool _applyLocalPositionAndRotation;
     [field: SerializeField] public float MaxTimeCaptured { get; private set; }
     [Tooltip("The Interval in which the reversing occurs")]
     [SerializeField] private UnityTimer _reverseInterval; // Passed time in a set interval
-    [Tooltip("The time allowed to reverse when not reversing in realtime")]
-    [SerializeField] private UnityTimer _reverseAmountTimer;
     private IRigidbodyWrapper _objectRbWrapper;
     private LinkedList<TransformSnapshot> _snapshots = new LinkedList<TransformSnapshot>();
     public bool IsReversing { get; private set; }
@@ -55,22 +54,25 @@ public class TimeReverse : MonoBehaviour
     public event Action OnReverseStart;
     public event Action OnReverseStep;
     public event Action OnReverseEnd;
-    private CircularBuffer<int> _circularTest = new CircularBuffer<int>(3);
+    private const float ROTATIONTHRESHOLD = 0.001f;
+    private Vector3 _startPosition;
+    private Quaternion _startRotation;
+    public int snapCount;
     private void Reset()
     {
         MaxTimeCaptured = _maxTimeResetValue;
         _isReversingRealtime = true;
-        _reverseAmountTimer = new UnityTimer(_maxTimeResetValue);
     }
     public void SetDefaultValues()
     {
         _timeReverseTrigger = Key.L;
         MaxTimeCaptured = _maxTimeResetValue;
         _isReversingRealtime = true;
-        _reverseAmountTimer = new UnityTimer(_maxTimeResetValue);
     }
     void Start()
     {
+        _startPosition = _applyLocalPositionAndRotation ? transform.localPosition : transform.position;
+        _startRotation = _applyLocalPositionAndRotation ? transform.localRotation : transform.rotation;
         ConfigureRigidbody();
     }
     private void ConfigureRigidbody()
@@ -91,13 +93,15 @@ public class TimeReverse : MonoBehaviour
     void Update()
     {
         StoreSnapshot();
-        StartReversing();
         TriggerReverse();
+        StartReversing();
         ReverseMovement();
+        snapCount = _snapshots.Count;
     }
+    
     private void TriggerReverse()
     {
-        if (Keyboard.current[_timeReverseTrigger].wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame)
+        if ((Keyboard.current[_timeReverseTrigger].wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame) && _snapshots.Count > 1)
         {
             _startReversing = true;
         }
@@ -108,18 +112,23 @@ public class TimeReverse : MonoBehaviour
     }
     public void ActivateReverse()
     {
-        _startReversing = true;
+        if (_snapshots.Count > 1)
+        {
+            _startReversing = true;
+        }
     }
     private void SetKinematic(bool isKinematic)
     {
-        if (_forceKinematicWhenReverseEnds && !isKinematic && _objectRbWrapper != null)
+        if (_forceKinematicWhenReverseEnds && _objectRbWrapper != null)
         {
             _objectRbWrapper.IsKinematic = true;
         }
-        else if (_objectRbWrapper != null)
+        else if (_objectRbWrapper != null && !_forceKinematicWhenReverseEnds)
         {
             _objectRbWrapper.IsKinematic = isKinematic;
         }
+        Debug.LogError("StopReversing called for " + _snapshots.Count);
+
     }
     private void StartReversing()
     {
@@ -128,6 +137,11 @@ public class TimeReverse : MonoBehaviour
             OnReverseStart?.Invoke();
             SetKinematic(true);
             IsReversing = true;
+            if (_alwaysReverseToStartPosition)
+            {
+                _snapshots.RemoveLast();
+                _snapshots.AddLast(new TransformSnapshot(_startPosition, _startRotation, Time.deltaTime));
+            }
             if (_snapshots.First != null)
             {
                 _currentElapsedTime = _snapshots.First.Value.deltaTime;
@@ -137,28 +151,26 @@ public class TimeReverse : MonoBehaviour
     private void StoreSnapshot()
     {
         if (IsReversing) return;
-
+        Vector3 currentPos = _applyLocalPositionAndRotation ? transform.localPosition : transform.position;
+        Quaternion currentRot = _applyLocalPositionAndRotation ? transform.localRotation : transform.rotation;
         if (_snapshots.First != null)
         {
             TransformSnapshot last = _snapshots.First.Value;
-            if (last.position == transform.position && last.rotation == transform.rotation)
+            if (Vector3.Distance(last.position,currentPos) < Mathf.Epsilon && Quaternion.Angle(last.rotation,currentRot ) < ROTATIONTHRESHOLD)
             {
                 return;
             }
         }
+
         _snapshots.AddFirst(new TransformSnapshot(
-            transform.position,
-            transform.rotation,
+            currentPos,
+            currentRot,
             Time.deltaTime
         ));
-        //if (_snapshots.Count == 1) 
-        //{
-        //    Debug.Log("Gameobject "+ gameObject.name + " " + _snapshots.First.Value.position);
-
-        //}
         _currentTimeCaptured += Time.deltaTime;
-        if (_currentTimeCaptured > MaxTimeCaptured && _snapshots.Last != null && !_alwaysReverseToStartPosition)
+        if (_currentTimeCaptured > MaxTimeCaptured && _snapshots.Last != null)
         {
+            Debug.Log("Must remove snapshot " + gameObject.name);
             _currentTimeCaptured -= _snapshots.Last.Value.deltaTime;
             _snapshots.RemoveLast();
         }
@@ -169,22 +181,16 @@ public class TimeReverse : MonoBehaviour
         {
             return;
         }
-        if ((!_alwaysReverseToStartPosition && ReverseTimerExpired()) || _snapshots.Count == 0)
-        {
-            Debug.Log("Name: " +  gameObject.name + " " + _snapshots.Count);
-            StopReversing();
-            _snapshots.Clear();
-            return;
-        }
         if (CanStepBackwards())
         {
             ApplySnapshot();
         }
-    }
-    private bool ReverseTimerExpired()
-    {
-        _reverseAmountTimer.Tick();
-        return _reverseAmountTimer.IsFinishedAndReset();
+        if (_snapshots.IsEmpty())
+        {
+            StopReversing();
+            _snapshots.Clear();
+            return;
+        }
     }
     private bool CanStepBackwards()
     {
@@ -204,26 +210,38 @@ public class TimeReverse : MonoBehaviour
         else
         {
             _reverseInterval.Tick();
-            Debug.Log( "Gamobecjt " + gameObject.name + " " + _reverseInterval.IsFinished());
             return _reverseInterval.IsFinishedAndReset();
         }
     }
-
     private void ApplySnapshot()
     {
         TransformSnapshot snapshot = _snapshots.First.Value;
-        transform.position = snapshot.position;
-        if (_shouldReverseRotation)
+        if (_applyLocalPositionAndRotation)
         {
-            transform.rotation = snapshot.rotation;
+            transform.localPosition = snapshot.position;
+            if (_shouldReverseRotation)
+            {
+                transform.localRotation = snapshot.rotation;
+            }
         }
+        else
+        {
+            transform.position = snapshot.position;
+            if (_shouldReverseRotation)
+            {
+                transform.rotation = snapshot.rotation;
+            }
+        }
+
         _snapshots.RemoveFirst();
         OnReverseStep?.Invoke();
     }
 
     private void StopReversing()
     {
+
         _currentTimeCaptured = 0;
+        _currentElapsedTime = 0;
         _startReversing = false;
         IsReversing = false;
         SetKinematic(_isKinematicTmp);

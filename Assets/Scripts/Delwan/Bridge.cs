@@ -42,7 +42,6 @@ public class Bridge : MonoBehaviour
                     rb.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
                 }
             }
-            Debug.LogError("Test");
             Destroy(gameObject);
         }
     }
