@@ -15,7 +15,6 @@ public class Dialogue
 [System.Serializable]
 public class DialogueLine
 {
-    public AudioClip music;
     public string dialogueID;
     //public bool hasDecision;
     public string nextDialogueID;
@@ -23,7 +22,8 @@ public class DialogueLine
     [TextArea(3, 10)]
     public string textContent;
     public Sprite sprite;
-    public AudioClip audioClip;
+    public AudioClip music;
+    public AudioClip talkSFX;
     [SerializeField] private float audioVolume;
     public float AudioVolume { get { return audioVolume; } set { if (value <= 0) audioVolume = 0; else audioVolume = value; } }
     public bool hasSpecialEffect;

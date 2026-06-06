@@ -87,10 +87,15 @@ public class DialogueMangerScript : MonoBehaviour
 
             if (reference is GameObject go)
             {
-                if (!go.CompareTag(Tag.Choices.ToString()))
+
+                if (go != null)
                 {
-                    go.SetActive(isActive);
+                    if (!go.CompareTag(Tag.Choices.ToString()))
+                    {
+                        go.SetActive(isActive);
+                    }
                 }
+
             }
             else if (reference is Component component)
             {
@@ -108,6 +113,7 @@ public class DialogueMangerScript : MonoBehaviour
     }
     public void ActivateText(bool isActive)
     {
+        _currentReference.dialogueParent.SetActive(isActive);
         _currentReference.textBox.text = string.Empty;
         _currentReference.textBox.gameObject.SetActive(isActive);
     }
