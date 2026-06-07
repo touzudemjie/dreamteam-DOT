@@ -127,7 +127,6 @@ public class TimeReverse : MonoBehaviour
         {
             _objectRbWrapper.IsKinematic = isKinematic;
         }
-        Debug.LogError("StopReversing called for " + _snapshots.Count);
 
     }
     private void StartReversing()

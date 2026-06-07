@@ -10,7 +10,7 @@ public class Dialogue
     {
         public float pitch;
     }
-    public DialogueLine severeLine;
+
 }
 [System.Serializable]
 public class DialogueLine
@@ -24,10 +24,10 @@ public class DialogueLine
     public Sprite sprite;
     public AudioClip music;
     public AudioClip talkSFX;
-    [SerializeField] private float audioVolume;
-    public float AudioVolume { get { return audioVolume; } set { if (value <= 0) audioVolume = 0; else audioVolume = value; } }
+    [SerializeField] private float musicVolume;
+    public float MusicVolume { get { return musicVolume; } set { if (value <= 0) musicVolume = 0; else musicVolume = value; } }
     public bool hasSpecialEffect;
-    public DialogueChoice[] choices = new DialogueChoice[3];
+    public DialogueChoice[] choices;
 
 }
 [System.Serializable]

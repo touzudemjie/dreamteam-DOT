@@ -1,20 +1,18 @@
 using System;
 using System.Collections;
 using UnityEngine;
-[RequireComponent(typeof(AudioSource))]
 public class AudioManagerScript : MonoBehaviour
 {
     public static AudioManagerScript Instance {  get; set; }
-    public AudioSource musicSource;
-    public AudioSource sfxSource;
-    public event Action OnSfxEnd;
-    public bool isPlayingSfx3D;
-    bool isPlayingSfx;
-    float sfxTime;
-    float sfx3DTime;
-
     [SerializeField] private AudioSource _musicSourceA;
     [SerializeField] private AudioSource _musicSourceB;
+    [SerializeField] private AudioSource sfxSource;
+    public event Action OnSfxEnd;
+    public bool IsPlayingSfx3D { get; private set; }
+    public bool IsPlayingSfx {  get; private set; }
+    private float _sfxTime;
+    private float _sfx3DTime;
+
     [SerializeField] private float _transitionDuration = 1f;
 
     private AudioSource _activeMusicSource;
@@ -26,18 +24,20 @@ public class AudioManagerScript : MonoBehaviour
             Destroy(gameObject);
         }
         Instance = this;
+        _activeMusicSource = _musicSourceA;
     }
 
     private void Start()
     {
         
     }
-    public void PlayMusicTransitionally(AudioClip clip)
+    public void PlayMusicTransitionally(AudioClip clip, float targetVolume = 1f)
     {
         if (_transitionCoroutine != null)
+        {
             StopCoroutine(_transitionCoroutine);
-
-        _transitionCoroutine = StartCoroutine(TransitionMusic(clip));
+        }
+        _transitionCoroutine = StartCoroutine(TransitionMusic(clip, targetVolume));
     }
     private void Update()
     {
@@ -46,41 +46,37 @@ public class AudioManagerScript : MonoBehaviour
     }
     void InvokeSfx()
     {
-        if (isPlayingSfx) 
+        if (IsPlayingSfx) 
         {
-            sfxTime -= Time.deltaTime;
-            if (sfxTime <= 0)
+            _sfxTime -= Time.deltaTime;
+            if (_sfxTime <= 0)
             {
                 OnSfxEnd?.Invoke();
-                isPlayingSfx = false;
+                IsPlayingSfx = false;
             }
         }
     }
     void CheckSfx3D()
     {
-        if (isPlayingSfx3D)
+        if (IsPlayingSfx3D)
         {
-            sfx3DTime -= Time.deltaTime;
-            if (sfx3DTime <= 0)
+            _sfx3DTime -= Time.deltaTime;
+            if (_sfx3DTime <= 0)
             {
-                isPlayingSfx3D = false;
-                sfx3DTime = 0;
+                IsPlayingSfx3D = false;
+                _sfx3DTime = 0;
             }
         }
     }
 
-    private IEnumerator TransitionMusic(AudioClip clip)
+    private IEnumerator TransitionMusic(AudioClip clip, float targetVolume)
     {
         AudioSource outgoing = _activeMusicSource;
         AudioSource incoming = _activeMusicSource == _musicSourceA ? _musicSourceB : _musicSourceA;
-
         float startVolume = outgoing.volume;
-        float targetVolume = startVolume; // neuer clip soll gleich laut werden
-
         incoming.clip = clip;
         incoming.volume = 0f;
         incoming.Play();
-
         float elapsed = 0f;
         while (elapsed < _transitionDuration)
         {
@@ -92,33 +88,30 @@ public class AudioManagerScript : MonoBehaviour
 
             yield return null;
         }
-
         outgoing.volume = 0f;
         outgoing.Stop();
         incoming.volume = targetVolume;
-
         _activeMusicSource = incoming;
         _transitionCoroutine = null;
     }
     public void PlayMusic(AudioClip clip)
     {
-        musicSource.clip = clip;
-        musicSource.Play();
+       _activeMusicSource.clip = clip;
+       _activeMusicSource.Play();
     }
     public void PlaySfx(AudioClip clip, bool skipPreviousClip = false)
     {
-        if (!isPlayingSfx || skipPreviousClip)
+        if (!IsPlayingSfx || skipPreviousClip)
         {
             sfxSource.clip = clip;
-            sfxTime = clip.length;
-            isPlayingSfx = true;
+            _sfxTime = clip.length;
+            IsPlayingSfx = true;
             sfxSource.Play();
-
         }
     }
     public void StopSfx()
     {
-        if (isPlayingSfx)
+        if (IsPlayingSfx)
         {
             sfxSource.Stop();
         }
@@ -134,8 +127,8 @@ public class AudioManagerScript : MonoBehaviour
         audioSource.minDistance = 1f;
         audioSource.maxDistance = 12f;
         audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-        isPlayingSfx3D = true;
-        sfx3DTime = clip.length;
+        IsPlayingSfx3D = true;
+        _sfx3DTime = clip.length;
         audioSource.Play();
         Destroy(tempAudio, clip.length);
     }

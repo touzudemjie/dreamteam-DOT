@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -27,7 +29,7 @@ public class DialogueMangerScript : MonoBehaviour
 
     [SerializeField] private DialogueReferences _currentReference;
     public Key[] continueKeys;
-
+    private Button[] _choiceButtons;
     public static DialogueMangerScript Instance { get; private set; }
 
     
@@ -42,12 +44,16 @@ public class DialogueMangerScript : MonoBehaviour
         {
             Instance = this;
         }
-
         DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
       _currentReference = dialogueReferences[0];
+      _choiceButtons = new Button[_currentReference.choicesObject.transform.childCount];
+        for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
+        {
+            _choiceButtons[i] = _currentReference.choicesObject.transform.GetChild(i).GetComponent<Button>();
+        }
     }
     public void SetNextDialogueObject(int index)
     {
@@ -84,10 +90,8 @@ public class DialogueMangerScript : MonoBehaviour
         {
             if (reference == null)
                 continue;
-
             if (reference is GameObject go)
             {
-
                 if (go != null)
                 {
                     if (!go.CompareTag(Tag.Choices.ToString()))
@@ -95,7 +99,6 @@ public class DialogueMangerScript : MonoBehaviour
                         go.SetActive(isActive);
                     }
                 }
-
             }
             else if (reference is Component component)
             {
@@ -109,6 +112,27 @@ public class DialogueMangerScript : MonoBehaviour
                     component.gameObject.SetActive(isActive);
                 }
             }
+        }
+    }
+    public void SetUpChoiceButtons(int amount, string[] buttonTexts, DialogueChoice[] choices, Action<DialogueChoice> onChoiceSelected)
+    {
+        amount = Mathf.Clamp(amount, 0, _choiceButtons.Length);
+        Debug.Log("Amount " + amount);
+        for (int i = 0; i < amount; i++)
+        {
+            _choiceButtons[i].gameObject.SetActive(true);
+            _choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = buttonTexts[i];
+            _choiceButtons[i].onClick.RemoveAllListeners();
+            DialogueChoice choice = choices[i];
+            _choiceButtons[i].onClick.AddListener(() => onChoiceSelected(choice));
+            Debug.Log(_choiceButtons[i].onClick);
+        }
+    }
+    public void DeactivateChoiceButtons()
+    {
+        for (int i = 0; i <_choiceButtons.Length ; i++)
+        {
+            _choiceButtons[i].gameObject.SetActive(false);
         }
     }
     public void ActivateText(bool isActive)

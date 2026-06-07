@@ -10,73 +10,70 @@ using UnityEngine.SceneManagement;
 public class DialogueScript : MonoBehaviour, IInteractable
 {
     [SerializeField] Dialogue[] dialogueAsset;
+    [SerializeField] public DialogueLine[] _severeLine;
     public bool HasDialogueEndedNaturally { get; private set; }
-    [SerializeField] int severityLine;
-    [SerializeField] bool onlyText;
-    [SerializeField] bool shouldSkipWithoutPressing;
-    [SerializeField] bool changeUIPosition;
-    [SerializeField] bool playOnlyOneLine;
-    [SerializeField] Vector3 textPosition;
-    [SerializeField] TextAlignmentOptions textAlignment;
-    [SerializeField] float typeSpeed = 0.05f;
+    [SerializeField] private int _severityLine;
+    [SerializeField] private int _NPCSeverityScore;
+    [SerializeField] private bool _onlyText;
+    [SerializeField] private bool _shouldSkipWithoutPressing;
+    [SerializeField] private bool _changeUIPosition;
+    [SerializeField] private bool _playOnlyOneLine;
+    [SerializeField] private Vector3 _textPosition;
+    [SerializeField] private TextAlignmentOptions _textAlignment;
+    [SerializeField] private float _typeSpeed = 0.05f;
     private int _currentDialogueLineIndex;
-    int dialogueAssetIndex;
-    bool skipDialogue;
-
+    private int _dialogueAssetIndex;
+    private bool _skipDialogue;
     public event Action OnStartDialogue;
     public event Action OnWhileDialogue;
     public event Action OnEndDialogue;
     public event Action<string> OnTextChanged;
-    Dictionary<string, DialogueLine> dialogueDict = new Dictionary<string, DialogueLine>();
-    string currentDialogueID;
+    private Dictionary<string, DialogueLine> _dialogueDict = new Dictionary<string, DialogueLine>();
+    private string _currentDialogueID;
     StringBuilder currentText = new StringBuilder();
-    bool isTyping = false;
+    private bool _isTyping = false;
     public bool IsDialogueFinished { get; private set; } = true;
-    float typeTimer = 0f;
+    private float _typeTimer = 0f;
 
     [SerializeField] private int _dialogueReferenceIndex;
-
+    private int _inputLockedFrames;
+    private const int LOCKEDFRAMES = 2;
     void Start()
     {
-        currentDialogueID = dialogueAsset[dialogueAssetIndex].dialogueLines[0].dialogueID;
+        _currentDialogueID = dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
     }
     public void OnInteract()
     {
-        if (IsDialogueFinished)
+        if (IsDialogueFinished && _inputLockedFrames <= 0)
         {
             StartDialogue();
         }
     }
-    public void ChangeDialogueID(string dialogueID)
-    {
-        currentDialogueID = dialogueID;
-        StartDialogue();
-    }
     public string GetNextDialogueID()
     {
-        dialogueDict.TryGetValue(currentDialogueID, out DialogueLine dialogueLine);
+        _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine dialogueLine);
         if (dialogueLine != null)
         {
             return dialogueLine.nextDialogueID;
         }
         else
         {
-            Debug.LogWarning($"No DialogueLine with ID '{currentDialogueID}' found.");
+            Debug.LogWarning($"No DialogueLine with ID '{_currentDialogueID}' found.");
             return null;
         }
     }
     public string GetCurrentDialogueID()
     {
-        Debug.Log("Current DialogueID: " + currentDialogueID);
-        return currentDialogueID;
+        Debug.Log("Current DialogueID: " + _currentDialogueID);
+        return _currentDialogueID;
     }
     public void EndDialogueAfterTyping(bool canEndDialogue)
     {
-        playOnlyOneLine = canEndDialogue;
+        _playOnlyOneLine = canEndDialogue;
     }
     public bool ReachedEnd()
     {
-        dialogueDict.TryGetValue(currentDialogueID,out DialogueLine dialogueLine);
+        _dialogueDict.TryGetValue(_currentDialogueID,out DialogueLine dialogueLine);
         if(dialogueLine != null)
         {
             return dialogueLine.nextDialogueID.ToUpper() == "END";
@@ -88,12 +85,19 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     void BuildDialogueDictionary()
     {
-        foreach (DialogueLine line in dialogueAsset[dialogueAssetIndex].dialogueLines)
+        foreach (DialogueLine line in dialogueAsset[_dialogueAssetIndex].dialogueLines)
         {
-            if (dialogueDict.ContainsKey(line.dialogueID))
+            if (_dialogueDict.ContainsKey(line.dialogueID))
                 Debug.LogWarning($"Duplicate dialogueID: {line.dialogueID}");
             else
-                dialogueDict.Add(line.dialogueID, line);
+                _dialogueDict.Add(line.dialogueID, line);
+        }
+        foreach (DialogueLine line in _severeLine)
+        {
+            if (_dialogueDict.ContainsKey(line.dialogueID))
+                Debug.LogWarning($"Duplicate dialogueID: {line.dialogueID}");
+            else
+                _dialogueDict.Add(line.dialogueID, line);
         }
     }
     [ContextMenu(nameof(StartDialogue))]
@@ -101,7 +105,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     {
         BuildDialogueDictionary();
         DialogueMangerScript.Instance.SetNextDialogueObject(_dialogueReferenceIndex);
-        if (onlyText)
+        if (_onlyText)
         {
             DialogueMangerScript.Instance.ActivateText(true);
         }
@@ -109,21 +113,21 @@ public class DialogueScript : MonoBehaviour, IInteractable
         {
             DialogueMangerScript.Instance.ActivateAllReferences(true);
         }
-        if (changeUIPosition)
+        if (_changeUIPosition)
         {
             //Changes Position and Alignment of the Dialogue Text, if specified
         }
-        ShowDialogueLine(currentDialogueID);
+        ShowDialogueLine(_currentDialogueID);
         OnStartDialogue?.Invoke();
         IsDialogueFinished = false;
     }
     public void SetNextLine()
     {
-        if (dialogueDict.TryGetValue(currentDialogueID, out DialogueLine dialogueLine))
+        if (_dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine dialogueLine))
         {
-            currentDialogueID = dialogueLine.nextDialogueID;
+            _currentDialogueID = dialogueLine.nextDialogueID;
             currentText.Clear();
-            if (currentDialogueID.ToUpper() == "END")
+            if (_currentDialogueID.ToUpper() == "END")
             {
                 EndDialogue();
             }
@@ -131,16 +135,56 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     void ShowDialogueLine(string dialogueID)
     {
-        if (!dialogueDict.TryGetValue(dialogueID, out DialogueLine line))
+        if (!_dialogueDict.TryGetValue(dialogueID, out DialogueLine line))
         {
          //   Debug.LogWarning($"no Dialogueline with ID '{dialogueID}' found.");
             //EndDialogue();
             return;
         }
+
+        if (line.music != null)
+        {
+            AudioManagerScript.Instance.PlayMusicTransitionally(line.music, line.MusicVolume);
+        }
         currentText.Clear();
-        isTyping = true;
-        typeTimer = 0f;
+        _isTyping = true;
+        _typeTimer = 0f;
         SetLineReferences(line);
+        if (line.choices.Length > 0)
+        {
+            Debug.Log("SHow choices");
+            ShowChoices(line.choices);
+        }
+    }
+
+    void ShowChoices(DialogueChoice[] choices)
+    {
+        string[] buttonText = new string[choices.Length];
+        for (int i = 0; i < choices.Length; i++)
+        {
+            buttonText[i] = choices[i].choiceText;
+        }
+        DialogueMangerScript.Instance.SetUpChoiceButtons(choices.Length, buttonText, choices,OnChoiceSelected);
+    }
+    void OnChoiceSelected(DialogueChoice choice)
+    {
+        Debug.Log("Choicen");
+        _NPCSeverityScore += choice.severity;
+        if (_NPCSeverityScore > _severityLine)
+        {
+            Debug.Log("Severe");
+            _currentDialogueLineIndex = 0;
+            _currentDialogueID = _severeLine[_currentDialogueLineIndex].dialogueID;
+            ShowDialogueLine(_severeLine[_currentDialogueLineIndex].dialogueID);
+        }
+        else
+        {
+            Debug.Log("I have chosen");
+            DialogueMangerScript.Instance.DeactivateChoiceButtons();
+            ShowDialogueLine(choice.nextDialogueID);
+            _currentDialogueID = choice.nextDialogueID;
+            Debug.Log(_currentDialogueID);
+        }
     }
     private void SetLineReferences(DialogueLine line)
     {
@@ -158,14 +202,18 @@ public class DialogueScript : MonoBehaviour, IInteractable
         {
             DialogueCheck();
         }
+        if (_inputLockedFrames > 0)
+        {
+            _inputLockedFrames--;
+        }
     }
     void DialogueCheck()
     {
         //if (GameManagerScript.instance.IsMenuOn)
         //{
         //    return;
-        //}
-        dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line);
+        //} 
+        _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine line);
         bool pressedContinueButton = false;
         foreach (Key continueKeyCode in DialogueMangerScript.Instance.continueKeys)
         {
@@ -177,31 +225,26 @@ public class DialogueScript : MonoBehaviour, IInteractable
         }
         if (line != null)
         {
-            if ((pressedContinueButton && line.nextDialogueID == "END" && !playOnlyOneLine) || line.nextDialogueID == "END" && skipDialogue && !playOnlyOneLine)
+            if ((pressedContinueButton && line.nextDialogueID == "END" && !_playOnlyOneLine) || line.nextDialogueID == "END" && _skipDialogue && !_playOnlyOneLine)
             {
                 _currentDialogueLineIndex++;
                 HasDialogueEndedNaturally = true;
                 EndDialogue();
             }
-            else if  ((pressedContinueButton && !IsDialogueFinished && !playOnlyOneLine) || skipDialogue)
+            else if  ((pressedContinueButton && !IsDialogueFinished && !_playOnlyOneLine && line.choices.Length == 0) || _skipDialogue && line.choices.Length == 0)
             {
                 _currentDialogueLineIndex++;
-                currentDialogueID = line.nextDialogueID;
-                dialogueDict.TryGetValue(currentDialogueID, out DialogueLine nextLine);
-                if (nextLine != null)
-                {
-                    if(nextLine.music != null)
-                    {
-                        AudioManagerScript.Instance.PlayMusic(nextLine.music);
-                    }
-                }
-                ShowDialogueLine(currentDialogueID);
+                _currentDialogueID = line.nextDialogueID;
+                _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine nextLine);
+
+                ShowDialogueLine(_currentDialogueID);
             }
         }
-        if (isTyping)
+        if (_isTyping)
         {
             TypewriterTick();
         }
+
     }
 
     private void InputHandling()
@@ -210,22 +253,22 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     void TypewriterTick()
     {
-        if (!dialogueDict.TryGetValue(currentDialogueID, out DialogueLine line))
+        if (!_dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine line))
         {
-            Debug.Log("There is no line " + currentDialogueID);
+            Debug.Log("There is no line " + _currentDialogueID);
             return;
         }
         OnWhileDialogue?.Invoke();
-        skipDialogue = false;
+        _skipDialogue = false;
         string fullText = line.textContent;
-        typeTimer -= Time.deltaTime;
-        if (typeTimer <= 0)
+        _typeTimer -= Time.deltaTime;
+        if (_typeTimer <= 0)
         {
             if (line.talkSFX != null)
             {
                 AudioManagerScript.Instance.PlaySfx(line.talkSFX);
             }
-            typeTimer = typeSpeed;
+            _typeTimer = _typeSpeed;
             if (currentText.Length < fullText.Length)
             {
                 if (fullText[currentText.Length] == '<')
@@ -244,12 +287,12 @@ public class DialogueScript : MonoBehaviour, IInteractable
             }
             else
             {
-                isTyping = false;
-                if (shouldSkipWithoutPressing)
+                _isTyping = false;
+                if (_shouldSkipWithoutPressing)
                 {
-                    skipDialogue = true;
+                    _skipDialogue = true;
                 }
-                if (playOnlyOneLine)
+                if (_playOnlyOneLine)
                 {
                     _currentDialogueLineIndex++;
                     EndDialogue();
@@ -300,7 +343,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         if (IsDialogueFinished) return;
         if (DialogueMangerScript.Instance != null)
         {
-            if (onlyText)
+            if (_onlyText)
             {
                 DialogueMangerScript.Instance.ActivateText(false);
             }
@@ -309,18 +352,21 @@ public class DialogueScript : MonoBehaviour, IInteractable
                 DialogueMangerScript.Instance.ActivateAllReferences(false);
             }
         }
+        _currentDialogueLineIndex = _currentDialogueLineIndex % dialogueAsset[_dialogueAssetIndex].dialogueLines.Length;
         if (GetNextDialogueID() == "END")
         {
-            dialogueAssetIndex++;
+            _dialogueAssetIndex++;
+            _currentDialogueLineIndex = 0;
         }
-        dialogueAssetIndex = dialogueAssetIndex % dialogueAsset.Length;
-        _currentDialogueLineIndex = _currentDialogueLineIndex % dialogueAsset[dialogueAssetIndex].dialogueLines.Length;
-        isTyping = false;
+        _dialogueAssetIndex = _dialogueAssetIndex % dialogueAsset.Length;
+        _isTyping = false;
         IsDialogueFinished = true;
-        currentDialogueID = dialogueAsset[dialogueAssetIndex].dialogueLines[_currentDialogueLineIndex].dialogueID;
-        skipDialogue = false;
-        dialogueDict.Clear();
+        _currentDialogueID = dialogueAsset[_dialogueAssetIndex].dialogueLines[_currentDialogueLineIndex].dialogueID;
+        Debug.LogError("HIIII " +_currentDialogueID);
+        _skipDialogue = false;
+        _dialogueDict.Clear();
         OnEndDialogue?.Invoke();
+        _inputLockedFrames = LOCKEDFRAMES; // Need to lock 2 frames because of the input handling without it the Dialogue would not end properly
     }
 
 }
