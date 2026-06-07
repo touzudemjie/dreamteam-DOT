@@ -3826,49 +3826,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573c89af24aee3f45a15b217e8766873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
+  dialogueNodes:
+  - {fileID: 0}
   dialogueAsset:
   - dialogueLines:
     - dialogueID: 1
       nextDialogueID: 2
       speaker: Zylinder
-      textContent: Ich bin ein Zylinder yk, schabalabala. I wanna bee i wanna <color="green">be</color>
-        Yeah
+      textContent: Magst du Waldmeister?
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: e5c2f3992325e7e4ea259bc4cb9a4f81, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
       musicVolume: 0.5
       hasSpecialEffect: 0
       choices:
-      - choiceText: KILL
-        severity: 0
-        nextDialogueID: KILL
-      - choiceText: Chill
-        severity: 0
-        nextDialogueID: Chill
-    - dialogueID: 2
+      - choiceText: Ja
+        severity: 2
+        nextDialogueID: cool
+      - choiceText: nein
+        severity: 5
+        nextDialogueID: uncool
+    - dialogueID: cool
       nextDialogueID: END
       speaker: Zylinder
-      textContent: < Also ja
+      textContent: Du hast aber Geschmack
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
       musicVolume: 0.5
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: KILL
+    - dialogueID: uncool
       nextDialogueID: END
       speaker: PROTAG
-      textContent: ICH BRINGE DICH UM
-      sprite: {fileID: 0}
-      music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
-      talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
-      musicVolume: 0.5
-      hasSpecialEffect: 0
-      choices: []
-    - dialogueID: Chill
-      nextDialogueID: END
-      speaker: PROTAG
-      textContent: Ich bin chillig drauf
+      textContent: Geh mir aus den Augen
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -3877,20 +3868,36 @@ MonoBehaviour:
       choices: []
     SFXs: []
   - dialogueLines:
-    - dialogueID: 1
-      nextDialogueID: 2
+    - dialogueID: knoppers
+      nextDialogueID: END
       speaker: Zylinder
-      textContent: Man nennt mich halt fr so.
+      textContent: Und knoppers?
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: e5c2f3992325e7e4ea259bc4cb9a4f81, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
       musicVolume: 0.5
       hasSpecialEffect: 0
-      choices: []
-    - dialogueID: 2
+      choices:
+      - choiceText: Yeah
+        severity: 0
+        nextDialogueID: Yeah
+      - choiceText: NO
+        severity: 4
+        nextDialogueID: NO
+    - dialogueID: Yeah
       nextDialogueID: END
       speaker: Zylinder
-      textContent: Ich mag den Namen.
+      textContent: Und darum mag ich dich.
+      sprite: {fileID: 0}
+      music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
+      talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+      musicVolume: 0.5
+      hasSpecialEffect: 0
+      choices: []
+    - dialogueID: NO
+      nextDialogueID: END
+      speaker: Zylinder
+      textContent: Ja geh kacken
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -3898,8 +3905,64 @@ MonoBehaviour:
       hasSpecialEffect: 0
       choices: []
     SFXs: []
-  _severeLine: []
-  _severityLine: 0
+  - dialogueLines:
+    - dialogueID: Liebe
+      nextDialogueID: END
+      speaker: Zylinder
+      textContent: "Was w\xFCrdest du f\xFCr Liebe tun?"
+      sprite: {fileID: 0}
+      music: {fileID: 8300000, guid: e5c2f3992325e7e4ea259bc4cb9a4f81, type: 3}
+      talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+      musicVolume: 0.5
+      hasSpecialEffect: 0
+      choices:
+      - choiceText: Alles
+        severity: 0
+        nextDialogueID: Alles
+    - dialogueID: Alles
+      nextDialogueID: END
+      speaker: Zylinder
+      textContent: "Oh, h\xF6rt sich sehr ungesund an."
+      sprite: {fileID: 0}
+      music: {fileID: 8300000, guid: e5c2f3992325e7e4ea259bc4cb9a4f81, type: 3}
+      talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+      musicVolume: 0.5
+      hasSpecialEffect: 0
+      choices: []
+    SFXs: []
+  _severeLines:
+  - dialogueID: Angry
+    nextDialogueID: END
+    speaker: Zylinder
+    textContent: "Sch\xE4m dich..."
+    sprite: {fileID: 0}
+    music: {fileID: 0}
+    talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+    musicVolume: 0
+    hasSpecialEffect: 0
+    choices: []
+  _crossedSeverLines:
+  - dialogueID: test1
+    nextDialogueID: test2
+    speaker: Zylinder
+    textContent: Rede nicht mit mir
+    sprite: {fileID: 0}
+    music: {fileID: 0}
+    talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+    musicVolume: 0
+    hasSpecialEffect: 0
+    choices: []
+  - dialogueID: test2
+    nextDialogueID: END
+    speaker: Zylinder
+    textContent: "Du bist f\xFCr mich gestorben."
+    sprite: {fileID: 0}
+    music: {fileID: 0}
+    talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+    musicVolume: 0
+    hasSpecialEffect: 0
+    choices: []
+  _severityLine: 4
   _NPCSeverityScore: 0
   _onlyText: 0
   _shouldSkipWithoutPressing: 0
@@ -4165,8 +4228,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 906902021}
-  - component: {fileID: 906902020}
-  - component: {fileID: 906902019}
   - component: {fileID: 906902018}
   - component: {fileID: 906902017}
   - component: {fileID: 906902016}
@@ -4258,30 +4319,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &906902019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 906902015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
---- !u!114 &906902020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 906902015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.ProBuilderMesh
 --- !u!4 &906902021
 Transform:
   m_ObjectHideFlags: 0
@@ -4759,6 +4796,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963700081}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &972144280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1441276861493367882, guid: 1cdcea2a4d3f2ec4686f0deb4e4ad8ed, type: 3}
+  m_PrefabInstance: {fileID: 1984710023}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &984384951
 GameObject:
   m_ObjectHideFlags: 0
@@ -4819,8 +4861,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1041933826}
-  - component: {fileID: 1041933825}
-  - component: {fileID: 1041933824}
   - component: {fileID: 1041933823}
   - component: {fileID: 1041933822}
   - component: {fileID: 1041933821}
@@ -4912,30 +4952,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1041933824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041933820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
---- !u!114 &1041933825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041933820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.ProBuilderMesh
 --- !u!4 &1041933826
 Transform:
   m_ObjectHideFlags: 0
@@ -5859,8 +5875,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1355382626}
-  - component: {fileID: 1355382625}
-  - component: {fileID: 1355382624}
   - component: {fileID: 1355382623}
   - component: {fileID: 1355382622}
   - component: {fileID: 1355382621}
@@ -5952,30 +5966,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1355382624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1355382620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
---- !u!114 &1355382625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1355382620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.ProBuilderMesh
 --- !u!4 &1355382626
 Transform:
   m_ObjectHideFlags: 0
@@ -7184,8 +7174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonNavigationScript
   _normalSprite: {fileID: 21300000, guid: e2cc216a797c9f642a160dfea16beb3f, type: 3}
-  _selectedSprite: {fileID: 0}
-  _pressedSprite: {fileID: 0}
+  _selectedSprite: {fileID: 21300000, guid: 2773f9569cc07944ab34e047b559fe9a, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 5e808d8cd9f6dab44ac4570f84dd410d, type: 3}
   _arrowYPosition:
   - 130
   - 50
@@ -7195,6 +7185,7 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
+  _confirmKeys: 130000000100000002000000
   canNavigate: 1
 --- !u!1001 &1597729300
 PrefabInstance:
@@ -7283,8 +7274,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1613477776}
-  - component: {fileID: 1613477775}
-  - component: {fileID: 1613477774}
   - component: {fileID: 1613477773}
   - component: {fileID: 1613477772}
   - component: {fileID: 1613477771}
@@ -7376,30 +7365,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1613477774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1613477770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
---- !u!114 &1613477775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1613477770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.ProBuilderMesh
 --- !u!4 &1613477776
 Transform:
   m_ObjectHideFlags: 0
@@ -8206,6 +8171,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3181274094008940210, guid: 1cdcea2a4d3f2ec4686f0deb4e4ad8ed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3267296627182689023, guid: 1cdcea2a4d3f2ec4686f0deb4e4ad8ed, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -8505,6 +8474,7 @@ MonoBehaviour:
   dialogueReferences:
   - dialoguePanel: {fileID: 173974100}
     nameText: {fileID: 808266584}
+    namePanel: {fileID: 972144280}
     textBox: {fileID: 165071025}
     dialogueSprite: {fileID: 861455979}
     dialogueParent: {fileID: 1984710025}
@@ -8513,6 +8483,7 @@ MonoBehaviour:
   _currentReference:
     dialoguePanel: {fileID: 0}
     nameText: {fileID: 0}
+    namePanel: {fileID: 0}
     textBox: {fileID: 0}
     dialogueSprite: {fileID: 0}
     dialogueParent: {fileID: 0}

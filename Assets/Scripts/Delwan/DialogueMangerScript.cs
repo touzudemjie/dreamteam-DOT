@@ -19,6 +19,7 @@ public class DialogueMangerScript : MonoBehaviour
     {
         public GameObject dialoguePanel;
         public TextMeshProUGUI nameText;
+        public GameObject namePanel;
         public TextMeshProUGUI textBox;
         public Image dialogueSprite;
         public GameObject dialogueParent;
@@ -106,6 +107,7 @@ public class DialogueMangerScript : MonoBehaviour
                 {
                     textMesh.text = string.Empty;
                 }
+                Debug.Log(component.name);
 
                 if (!component.gameObject.CompareTag(Tag.Choices.ToString()))
                 {
@@ -117,7 +119,6 @@ public class DialogueMangerScript : MonoBehaviour
     public void SetUpChoiceButtons(int amount, string[] buttonTexts, DialogueChoice[] choices, Action<DialogueChoice> onChoiceSelected)
     {
         amount = Mathf.Clamp(amount, 0, _choiceButtons.Length);
-        Debug.Log("Amount " + amount);
         for (int i = 0; i < amount; i++)
         {
             _choiceButtons[i].gameObject.SetActive(true);
@@ -125,13 +126,13 @@ public class DialogueMangerScript : MonoBehaviour
             _choiceButtons[i].onClick.RemoveAllListeners();
             DialogueChoice choice = choices[i];
             _choiceButtons[i].onClick.AddListener(() => onChoiceSelected(choice));
-            Debug.Log(_choiceButtons[i].onClick);
         }
     }
     public void DeactivateChoiceButtons()
     {
         for (int i = 0; i <_choiceButtons.Length ; i++)
         {
+            _choiceButtons[i].onClick.RemoveAllListeners();
             _choiceButtons[i].gameObject.SetActive(false);
         }
     }

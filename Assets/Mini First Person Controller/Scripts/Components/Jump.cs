@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UsefulClasses;
 public class Jump : MonoBehaviour
 {
-    Rigidbody rigidbody;
+    new Rigidbody rigidbody;
     public float jumpStrength = 2;
     public event System.Action Jumped;
 

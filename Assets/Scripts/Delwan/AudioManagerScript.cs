@@ -68,7 +68,13 @@ public class AudioManagerScript : MonoBehaviour
             }
         }
     }
-
+    public void StopMusic()
+    {
+        if (_activeMusicSource.isPlaying)
+        {
+            _activeMusicSource.Stop();
+        }
+    }
     private IEnumerator TransitionMusic(AudioClip clip, float targetVolume)
     {
         AudioSource outgoing = _activeMusicSource;

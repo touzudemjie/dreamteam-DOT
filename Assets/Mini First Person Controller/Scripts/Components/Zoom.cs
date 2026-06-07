@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [ExecuteInEditMode]
 public class Zoom : MonoBehaviour
 {
-    Camera camera;
+    Camera zoomCamera;
     public float defaultFOV = 60;
     public float maxZoomFOV = 15;
     [Range(0, 1)]
@@ -15,10 +15,10 @@ public class Zoom : MonoBehaviour
     void Awake()
     {
         // Get the camera on this gameObject and the defaultZoom.
-        camera = GetComponent<Camera>();
-        if (camera)
+        zoomCamera = GetComponent<Camera>();
+        if (zoomCamera)
         {
-            defaultFOV = camera.fieldOfView;
+            defaultFOV = zoomCamera.fieldOfView;
         }
     }
 
@@ -32,6 +32,6 @@ public class Zoom : MonoBehaviour
         }
         currentZoom += scrollDelta * sensitivity;
         currentZoom = Mathf.Clamp01(currentZoom);
-        camera.fieldOfView = Mathf.Lerp(defaultFOV, maxZoomFOV, currentZoom);
+        zoomCamera.fieldOfView = Mathf.Lerp(defaultFOV, maxZoomFOV, currentZoom);
     }
 }

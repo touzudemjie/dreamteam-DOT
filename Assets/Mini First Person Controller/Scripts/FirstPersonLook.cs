@@ -18,18 +18,11 @@ public class FirstPersonLook : MonoBehaviour
     private TimeReverse _timeReverse;
     [SerializeField] private Vector2 _cursorPosition;
     private LinkedList<CameraSnapshot> _cameraSnapshots = new LinkedList<CameraSnapshot>();
-    private float _currentTimeCaptured;
-    private float _currentReverseTimer = .1f;
-    private GameObject _testObject;
     void Reset()
     {
         // Get the character from the FirstPersonMovement in parents.
         character = GetComponentInParent<FirstPersonMovement>().transform;
         character.TryGetComponent(out _timeReverse);
-
-
-        // Nächster Frame:
-
     }
 
     void Start()
