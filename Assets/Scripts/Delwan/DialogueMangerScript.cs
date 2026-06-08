@@ -107,7 +107,6 @@ public class DialogueMangerScript : MonoBehaviour
                 {
                     textMesh.text = string.Empty;
                 }
-                Debug.Log(component.name);
 
                 if (!component.gameObject.CompareTag(Tag.Choices.ToString()))
                 {

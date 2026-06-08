@@ -50,6 +50,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         if (IsDialogueFinished && _inputLockedFrames <= 0)
         {
             StartDialogue();
+            _inputLockedFrames = LOCKEDFRAMES;
         }
     }
     public string GetNextDialogueID()
@@ -141,11 +142,11 @@ public class DialogueScript : MonoBehaviour, IInteractable
             return;
         }
 
-        if (line.music != null)
+        if (line.music != null && AudioManagerScript.Instance != null)
         {
             AudioManagerScript.Instance.PlayMusicTransitionally(line.music, line.MusicVolume);
         }
-        else
+        else if(line.music == null && AudioManagerScript.Instance != null)
         {
             AudioManagerScript.Instance.StopMusic();
         }
@@ -153,10 +154,6 @@ public class DialogueScript : MonoBehaviour, IInteractable
         _isTyping = true;
         _typeTimer = 0f;
         SetLineReferences(line);
-        if (line.choices.Length > 0)
-        {
-            ShowChoices(line.choices);
-        }
     }
 
     void ShowChoices(DialogueChoice[] choices)
@@ -170,11 +167,9 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
-        Debug.Log("Choicen");
         _NPCSeverityScore += choice.severity;
         if (_NPCSeverityScore > _severityLine)
         {
-            Debug.Log("Severe");
             HascrossedSeverityLine = true;
             DialogueMangerScript.Instance.DeactivateChoiceButtons();
             _currentDialogueLineIndex = 0;
@@ -183,7 +178,6 @@ public class DialogueScript : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.Log("I have chosen");
             DialogueMangerScript.Instance.DeactivateChoiceButtons();
             ShowDialogueLine(choice.nextDialogueID);
             _currentDialogueID = choice.nextDialogueID;
@@ -228,7 +222,12 @@ public class DialogueScript : MonoBehaviour, IInteractable
         }
         if (line != null)
         {
-            if ((pressedContinueButton && line.nextDialogueID == "END" && !_playOnlyOneLine && line.choices.Length == 0) || line.nextDialogueID == "END" && _skipDialogue && !_playOnlyOneLine && line.choices.Length == 0)
+
+            if ((pressedContinueButton && currentText.Length != line.textContent.Length))
+            {
+                TypeWholeText(line);
+            }
+            else if ((pressedContinueButton && line.nextDialogueID.ToUpper() == "END" && !_playOnlyOneLine && line.choices.Length == 0) || line.nextDialogueID.ToUpper() == "END" && _skipDialogue && !_playOnlyOneLine && line.choices.Length == 0)
             {
                 _currentDialogueLineIndex++;
                 HasDialogueEndedNaturally = true;
@@ -248,6 +247,24 @@ public class DialogueScript : MonoBehaviour, IInteractable
             TypewriterTick();
         }
 
+    }
+    private void TypeWholeText(DialogueLine line)
+    {
+        DialogueMangerScript.Instance.ShowText(line.textContent);
+        _isTyping = false;
+        _typeTimer = _typeSpeed;
+        string oldValue = currentText.ToString();
+        Debug.Log(oldValue);
+        if (oldValue == string.Empty)
+        {
+            currentText.Append("H");
+            Debug.Log("Ich appende");
+        }
+        currentText.Replace(currentText.ToString(), line.textContent);
+        if (line.choices.Length > 0)
+        {
+            ShowChoices(line.choices);
+        }
     }
 
     private void InputHandling()
@@ -290,6 +307,10 @@ public class DialogueScript : MonoBehaviour, IInteractable
             }
             else
             {
+                if (line.choices.Length > 0)
+                {
+                    ShowChoices(line.choices);
+                }
                 _isTyping = false;
                 if (_shouldSkipWithoutPressing)
                 {
@@ -356,7 +377,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
             }
         }
         _currentDialogueLineIndex = _currentDialogueLineIndex % dialogueAsset[_dialogueAssetIndex].dialogueLines.Length;
-        if (GetNextDialogueID() == "END")
+        if (GetNextDialogueID().ToUpper() == "END")
         {
             _dialogueAssetIndex++;
             _currentDialogueLineIndex = 0;

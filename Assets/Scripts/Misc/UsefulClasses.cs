@@ -42,6 +42,7 @@ namespace UsefulClasses
     {
         KamoPhysics,
         KamoStatic,
+        D_SceneTransition,
         Portal,
         ReverseTimer
     }

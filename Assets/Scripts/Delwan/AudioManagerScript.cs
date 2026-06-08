@@ -70,9 +70,12 @@ public class AudioManagerScript : MonoBehaviour
     }
     public void StopMusic()
     {
-        if (_activeMusicSource.isPlaying)
+        if (_activeMusicSource != null)
         {
-            _activeMusicSource.Stop();
+            if (_activeMusicSource.isPlaying)
+            {
+                _activeMusicSource.Stop();
+            }
         }
     }
     private IEnumerator TransitionMusic(AudioClip clip, float targetVolume)
