@@ -250,16 +250,16 @@ MonoBehaviour:
     - dialogueID: 1
       nextDialogueID: END
       speaker: Triumph
-      textContent: Ich bin Triumph. Ich mag simple Namen.
+      textContent: Ich bin Triumph. Ich mag simple Namen. JAJAJAJ.
       sprite: {fileID: 0}
       music: {fileID: 0}
-      talkSFX: {fileID: 0}
+      talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
       musicVolume: 0
       hasSpecialEffect: 0
       choices: []
     SFXs: []
   _severeLines: []
-  _crossedSeverLines: []
+  _crossedSevereLines: []
   _severityLine: 0
   _NPCSeverityScore: 0
   _onlyText: 0
@@ -270,6 +270,67 @@ MonoBehaviour:
   _textAlignment: 0
   _typeSpeed: 0.05
   _dialogueReferenceIndex: 0
+--- !u!1001 &531114672
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2127956098000148441, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_Volume
+      value: 0.312
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 827.528
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00003
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 520.34247
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431137632825482381, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 046475b183831084a99b201cb092740e, type: 3}
 --- !u!1 &635799290
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &635799291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,7 +504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1219004324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1782299911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,3 +829,4 @@ SceneRoots:
   - {fileID: 870516590}
   - {fileID: 469422265}
   - {fileID: 1875773331}
+  - {fileID: 531114672}

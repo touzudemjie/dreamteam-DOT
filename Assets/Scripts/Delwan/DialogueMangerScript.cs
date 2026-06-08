@@ -25,6 +25,7 @@ public class DialogueMangerScript : MonoBehaviour
         public GameObject dialogueParent;
         public GameObject continueSign;
         public GameObject choicesObject;
+        public SliderLogic decisionSlider;
     }
     [SerializeField] private DialogueReferences[] dialogueReferences;
 
@@ -32,8 +33,6 @@ public class DialogueMangerScript : MonoBehaviour
     public Key[] continueKeys;
     private Button[] _choiceButtons;
     public static DialogueMangerScript Instance { get; private set; }
-
-    
     private void Awake()
     {
         if (Instance != this && Instance != null)
@@ -51,10 +50,11 @@ public class DialogueMangerScript : MonoBehaviour
     {
       _currentReference = dialogueReferences[0];
       _choiceButtons = new Button[_currentReference.choicesObject.transform.childCount];
-        for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
+       for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
         {
             _choiceButtons[i] = _currentReference.choicesObject.transform.GetChild(i).GetComponent<Button>();
         }
+       _currentReference.decisionSlider.OnValueReachedMax += DecideRandom;
     }
     public void SetNextDialogueObject(int index)
     {
@@ -64,10 +64,25 @@ public class DialogueMangerScript : MonoBehaviour
     private void Update()
     {
     }
+    private void DecideRandom()
+    {
+        int random = 0;
+        do
+        {
+            random = UnityEngine.Random.Range(0, _choiceButtons.Length);
+
+        } while (_choiceButtons[random].onClick == null);
+        _choiceButtons[random].onClick.Invoke();
+        DeactivateChoiceButtons();
+    }
     public void SetLineReferences(DialogueLine line)
     {
         _currentReference.dialogueSprite.sprite = line.sprite;   
         _currentReference.nameText.text = line.speaker;
+    }
+    public void SetContinueSign(bool isActive)
+    {
+        _currentReference.continueSign.SetActive(isActive);
     }
     public void ShowText(string text)
     {
@@ -125,6 +140,7 @@ public class DialogueMangerScript : MonoBehaviour
             _choiceButtons[i].onClick.RemoveAllListeners();
             DialogueChoice choice = choices[i];
             _choiceButtons[i].onClick.AddListener(() => onChoiceSelected(choice));
+            _currentReference.decisionSlider.CanIncreaseValue();
         }
     }
     public void DeactivateChoiceButtons()
