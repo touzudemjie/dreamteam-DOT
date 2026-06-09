@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class DialogueScript : MonoBehaviour, IInteractable
 {
 
-    [SerializeField] private DialogueNode[] dialogueNodes;
     [SerializeField] Dialogue[] dialogueAsset;
     [SerializeField] public DialogueLine[] _severeLines;
     [SerializeField] public DialogueLine[] _crossedSevereLines;
@@ -28,7 +27,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     private int _dialogueAssetIndex;
     private bool _skipDialogue;
     public event Action OnStartDialogue;
-    public event Action<string> OnTextChanged;
+    public event Action<string> OnLineFinshed;
     public event Action OnEndDialogue;
     private Dictionary<string, DialogueLine> _dialogueDict = new Dictionary<string, DialogueLine>();
     private string _currentDialogueID;
@@ -291,11 +290,11 @@ public class DialogueScript : MonoBehaviour, IInteractable
                 char nextChar = fullText[currentText.Length];
                 AppendNewLine(nextChar, line);
                 currentText.Append(nextChar);
-                OnTextChanged?.Invoke(currentText.ToString());
                 DialogueMangerScript.Instance.ShowText(currentText.ToString());
             }
             else
             {
+                OnLineFinshed?.Invoke(currentText.ToString());
                 _isTyping = false;
                 if (line.choices.Length > 0)
                 {

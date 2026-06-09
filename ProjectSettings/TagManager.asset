@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Choices
+  - Decision
   layers:
   - Default
   - TransparentFX

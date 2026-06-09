@@ -35,4 +35,8 @@ public class SliderLogic : MonoBehaviour
     {
         _canIncrease = true;
     }
+    private void OnDisable()
+    {
+        _slider.value = 0;
+    }
 }

@@ -13,7 +13,8 @@ namespace UsefulClasses
     public enum Tag
     {
         Player,
-        Choices
+        Choices,
+        Decision
     }
     public readonly struct TransformSnapshot
     {

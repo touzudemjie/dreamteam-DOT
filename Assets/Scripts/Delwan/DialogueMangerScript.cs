@@ -110,8 +110,9 @@ public class DialogueMangerScript : MonoBehaviour
             {
                 if (go != null)
                 {
-                    if (!go.CompareTag(Tag.Choices.ToString()))
+                    if (!go.CompareTag(Tag.Choices.ToString()) || !go.CompareTag(Tag.Decision.ToString()))
                     {
+                        Debug.Log(go.name);
                         go.SetActive(isActive);
                     }
                 }
@@ -122,9 +123,9 @@ public class DialogueMangerScript : MonoBehaviour
                 {
                     textMesh.text = string.Empty;
                 }
-
-                if (!component.gameObject.CompareTag(Tag.Choices.ToString()))
+                if (!component.gameObject.CompareTag(Tag.Choices.ToString()) && !component.gameObject.CompareTag(Tag.Decision.ToString()))
                 {
+                    Debug.Log(component.gameObject.tag);
                     component.gameObject.SetActive(isActive);
                 }
             }
@@ -140,6 +141,7 @@ public class DialogueMangerScript : MonoBehaviour
             _choiceButtons[i].onClick.RemoveAllListeners();
             DialogueChoice choice = choices[i];
             _choiceButtons[i].onClick.AddListener(() => onChoiceSelected(choice));
+            _currentReference.decisionSlider.gameObject.SetActive(true);
             _currentReference.decisionSlider.CanIncreaseValue();
         }
     }
@@ -150,6 +152,7 @@ public class DialogueMangerScript : MonoBehaviour
             _choiceButtons[i].onClick.RemoveAllListeners();
             _choiceButtons[i].gameObject.SetActive(false);
         }
+        _currentReference.decisionSlider.gameObject.SetActive(false);
     }
     public void ActivateText(bool isActive)
     {
