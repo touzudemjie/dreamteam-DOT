@@ -49,7 +49,6 @@ public class ButtonNavigationScript : MonoBehaviour
         }
         if (_activeButtons.Count > 0 && _inputLockedFrames > 0)
         {
-            Debug.Log("Count " + _activeButtons.Count);
             _inputLockedFrames--;
         }
     }

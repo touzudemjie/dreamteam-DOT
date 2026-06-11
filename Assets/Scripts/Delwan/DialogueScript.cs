@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -40,6 +41,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     private int _inputLockedFrames;
     private const int LOCKEDFRAMES = 2;
     public bool HascrossedSeverityLine { get; private set; }
+    private static readonly System.Text.RegularExpressions.Regex _tagRegex = new System.Text.RegularExpressions.Regex(@"<[^>]+>");
     void Start()
     {
         _currentDialogueID = dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
@@ -281,7 +283,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
                 if (fullText[currentText.Length] == '<')
                 {
                     int i = currentText.Length;
-                    while (i < fullText.Length -1 && fullText[i] != '>')
+                    while (i < fullText.Length - 1 && fullText[i] != '>')
                     {
                         currentText.Append(fullText[i]);
                         i++;
@@ -332,12 +334,13 @@ public class DialogueScript : MonoBehaviour, IInteractable
                     wordEnd = fullText.Length;
                 }
                 string nextWord = fullText.Substring(wordStart, wordEnd - wordStart);
-
+                string nextWordStripped = _tagRegex.Replace(nextWord, string.Empty);
                 // Aktuelle Zeile + Wort testen
                 string lastLine = currentText.ToString();
                 int lastNewline = lastLine.LastIndexOf('\n');
                 string currentLine = lastNewline >= 0 ? lastLine.Substring(lastNewline + 1) : lastLine;
-                if (!DialogueMangerScript.Instance.TextFitsInTextLine(currentLine + nextWord))
+                string currentLineStripped = _tagRegex.Replace(currentLine, string.Empty);
+                if (!DialogueMangerScript.Instance.TextFitsInTextLine(currentLineStripped + nextWordStripped))
                 {
                     // Newline vor dem Wort einfügen
                     currentText.Append('\n');

@@ -112,7 +112,6 @@ public class DialogueMangerScript : MonoBehaviour
                 {
                     if (!go.CompareTag(Tag.Choices.ToString()) || !go.CompareTag(Tag.Decision.ToString()))
                     {
-                        Debug.Log(go.name);
                         go.SetActive(isActive);
                     }
                 }
@@ -125,7 +124,6 @@ public class DialogueMangerScript : MonoBehaviour
                 }
                 if (!component.gameObject.CompareTag(Tag.Choices.ToString()) && !component.gameObject.CompareTag(Tag.Decision.ToString()))
                 {
-                    Debug.Log(component.gameObject.tag);
                     component.gameObject.SetActive(isActive);
                 }
             }
