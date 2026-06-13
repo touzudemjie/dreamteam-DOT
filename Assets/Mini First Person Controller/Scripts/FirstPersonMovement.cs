@@ -26,6 +26,7 @@ public class FirstPersonMovement : MonoBehaviour
     private InputAction _sprintAction;
     private InputAction _moveAction;
     [SerializeField] private IEnumerableTest _enumerableTest;
+    private bool _canMove;
     void Awake()
     {
         // Get the rigidbody on this.
@@ -43,21 +44,30 @@ public class FirstPersonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Update IsRunning from input.
-        IsRunning = canRun && _sprintAction.IsPressed();
+        Move();
+    }
 
-        // Get targetMovingSpeed.
-        float targetMovingSpeed = IsRunning ? runSpeed : speed;
-        if (speedOverrides.Count > 0)
+    void Move()
+    {
+        _canMove = DialogueScript.IsDialogueFinished;
+        if (_canMove)
         {
-            targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
-        }
-        Vector2 targetVelocity = _moveAction.ReadValue<Vector2>() * targetMovingSpeed;
-        if (!playerRb.isKinematic)
-        {
-            playerRb.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, playerRb.linearVelocity.y, targetVelocity.y);
-        }
+            // Update IsRunning from input.
+            IsRunning = canRun && _sprintAction.IsPressed();
 
+            // Get targetMovingSpeed.
+            float targetMovingSpeed = IsRunning ? runSpeed : speed;
+            if (speedOverrides.Count > 0)
+            {
+                targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
+            }
+            Vector2 targetVelocity = _moveAction.ReadValue<Vector2>() * targetMovingSpeed;
+            Debug.Log("MoveSpeed " + targetVelocity);
+            if (!playerRb.isKinematic)
+            {
+                playerRb.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, playerRb.linearVelocity.y, targetVelocity.y);
+            }
+        }
     }
     private void Update()
     {

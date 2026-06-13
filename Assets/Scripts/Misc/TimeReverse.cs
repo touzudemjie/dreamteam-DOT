@@ -57,7 +57,6 @@ public class TimeReverse : MonoBehaviour
     private const float ROTATIONTHRESHOLD = 0.001f;
     private Vector3 _startPosition;
     private Quaternion _startRotation;
-    public int snapCount;
     private void Reset()
     {
         MaxTimeCaptured = _maxTimeResetValue;
@@ -96,7 +95,6 @@ public class TimeReverse : MonoBehaviour
         TriggerReverse();
         StartReversing();
         ReverseMovement();
-        snapCount = _snapshots.Count;
     }
     
     private void TriggerReverse()

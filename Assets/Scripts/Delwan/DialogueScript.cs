@@ -34,7 +34,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     private string _currentDialogueID;
     StringBuilder currentText = new StringBuilder();
     private bool _isTyping = false;
-    public bool IsDialogueFinished { get; private set; } = true;
+    public static bool IsDialogueFinished { get; private set; } = true;
     private float _typeTimer = 0f;
 
     [SerializeField] private int _dialogueReferenceIndex;
@@ -133,6 +133,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         ShowDialogueLine(_currentDialogueID);
         OnStartDialogue?.Invoke();
         IsDialogueFinished = false;
+        Cursor.lockState = CursorLockMode.None;
     }
     void ShowDialogueLine(string dialogueID)
     {
@@ -167,6 +168,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     void OnChoiceSelected(DialogueChoice choice)
     {
         _NPCSeverityScore += choice.severity;
+        choice.onChosen?.Invoke();
         if (_NPCSeverityScore > _severityLine)
         {
             HascrossedSeverityLine = true;
@@ -381,6 +383,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         _dialogueDict.Clear();
         OnEndDialogue?.Invoke();
         _inputLockedFrames = LOCKEDFRAMES; // Need to lock 2 frames because of the input handling without it the Dialogue would not end properly
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 }

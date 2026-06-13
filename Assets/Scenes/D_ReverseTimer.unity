@@ -276,7 +276,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &31759798
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -487,7 +486,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &117015775
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -961,7 +959,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &153584229
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1221,7 +1218,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &253283030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1611,7 +1607,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &297218434
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2204,7 +2199,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!1 &458758531
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,7 +2244,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &458758534
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2571,7 +2564,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!1 &524491571
 GameObject:
   m_ObjectHideFlags: 0
@@ -3662,8 +3654,9 @@ GameObject:
   - component: {fileID: 753717621}
   - component: {fileID: 753717620}
   - component: {fileID: 753717619}
+  - component: {fileID: 753717624}
   m_Layer: 0
-  m_Name: Dialogue
+  m_Name: ZigaretteGuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3686,7 +3679,7 @@ MonoBehaviour:
     - dialogueID: 1
       nextDialogueID: 2
       speaker: Zylinder
-      textContent: '<palette>FEUER!</>  '
+      textContent: Gibst du mir eine zigarette?
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: e5c2f3992325e7e4ea259bc4cb9a4f81, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -3696,13 +3689,43 @@ MonoBehaviour:
       - choiceText: Ja
         severity: 2
         nextDialogueID: cool
+        onChosen:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 753717624}
+              m_TargetAssemblyTypeName: ZigaretteGuy, Assembly-CSharp
+              m_MethodName: GaveZigarette
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
       - choiceText: nein
         severity: 5
         nextDialogueID: uncool
+        onChosen:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 753717624}
+              m_TargetAssemblyTypeName: ZigaretteGuy, Assembly-CSharp
+              m_MethodName: ChangeColor
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
     - dialogueID: cool
       nextDialogueID: END
       speaker: Zylinder
-      textContent: Du hast aber Geschmack
+      textContent: DANKE.
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -3712,7 +3735,7 @@ MonoBehaviour:
     - dialogueID: uncool
       nextDialogueID: END
       speaker: PROTAG
-      textContent: Geh mir aus den Augen
+      textContent: "Oha g\xF6nn doch!"
       sprite: {fileID: 0}
       music: {fileID: 8300000, guid: 2d079f4f3b943c84aae08101c858b6ca, type: 3}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -3734,9 +3757,15 @@ MonoBehaviour:
       - choiceText: Yeah
         severity: 0
         nextDialogueID: Yeah
+        onChosen:
+          m_PersistentCalls:
+            m_Calls: []
       - choiceText: NO
         severity: 4
         nextDialogueID: NO
+        onChosen:
+          m_PersistentCalls:
+            m_Calls: []
     - dialogueID: Yeah
       nextDialogueID: END
       speaker: Zylinder
@@ -3772,6 +3801,9 @@ MonoBehaviour:
       - choiceText: Alles
         severity: 0
         nextDialogueID: Alles
+        onChosen:
+          m_PersistentCalls:
+            m_Calls: []
     - dialogueID: Alles
       nextDialogueID: END
       speaker: Zylinder
@@ -3910,6 +3942,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &753717624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753717618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056824be4f6fd614a9fd9709beb96123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZigaretteGuy
 --- !u!1 &764666408
 GameObject:
   m_ObjectHideFlags: 0
@@ -4225,7 +4269,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &906902023
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4445,7 +4488,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &958684670
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4802,7 +4844,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1041933828
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5218,7 +5259,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!114 &1202325366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5820,7 +5860,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1355382628
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6230,7 +6269,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1487945444
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6565,7 +6603,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1507796275
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6716,7 +6753,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1512773648
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7054,7 +7090,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1613477778
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7240,7 +7275,6 @@ MonoBehaviour:
     <MinDuration>k__BackingField: 0
     Duration: 0
     _hasRandomRange: 0
-  snapCount: 0
 --- !u!54 &1865065915
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8545,7 +8579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468767438029667254, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 999181438409038711, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8641,15 +8675,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_fontColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_fontColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_fontColor.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_fontColor32.rgba

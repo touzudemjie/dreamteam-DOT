@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 [System.Serializable]
 public class Dialogue
 {
@@ -31,10 +32,11 @@ public class DialogueLine
 
 }
 [System.Serializable]
-public struct DialogueChoice
+public class DialogueChoice
 {
     public string choiceText;
     public int severity;
     public string nextDialogueID;
+    public UnityEvent onChosen;
 }
 
