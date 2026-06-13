@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UsefulClasses;
-
+using UnityEngine.InputSystem.LowLevel;
 public class DialogueMangerScript : MonoBehaviour
 {
     [System.Serializable]
@@ -31,6 +24,7 @@ public class DialogueMangerScript : MonoBehaviour
 
     [SerializeField] private DialogueReferences _currentReference;
     public Key[] continueKeys;
+    public MouseButton continueButton;
     private Button[] _choiceButtons;
     public static DialogueMangerScript Instance { get; private set; }
     private void Awake()
@@ -63,6 +57,30 @@ public class DialogueMangerScript : MonoBehaviour
     }
     private void Update()
     {
+        ClickLink();
+    }
+    void ClickLink()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+
+            int linkIndex = TMP_TextUtilities.FindIntersectingLink(_currentReference.textBox, mousePos, Helpers.Camera);
+            // null = main camera, oder Camera.main angeben
+
+            if (linkIndex != -1)
+            {
+                TMP_LinkInfo linkInfo = _currentReference.textBox.textInfo.linkInfo[linkIndex];
+                string linkID = linkInfo.GetLinkID();
+
+                Debug.Log($"Link geklickt: {linkID}");
+                // z.B. switch(linkID) { case "ID_01": ... }
+            }
+            else
+            {
+                Debug.Log("treffe nichts");
+            }
+        }
     }
     private void DecideRandom()
     {
@@ -151,6 +169,10 @@ public class DialogueMangerScript : MonoBehaviour
             _choiceButtons[i].gameObject.SetActive(false);
         }
         _currentReference.decisionSlider.gameObject.SetActive(false);
+    }
+    public void AllignText(TextAlignmentOptions textAlignmentOptions)
+    {
+        _currentReference.textBox.alignment = textAlignmentOptions;
     }
     public void ActivateText(bool isActive)
     {

@@ -118,6 +118,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     {
         BuildDialogueDictionary();
         DialogueMangerScript.Instance.SetNextDialogueObject(_dialogueReferenceIndex);
+        DialogueMangerScript.Instance.AllignText(_textAlignment);
         if (_onlyText)
         {
             DialogueMangerScript.Instance.ActivateText(true);
@@ -155,7 +156,6 @@ public class DialogueScript : MonoBehaviour, IInteractable
         _typeTimer = 0f;
         SetLineReferences(line);
     }
-
     void ShowChoices(DialogueChoice[] choices)
     {
         string[] buttonText = new string[choices.Length];
@@ -199,12 +199,10 @@ public class DialogueScript : MonoBehaviour, IInteractable
             _inputLockedFrames--;
         }
     }
+
+
     void DialogueCheck()
     {
-        //if (GameManagerScript.instance.IsMenuOn)
-        //{
-        //    return;
-        //} 
         if (_inputLockedFrames > 0)
         {
             return;
@@ -213,7 +211,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         bool pressedContinueButton = false;
         foreach (Key continueKeyCode in DialogueMangerScript.Instance.continueKeys)
         {
-            if (Keyboard.current[continueKeyCode].wasPressedThisFrame)
+            if (Keyboard.current[continueKeyCode].wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame)
             {
                 pressedContinueButton = true;
                 break;

@@ -32,7 +32,7 @@ public class DialogueLine
 
 }
 [System.Serializable]
-public class DialogueChoice
+public struct DialogueChoice
 {
     public string choiceText;
     public int severity;
