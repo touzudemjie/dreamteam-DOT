@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Choices
   - Decision
+  - DontActivate
   layers:
   - Default
   - TransparentFX

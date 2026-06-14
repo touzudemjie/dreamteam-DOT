@@ -14,7 +14,8 @@ namespace UsefulClasses
     {
         Player,
         Choices,
-        Decision
+        Decision,
+        DontActivate
     }
     public readonly struct TransformSnapshot
     {

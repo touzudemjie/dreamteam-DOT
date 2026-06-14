@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UsefulClasses;
 using UnityEngine.InputSystem.LowLevel;
-public class DialogueMangerScript : MonoBehaviour
+using System.Collections;
+using UnityEngine.SceneManagement;
+public class TextDisplayManager : MonoBehaviour
 {
     [System.Serializable]
     private class DialogueReferences
@@ -24,9 +26,10 @@ public class DialogueMangerScript : MonoBehaviour
 
     [SerializeField] private DialogueReferences _currentReference;
     public Key[] continueKeys;
-    public MouseButton continueButton;
+    public MouseButton mouseContinueButton;
     private Button[] _choiceButtons;
-    public static DialogueMangerScript Instance { get; private set; }
+    public static TextDisplayManager Instance { get; private set; }
+    private Canvas _dialogueCanvas;
     private void Awake()
     {
         if (Instance != this && Instance != null)
@@ -42,7 +45,10 @@ public class DialogueMangerScript : MonoBehaviour
     }
     void Start()
     {
-      _currentReference = dialogueReferences[0];
+        _dialogueCanvas = GetComponentInChildren<Canvas>();
+        _dialogueCanvas.worldCamera = Helpers.Camera;
+        SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+       _currentReference = dialogueReferences[0];
       _choiceButtons = new Button[_currentReference.choicesObject.transform.childCount];
        for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
         {
@@ -50,6 +56,16 @@ public class DialogueMangerScript : MonoBehaviour
         }
        _currentReference.decisionSlider.OnValueReachedMax += DecideRandom;
     }
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
+    }
+    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    {
+        _dialogueCanvas = GetComponentInChildren<Canvas>();
+        _dialogueCanvas.worldCamera = Helpers.Camera;
+    }
+
     public void SetNextDialogueObject(int index)
     {
         if (index > dialogueReferences.Length) return;
@@ -57,30 +73,29 @@ public class DialogueMangerScript : MonoBehaviour
     }
     private void Update()
     {
-        ClickLink();
     }
-    void ClickLink()
+    IEnumerator ApplyEffect(DialogueEffect effect)
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        float elapsed = 0f;
+        Vector3 originalPos = Helpers.Camera.transform.localPosition;
+        while (elapsed < effect.duration)
         {
-            Vector3 mousePos = Mouse.current.position.ReadValue();
+            // 0..1 normalisierte Zeit
+            float t = elapsed / effect.duration;
 
-            int linkIndex = TMP_TextUtilities.FindIntersectingLink(_currentReference.textBox, mousePos, Helpers.Camera);
-            // null = main camera, oder Camera.main angeben
+            // Curve gibt den Multiplikator für die Intensität
+            float curveValue = effect.curve.Evaluate(t);
+            float currentIntensity = effect.intensity * curveValue;
 
-            if (linkIndex != -1)
-            {
-                TMP_LinkInfo linkInfo = _currentReference.textBox.textInfo.linkInfo[linkIndex];
-                string linkID = linkInfo.GetLinkID();
+            // Shake anwenden
+            Vector3 shakeOffset = UnityEngine.Random.insideUnitSphere * currentIntensity;
+            Helpers.Camera.transform.localPosition = originalPos + shakeOffset;
 
-                Debug.Log($"Link geklickt: {linkID}");
-                // z.B. switch(linkID) { case "ID_01": ... }
-            }
-            else
-            {
-                Debug.Log("treffe nichts");
-            }
+            elapsed += Time.deltaTime;
+            yield return null;
         }
+
+        Helpers.Camera.transform.localPosition = originalPos;
     }
     private void DecideRandom()
     {
@@ -128,7 +143,7 @@ public class DialogueMangerScript : MonoBehaviour
             {
                 if (go != null)
                 {
-                    if (!go.CompareTag(Tag.Choices.ToString()) || !go.CompareTag(Tag.Decision.ToString()))
+                    if (!go.transform.parent.CompareTag(Tag.DontActivate.ToString()))
                     {
                         go.SetActive(isActive);
                     }
@@ -140,7 +155,7 @@ public class DialogueMangerScript : MonoBehaviour
                 {
                     textMesh.text = string.Empty;
                 }
-                if (!component.gameObject.CompareTag(Tag.Choices.ToString()) && !component.gameObject.CompareTag(Tag.Decision.ToString()))
+                if (!component.transform.parent.CompareTag(Tag.DontActivate.ToString()))
                 {
                     component.gameObject.SetActive(isActive);
                 }
@@ -161,10 +176,18 @@ public class DialogueMangerScript : MonoBehaviour
             _currentReference.decisionSlider.CanIncreaseValue();
         }
     }
+    public void ShowContinueSign(bool canShow)
+    {
+        if (this != null)
+        {
+            _currentReference.continueSign.SetActive(canShow);
+        }
+    }
     public void DeactivateChoiceButtons()
     {
         for (int i = 0; i <_choiceButtons.Length ; i++)
         {
+            if (_choiceButtons == null) break;
             _choiceButtons[i].onClick.RemoveAllListeners();
             _choiceButtons[i].gameObject.SetActive(false);
         }

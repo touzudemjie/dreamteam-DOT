@@ -7,48 +7,52 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
-public class DialogueScript : MonoBehaviour, IInteractable
+public class NPCDialogue : MonoBehaviour, IInteractable
 {
-
-    [SerializeField] Dialogue[] dialogueAsset;
+    [SerializeField] private Dialogue[] _dialogueAsset;
     [SerializeField] public DialogueLine[] _severeLines;
     [SerializeField] public DialogueLine[] _crossedSevereLines;
-    public bool HasDialogueEndedNaturally { get; private set; }
     [SerializeField] private int _severityLine;
     [SerializeField] private int _NPCSeverityScore;
-    [SerializeField] private bool _onlyText;
-    [SerializeField] private bool _shouldSkipWithoutPressing;
-    [SerializeField] private bool _changeUIPosition;
-    [SerializeField] private bool _playOnlyOneLine;
     [SerializeField] private Vector3 _textPosition;
     [SerializeField] private TextAlignmentOptions _textAlignment;
     [SerializeField] private float _typeSpeed = 0.05f;
     private int _currentDialogueLineIndex;
     private int _dialogueAssetIndex;
-    private bool _skipDialogue;
     public event Action OnStartDialogue;
     public event Action<string> OnLineFinshed;
     public event Action OnEndDialogue;
     private Dictionary<string, DialogueLine> _dialogueDict = new Dictionary<string, DialogueLine>();
     private string _currentDialogueID;
-    StringBuilder currentText = new StringBuilder();
-    private bool _isTyping = false;
-    public static bool IsDialogueFinished { get; private set; } = true;
+    private StringBuilder _currentText = new StringBuilder();
     private float _typeTimer = 0f;
-
-    [SerializeField] private int _dialogueReferenceIndex;
+    [SerializeField] private int _textDisplayReferenceIndex;
     private int _inputLockedFrames;
     private const int LOCKEDFRAMES = 2;
-    public bool HascrossedSeverityLine { get; private set; }
     private static readonly System.Text.RegularExpressions.Regex _tagRegex = new System.Text.RegularExpressions.Regex(@"<[^>]+>");
+    [SerializeField] private bool _playOnlyOneLine;
+    [SerializeField] private bool _shouldSkipWithoutPressing;
+    [SerializeField] private bool _shouldLoopOver = true;
+    private bool _skipDialogue;
+    public static bool IsDialogueFinished { get; private set; } = true;
+    [SerializeField] private bool _onlyText;
+    private bool _isTyping = false;
+    public bool HascrossedSeverityLine { get; private set; }
+    private bool _lockDialogueAssetIndex;
+    public bool HasDialogueEndedNaturally { get; private set; }
     void Start()
     {
-        _currentDialogueID = dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
+        if (_dialogueAsset != null)
+        {
+          _currentDialogueID = _dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
+        }
+        Debug.Log("sdsadsads " + IsDialogueFinished);
     }
     public void OnInteract()
     {
-        if (IsDialogueFinished && _inputLockedFrames <= 0)
+        if (IsDialogueFinished && _inputLockedFrames <= 0 && _dialogueAsset != null)
         {
             StartDialogue();
            _inputLockedFrames = LOCKEDFRAMES;
@@ -69,7 +73,6 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     public string GetCurrentDialogueID()
     {
-        Debug.Log("Current DialogueID: " + _currentDialogueID);
         return _currentDialogueID;
     }
     public void EndDialogueAfterTyping(bool canEndDialogue)
@@ -90,7 +93,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     void BuildDialogueDictionary()
     {
-        foreach (DialogueLine line in dialogueAsset[_dialogueAssetIndex].dialogueLines)
+        foreach (DialogueLine line in _dialogueAsset[_dialogueAssetIndex].dialogueLines)
         {
             if (_dialogueDict.ContainsKey(line.dialogueID))
                 Debug.LogWarning($"Duplicate dialogueID: {line.dialogueID}");
@@ -111,25 +114,20 @@ public class DialogueScript : MonoBehaviour, IInteractable
             else
                 _dialogueDict.Add(line.dialogueID, line);
         }
-
     }
     [ContextMenu(nameof(StartDialogue))]
     public void StartDialogue()
     {
         BuildDialogueDictionary();
-        DialogueMangerScript.Instance.SetNextDialogueObject(_dialogueReferenceIndex);
-        DialogueMangerScript.Instance.AllignText(_textAlignment);
+        TextDisplayManager.Instance.SetNextDialogueObject(_textDisplayReferenceIndex);
+        TextDisplayManager.Instance.AllignText(_textAlignment);
         if (_onlyText)
         {
-            DialogueMangerScript.Instance.ActivateText(true);
+            TextDisplayManager.Instance.ActivateText(true);
         }
         else
         {
-            DialogueMangerScript.Instance.ActivateAllReferences(true);
-        }
-        if (_changeUIPosition)
-        {
-            //Changes Position and Alignment of the Dialogue Text, if specified
+            TextDisplayManager.Instance.ActivateAllReferences(true);
         }
         ShowDialogueLine(_currentDialogueID);
         OnStartDialogue?.Invoke();
@@ -151,7 +149,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         {
             AudioManagerScript.Instance.StopMusic();
         }
-        currentText.Clear();
+        _currentText.Clear();
         _isTyping = true;
         _typeTimer = 0f;
         SetLineReferences(line);
@@ -163,30 +161,32 @@ public class DialogueScript : MonoBehaviour, IInteractable
         {
             buttonText[i] = choices[i].choiceText;
         }
-        DialogueMangerScript.Instance.SetUpChoiceButtons(choices.Length, buttonText, choices,OnChoiceSelected);
+        TextDisplayManager.Instance.SetUpChoiceButtons(choices.Length, buttonText, choices,OnChoiceSelected);
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
         _NPCSeverityScore += choice.severity;
         choice.onChosen?.Invoke();
+        _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         if (_NPCSeverityScore > _severityLine)
         {
             HascrossedSeverityLine = true;
-            DialogueMangerScript.Instance.DeactivateChoiceButtons();
+            TextDisplayManager.Instance.DeactivateChoiceButtons();
             _currentDialogueLineIndex = 0;
             _currentDialogueID = _severeLines[_currentDialogueLineIndex].dialogueID;
             ShowDialogueLine(_severeLines[_currentDialogueLineIndex].dialogueID);
         }
         else
         {
-            DialogueMangerScript.Instance.DeactivateChoiceButtons();
+            TextDisplayManager.Instance.DeactivateChoiceButtons();
             ShowDialogueLine(choice.nextDialogueID);
             _currentDialogueID = choice.nextDialogueID;
         }
     }
+   
     private void SetLineReferences(DialogueLine line)
     {
-        DialogueMangerScript.Instance.SetLineReferences(line);
+        TextDisplayManager.Instance.SetLineReferences(line);
     }
     void Update()
     {
@@ -199,8 +199,6 @@ public class DialogueScript : MonoBehaviour, IInteractable
             _inputLockedFrames--;
         }
     }
-
-
     void DialogueCheck()
     {
         if (_inputLockedFrames > 0)
@@ -209,7 +207,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         }
         _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine line);
         bool pressedContinueButton = false;
-        foreach (Key continueKeyCode in DialogueMangerScript.Instance.continueKeys)
+        foreach (Key continueKeyCode in TextDisplayManager.Instance.continueKeys)
         {
             if (Keyboard.current[continueKeyCode].wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame)
             {
@@ -219,7 +217,7 @@ public class DialogueScript : MonoBehaviour, IInteractable
         }
         if (line != null)
         {
-            if ((pressedContinueButton && currentText.Length != line.textContent.Length))
+            if ((pressedContinueButton && _currentText.Length != line.textContent.Length))
             {
                 TypeWholeText(line);
             }
@@ -244,22 +242,13 @@ public class DialogueScript : MonoBehaviour, IInteractable
     }
     private void TypeWholeText(DialogueLine line)
     {
-        DialogueMangerScript.Instance.ShowText(line.textContent);
+        TextDisplayManager.Instance.ShowText(line.textContent);
         _isTyping = false;
         _typeTimer = _typeSpeed;
-        string oldValue = currentText.ToString();
-        Debug.Log(oldValue);
-        currentText.Clear();
-        currentText.Append(line.textContent);
-        if (line.choices.Length > 0)
-        {
-            ShowChoices(line.choices);
-        }
-    }
-
-    private void InputHandling()
-    {
-
+        string oldValue = _currentText.ToString();
+        _currentText.Clear();
+        _currentText.Append(line.textContent);
+        EvaluateOptionalBools(line);
     }
     void TypewriterTick()
     {
@@ -273,61 +262,72 @@ public class DialogueScript : MonoBehaviour, IInteractable
         _typeTimer -= Time.deltaTime;
         if (_typeTimer <= 0)
         {
-            if (line.talkSFX != null)
-            {
-                AudioManagerScript.Instance.PlaySfx(line.talkSFX);
-            }
             _typeTimer = _typeSpeed;
-            if (currentText.Length < fullText.Length)
+            if (_currentText.Length < fullText.Length)
             {
-                if (fullText[currentText.Length] == '<')
+                if (fullText[_currentText.Length] == '<')
                 {
-                    int i = currentText.Length;
+                    int i = _currentText.Length;
                     while (i < fullText.Length - 1 && fullText[i] != '>')
                     {
-                        currentText.Append(fullText[i]);
+                        _currentText.Append(fullText[i]);
                         i++;
                     }
                 }
-                char nextChar = fullText[currentText.Length];
+                if (line.talkSFX != null)
+                {
+                    AudioManagerScript.Instance.PlaySfx(line.talkSFX);
+                }
+                char nextChar = fullText[_currentText.Length];
                 AppendNewLine(nextChar, line);
-                currentText.Append(nextChar);
-                DialogueMangerScript.Instance.ShowText(currentText.ToString());
+                _currentText.Append(nextChar);
+                TextDisplayManager.Instance.ShowText(_currentText.ToString());
             }
             else
             {
-                OnLineFinshed?.Invoke(currentText.ToString());
+                OnLineFinshed?.Invoke(_currentText.ToString());
                 _isTyping = false;
-                if (line.choices.Length > 0)
-                {
-                    ShowChoices(line.choices);
-                }
-                if (_shouldSkipWithoutPressing)
-                {
-                    _skipDialogue = true;
-                }
-                if (_playOnlyOneLine)
-                {
-                    _currentDialogueLineIndex++;
-                    EndDialogue();
-                }
+                EvaluateOptionalBools(line);
             }
 
         }
     }
-
+    private void EvaluateOptionalBools(DialogueLine line)
+    {
+        if (line.nextDialogueID.ToUpper() == "END")
+        {
+            TextDisplayManager.Instance.ShowContinueSign(true);
+        }
+        else
+        {
+            TextDisplayManager.Instance.ShowContinueSign(false);
+        }
+        if (line.choices.Length > 0)
+        {
+            ShowChoices(line.choices);
+        }
+        if (_shouldSkipWithoutPressing && line.choices.Length == 0)
+        {
+            _skipDialogue = true;
+        }
+        if (_playOnlyOneLine && line.choices.Length == 0)
+        {
+            _currentDialogueLineIndex++;
+            EndDialogue();
+        }
+    }
     private void AppendNewLine(char nextChar, DialogueLine line)
     {
         string fullText = line.textContent;
         if (nextChar != ' ' && nextChar != '\n')
         {
-            bool isStartOfWord = currentText.Length == 0 ||
-                                    currentText[currentText.Length - 1] == ' ' ||
-                                    currentText[currentText.Length - 1] == '\n';
+            bool isStartOfWord = _currentText.Length == 0 ||
+                                    _currentText[_currentText.Length - 1] == ' ' ||
+                                    _currentText[_currentText.Length - 1] == '\n';
             if (isStartOfWord)
             {
                 // Komplettes nächstes Wort ermitteln
-                int wordStart = currentText.Length;
+                int wordStart = _currentText.Length;
                 int wordEnd = fullText.IndexOfAny(new char[] { ' ', '\n' }, wordStart);
                 if (wordEnd < 0)
                 {
@@ -336,52 +336,66 @@ public class DialogueScript : MonoBehaviour, IInteractable
                 string nextWord = fullText.Substring(wordStart, wordEnd - wordStart);
                 string nextWordStripped = _tagRegex.Replace(nextWord, string.Empty);
                 // Aktuelle Zeile + Wort testen
-                string lastLine = currentText.ToString();
+                string lastLine = _currentText.ToString();
                 int lastNewline = lastLine.LastIndexOf('\n');
                 string currentLine = lastNewline >= 0 ? lastLine.Substring(lastNewline + 1) : lastLine;
                 string currentLineStripped = _tagRegex.Replace(currentLine, string.Empty);
-                if (!DialogueMangerScript.Instance.TextFitsInTextLine(currentLineStripped + nextWordStripped))
+                if (!TextDisplayManager.Instance.TextFitsInTextLine(currentLineStripped + nextWordStripped))
                 {
                     // Newline vor dem Wort einfügen
-                    currentText.Append('\n');
-                    line.textContent = line.textContent.Insert(currentText.Length - 1, "\n");
+                    _currentText.Append('\n');
+                    line.textContent = line.textContent.Insert(_currentText.Length - 1, "\n");
                 }
             }
         }
     }
     private void OnDestroy()
     {
-        EndDialogue();
+        if (this != null)
+        {
+         EndDialogue();
+        }
     }
     public void EndDialogue()
     {
         if (IsDialogueFinished) return;
-        if (DialogueMangerScript.Instance != null)
+        IsDialogueFinished = true;
+        if (TextDisplayManager.Instance != null)
         {
             if (_onlyText)
             {
-                DialogueMangerScript.Instance.ActivateText(false);
+                TextDisplayManager.Instance.ActivateText(false);
             }
             else
             {
-                DialogueMangerScript.Instance.ActivateAllReferences(false);
+                TextDisplayManager.Instance.ActivateAllReferences(false);
             }
         }
-        _currentDialogueLineIndex = _currentDialogueLineIndex % dialogueAsset[_dialogueAssetIndex].dialogueLines.Length;
+       
+        _currentDialogueLineIndex = _currentDialogueLineIndex % _dialogueAsset[_dialogueAssetIndex].dialogueLines.Length;
         if (GetNextDialogueID().ToUpper() == "END")
         {
-            _dialogueAssetIndex++;
+            if (!_lockDialogueAssetIndex)
+            {
+                if (_shouldLoopOver)
+                {
+                    _dialogueAssetIndex = (_dialogueAssetIndex + 1) % _dialogueAsset.Length;
+                }
+                else
+                {
+                    _dialogueAssetIndex = Mathf.Clamp(_dialogueAssetIndex + 1, 0, _dialogueAsset.Length - 1);
+                }
+            }
             _currentDialogueLineIndex = 0;
         }
-        _dialogueAssetIndex = _dialogueAssetIndex % dialogueAsset.Length;
+        TextDisplayManager.Instance.ShowContinueSign(false);
+        TextDisplayManager.Instance.DeactivateChoiceButtons();
         _isTyping = false;
-        IsDialogueFinished = true;
-        _currentDialogueID = HascrossedSeverityLine ? _crossedSevereLines[_currentDialogueLineIndex].dialogueID : dialogueAsset[_dialogueAssetIndex].dialogueLines[_currentDialogueLineIndex].dialogueID;
+        _currentDialogueID = HascrossedSeverityLine ? _crossedSevereLines[_currentDialogueLineIndex].dialogueID : _dialogueAsset[_dialogueAssetIndex].dialogueLines[_currentDialogueLineIndex].dialogueID;
         _skipDialogue = false;
         _dialogueDict.Clear();
         OnEndDialogue?.Invoke();
         _inputLockedFrames = LOCKEDFRAMES; // Need to lock 2 frames because of the input handling without it the Dialogue would not end properly
         Cursor.lockState = CursorLockMode.Locked;
     }
-
 }

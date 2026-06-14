@@ -33,6 +33,7 @@ public class AudioManagerScript : MonoBehaviour
     }
     public void PlayMusicTransitionally(AudioClip clip, float targetVolume = 1f)
     {
+        if (clip == _activeMusicSource.clip) return;
         if (_transitionCoroutine != null)
         {
             StopCoroutine(_transitionCoroutine);

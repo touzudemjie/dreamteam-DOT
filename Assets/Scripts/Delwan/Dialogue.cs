@@ -4,20 +4,40 @@ using UnityEngine.Events;
 public class Dialogue
 {
     public DialogueLine[] dialogueLines;
-    [TextArea(3, 10)]
-    public SFX[] SFXs;
-    [System.Serializable]
-    public class SFX
-    {
-        public float pitch;
-    }
+    //public SFX[] SFXs;
+    //[System.Serializable]
+    //public class SFX
+    //{
+    //    public float pitch;
+    //}
 
 }
+
+[System.Serializable]
+public class DialogueEffect
+{
+    public EffectType type;
+    public float intensity;
+    public float duration;
+    public AnimationCurve curve; 
+}
+
+public enum EffectType
+{
+    CameraShake,
+    CameraZoom,
+    ScreenFlash,
+    Vignette,
+    Letterbox,
+    PitchShift,
+    SlowMotion,
+    ParticleEffect,
+}
+
 [System.Serializable]
 public class DialogueLine
 {
     public string dialogueID;
-    //public bool hasDecision;
     public string nextDialogueID;
     public string speaker;
     [TextArea(3, 10)]
@@ -34,6 +54,7 @@ public class DialogueLine
 [System.Serializable]
 public struct DialogueChoice
 {
+    public bool lockDialogueAssetIndex;
     public string choiceText;
     public int severity;
     public string nextDialogueID;

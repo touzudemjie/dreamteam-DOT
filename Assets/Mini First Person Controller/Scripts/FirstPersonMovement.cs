@@ -20,12 +20,10 @@ public class FirstPersonMovement : MonoBehaviour
     /// <summary> Functions to override movement speed. Will use the last added override. </summary>
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
 
-    public Transform enteTr;
     [HideInInspector] public bool isGrappling;
 
     private InputAction _sprintAction;
     private InputAction _moveAction;
-    [SerializeField] private IEnumerableTest _enumerableTest;
     private bool _canMove;
     void Awake()
     {
@@ -49,7 +47,7 @@ public class FirstPersonMovement : MonoBehaviour
 
     void Move()
     {
-        _canMove = DialogueScript.IsDialogueFinished;
+        _canMove = NPCDialogue.IsDialogueFinished;
         if (_canMove)
         {
             // Update IsRunning from input.
@@ -62,7 +60,6 @@ public class FirstPersonMovement : MonoBehaviour
                 targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
             }
             Vector2 targetVelocity = _moveAction.ReadValue<Vector2>() * targetMovingSpeed;
-            Debug.Log("MoveSpeed " + targetVelocity);
             if (!playerRb.isKinematic)
             {
                 playerRb.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, playerRb.linearVelocity.y, targetVelocity.y);

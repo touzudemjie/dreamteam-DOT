@@ -9,7 +9,7 @@ public class DontDestroyTest : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log(DialogueMangerScript.Instance.gameObject.name);   
+        Debug.Log(TextDisplayManager.Instance.gameObject.name);   
     }
 
     // Update is called once per frame

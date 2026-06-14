@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &161521495
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 338.11584
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 100.0809
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746085751902070988, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034974948872756793, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_Name
+      value: D_PostProcessing
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: be1257f8de00b324980353d13f187bab, type: 3}
 --- !u!1 &469422261
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +190,7 @@ GameObject:
   - component: {fileID: 469422262}
   - component: {fileID: 469422266}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Triumph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,32 +301,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573c89af24aee3f45a15b217e8766873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
-  dialogueNodes: []
-  dialogueAsset:
+  _dialogueAsset:
   - dialogueLines:
-    - dialogueID: 1
-      nextDialogueID: END
-      speaker: Triumph
-      textContent: Ich bin Triumph. Ich mag simple Namen. JAJAJAJ.
+    - dialogueID: d_test1
+      nextDialogueID: d_test2
+      speaker: Zylinder
+      textContent: Ich bin ein Zylinder yk
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
       musicVolume: 0
       hasSpecialEffect: 0
       choices: []
-    SFXs: []
+    - dialogueID: d_test2
+      nextDialogueID: END
+      speaker: Zylinder
+      textContent: "Danke f\xFCrs zuh\xF6ren"
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+      musicVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+  - dialogueLines:
+    - dialogueID: d_test1
+      nextDialogueID: END
+      speaker: Zylinder
+      textContent: Fr danke
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 0}
+      musicVolume: 0
+      hasSpecialEffect: 0
+      choices: []
   _severeLines: []
   _crossedSevereLines: []
   _severityLine: 0
   _NPCSeverityScore: 0
-  _onlyText: 0
-  _shouldSkipWithoutPressing: 0
-  _changeUIPosition: 0
-  _playOnlyOneLine: 0
   _textPosition: {x: 0, y: 0, z: 0}
-  _textAlignment: 0
+  _textAlignment: 257
   _typeSpeed: 0.05
   _dialogueReferenceIndex: 0
+  _playOnlyOneLine: 0
+  _shouldSkipWithoutPressing: 0
+  _shouldLoopOver: 1
+  _onlyText: 0
 --- !u!1001 &531114672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -540,6 +616,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3066342045067750283, guid: 1b1bb5b2e3124dc449424a4f047f69f8, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8202643047992440667, guid: 1b1bb5b2e3124dc449424a4f047f69f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.20123
@@ -808,9 +888,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2135676277114423848, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2204263331799428970, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_Name
       value: DialogueManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055539017217085452, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -830,3 +918,4 @@ SceneRoots:
   - {fileID: 469422265}
   - {fileID: 1875773331}
   - {fileID: 531114672}
+  - {fileID: 161521495}

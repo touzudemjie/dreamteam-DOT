@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,17 +20,16 @@ public class ButtonNavigationScript : MonoBehaviour
     [SerializeField] private UnityTimer _blinkTimer;
 
     [SerializeField] private Key[] _confirmKeys;
+
     private int _activeButtonAmount;
     private int _previousActiveButtonAmount = -1;
     private bool _isArrowOn = true;
     private int _pressedIndex;
     public bool canNavigate = true;
-    private const int LOCKEDFRAMES = 20;
-    private int _inputLockedFrames;
+    private bool _hasConfirmed;
     void Start()
     {
         SetAllButtons();
-        _inputLockedFrames = LOCKEDFRAMES;
     }
     public void SetAllButtons()
     {
@@ -46,10 +46,6 @@ public class ButtonNavigationScript : MonoBehaviour
             EvaluateButtonAmount();
             NavigateButtons();
             BlinkArrow();
-        }
-        if (_activeButtons.Count > 0 && _inputLockedFrames > 0)
-        {
-            _inputLockedFrames--;
         }
     }
     void EvaluateButtonAmount()
@@ -99,10 +95,13 @@ public class ButtonNavigationScript : MonoBehaviour
             _isArrowOn = true;
         }
     }
-
     private void NavigateButtons()
     {
-        if (_inputLockedFrames > 0) return;
+        bool left = Keyboard.current[Key.LeftArrow].wasPressedThisFrame
+               || Keyboard.current[Key.A].wasPressedThisFrame;
+        
+        bool right = Keyboard.current[Key.RightArrow].wasPressedThisFrame
+               || Keyboard.current[Key.D].wasPressedThisFrame;
         bool up = Keyboard.current[Key.UpArrow].wasPressedThisFrame
                || Keyboard.current[Key.W].wasPressedThisFrame;
 
@@ -132,13 +131,13 @@ public class ButtonNavigationScript : MonoBehaviour
 
         if (_activeButtonAmount > 0)
         {
-            if (up)
+            if (up || right)
             {
                 _selectedIndex = (_selectedIndex - 1 + _activeButtonAmount) % _activeButtonAmount;
                 SetArrow();
                 UpdateSelection();
             }
-            if (down)
+            if (down || left)
             {
                 _selectedIndex = (_selectedIndex + 1) % _activeButtonAmount;
                 SetArrow();
@@ -146,6 +145,7 @@ public class ButtonNavigationScript : MonoBehaviour
             }
             if (confirm)
             {
+                _hasConfirmed = true;
                 SetArrow();
                 if (_pressedSprite != null)
                 {
@@ -154,12 +154,12 @@ public class ButtonNavigationScript : MonoBehaviour
                 }
                 _pressedIndex = _selectedIndex;
             }
-            if (confirmUp)
+            if (confirmUp && _hasConfirmed)
             {
+                _hasConfirmed = false;
                 if (_pressedIndex == _selectedIndex && _activeButtons[_selectedIndex].enabled)
                 {
                     _activeButtons[_selectedIndex].onClick.Invoke();
-                    _inputLockedFrames = LOCKEDFRAMES;
                 }
             }
         }
