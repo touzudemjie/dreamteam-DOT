@@ -133,6 +133,13 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             TextDisplayManager.Instance.ActivateAllReferences(true);
         }
         ShowDialogueLine(_currentDialogueID);
+        if(_dialogueDict.TryGetValue(GetCurrentDialogueID(), out DialogueLine line))
+        {
+            if (line.dialogueEffect != null)
+            {
+                TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
+            }
+        }
         OnStartDialogue?.Invoke();
         IsDialogueFinished = false;
         Cursor.lockState = CursorLockMode.None;
@@ -146,7 +153,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         }
         if (line.music != null && AudioManagerScript.Instance != null)
         {
-            AudioManagerScript.Instance.PlayMusicTransitionally(line.music, line.MusicVolume);
+            AudioManagerScript.Instance.PlayMusicTransitionally(line.music);
         }
         else if(line.music == null && AudioManagerScript.Instance != null)
         {
@@ -154,7 +161,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         }
         _currentText.Clear();
         _isTyping = true;
-        TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
+
         _typeTimer = 0f;
         SetLineReferences(line);
     }
@@ -174,19 +181,21 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         _saveDialogueIndex = choice.saveDialogueLineIndex;
         _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
-        TextDisplayManager.Instance.CancelEffect();
-        if (_dialogueDict.TryGetValue(GetCurrentDialogueID(), out DialogueLine line))
-        {
-          TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
-        }
+
         if (choice.condition != null)
         {
             if (!choice.condition.Evaluate())
             {
-                Debug.Log("Condition ist null");
                 TextDisplayManager.Instance.DeactivateChoiceButtons();
                 ShowDialogueLine(choice.failedConditionId);
                 _currentDialogueID = choice.failedConditionId;
+                if (_dialogueDict.TryGetValue(choice.failedConditionId, out DialogueLine failedLine))
+                {
+                    if (failedLine.dialogueEffect != null)
+                    {
+                        TextDisplayManager.Instance.ApplyEffect(failedLine.dialogueEffect);
+                    }
+                }
                 return;
             }
             else
@@ -204,10 +213,16 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.Log("JHDSJDSJHDJ");
             TextDisplayManager.Instance.DeactivateChoiceButtons();
             ShowDialogueLine(choice.nextDialogueID);
             _currentDialogueID = choice.nextDialogueID;
+        }
+        if (_dialogueDict.TryGetValue(choice.nextDialogueID, out DialogueLine line))
+        {
+            if (line.dialogueEffect != null)
+            {
+                TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
+            }
         }
     }
    
@@ -257,11 +272,13 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             }
             else if  ((pressedContinueButton && !IsDialogueFinished && !_playOnlyOneLine && line.choices.Length == 0) || _skipDialogue && line.choices.Length == 0)
             {
-                TextDisplayManager.Instance.CancelEffect();
-                TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
                 _currentDialogueLineIndex++;
                 _currentDialogueID = line.nextDialogueID;
                 _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine nextLine);
+                if (nextLine.dialogueEffect != null)
+                {
+                    TextDisplayManager.Instance.ApplyEffect(nextLine.dialogueEffect);
+                }
                 ShowDialogueLine(_currentDialogueID);
             }
         }

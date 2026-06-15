@@ -146,7 +146,6 @@ public class ButtonNavigationScript : MonoBehaviour
             }
             if (confirm)
             {
-                Debug.Log("TEST");
                 _hasConfirmed = true;
                 SetArrow();
                 if (_pressedSprite != null)

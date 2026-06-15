@@ -25,6 +25,7 @@ public class DialogueEffect
 
 public enum EffectType
 {
+    none,
     CameraShake,
     CameraZoom,
     ScreenFlash,
@@ -47,9 +48,6 @@ public class DialogueLine
     public Sprite sprite;
     public AudioClip music;
     public AudioClip talkSFX;
-    [SerializeField] private float musicVolume;
-    public float MusicVolume { get { return musicVolume; } set { if (value <= 0) musicVolume = 0; else musicVolume = value; } }
-    public bool hasSpecialEffect;
     public DialogueChoice[] choices;
 
 }

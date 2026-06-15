@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
@@ -27,12 +28,19 @@ public class TextDisplayManager : MonoBehaviour
     [SerializeField] private DialogueReferences[] dialogueReferences;
 
     [SerializeField] private DialogueReferences _currentReference;
+
+    [SerializeField] private GameObject _letterBoxParent;
+
+    [SerializeField] private Vector3[] _letterBoxGoalPositions;
+    private Vector3[] _letterBoxStartPositions = new Vector3[2];
+    private RectTransform[] _letterBoxes;
     public Key[] continueKeys;
     public MouseButton mouseContinueButton;
     private Button[] _choiceButtons;
     public static TextDisplayManager Instance { get; private set; }
     private Canvas _dialogueCanvas;
     private DialogueEffect _lastEffect;
+    private bool _hasApplied;
     private void Awake()
     {
         if (Instance != this && Instance != null)
@@ -48,16 +56,27 @@ public class TextDisplayManager : MonoBehaviour
     }
     void Start()
     {
+        SetUp();
+    }
+    private void SetUp()
+    {
+        _letterBoxes = _letterBoxParent.GetComponentsInChildren<RectTransform>()
+            .Where(letterBox => letterBox.gameObject != _letterBoxParent)
+            .ToArray();
+        for (int i = 0; i < _letterBoxParent.transform.childCount; i++)
+        {
+            _letterBoxStartPositions[i] = _letterBoxParent.transform.GetChild(i).gameObject.GetComponent<RectTransform>().anchoredPosition;
+        }
         _dialogueCanvas = GetComponentInChildren<Canvas>();
         _dialogueCanvas.worldCamera = Helpers.Camera;
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
-       _currentReference = dialogueReferences[0];
-      _choiceButtons = new Button[_currentReference.choicesObject.transform.childCount];
-       for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
+        _currentReference = dialogueReferences[0];
+        _choiceButtons = new Button[_currentReference.choicesObject.transform.childCount];
+        for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
         {
             _choiceButtons[i] = _currentReference.choicesObject.transform.GetChild(i).GetComponent<Button>();
         }
-       _currentReference.decisionSlider.OnValueReachedMax += DecideRandom;
+        _currentReference.decisionSlider.OnValueReachedMax += DecideRandom;
     }
     private void OnDestroy()
     {
@@ -79,7 +98,12 @@ public class TextDisplayManager : MonoBehaviour
     }
     public void ApplyEffect(DialogueEffect effect)
     {
-        StopAllCoroutines();
+        if (_lastEffect != null && _lastEffect.type == effect.type && _hasApplied || effect.type == EffectType.none )
+            return; // Gleicher Effekt läuft bereits → ignorieren
+
+        // Typ hat gewechselt → alten Effekt rückgängig machen
+        if (_lastEffect != null && _hasApplied)
+            CancelEffect(); 
         _lastEffect = effect;
         switch (effect.type)
         {
@@ -87,11 +111,38 @@ public class TextDisplayManager : MonoBehaviour
                 StartCoroutine(CameraShake(effect));
                 break;
             case EffectType.Vignette:
+                _hasApplied = true;
                 StartCoroutine(ShowVignette(effect));
                 break;
-            
+            case EffectType.Letterbox:
+                _hasApplied = true;
+                StartCoroutine(ShowLetterBox(effect));
+                break;
+
         }
     }
+
+    private IEnumerator ShowLetterBox(DialogueEffect effect, bool playNormal = true)
+    {
+        float elapsed = 0f;
+        Vector3 letterBoxDownGoalPosition = playNormal ? _letterBoxGoalPositions[0] : _letterBoxStartPositions[0];
+        Vector3 letterBoxDownStartPosition = playNormal ? _letterBoxStartPositions[0] : _letterBoxGoalPositions[0];
+        Vector3 letterBoxUpGoalPosition = playNormal ? _letterBoxGoalPositions[1] : _letterBoxStartPositions[1];
+        Vector3 letterBoxUpStartPosition = playNormal ? _letterBoxStartPositions[1] : _letterBoxGoalPositions[1];
+        while (elapsed < effect.duration)
+        {
+            float t = elapsed / effect.duration;
+            float curveValue = effect.curve.Evaluate(t);
+            _letterBoxes[0].anchoredPosition = Vector3.Lerp(letterBoxDownStartPosition, letterBoxDownGoalPosition, t);
+            _letterBoxes[1].anchoredPosition = Vector3.Lerp(letterBoxUpStartPosition, letterBoxUpGoalPosition, t);
+            float currentIntensity = effect.intensity * curveValue;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        _letterBoxes[0].anchoredPosition = letterBoxDownGoalPosition;
+        _letterBoxes[1].anchoredPosition = letterBoxUpGoalPosition;
+    }
+
     public void CancelEffect()
     {
         if (_lastEffect != null)
@@ -101,8 +152,13 @@ public class TextDisplayManager : MonoBehaviour
                 case EffectType.Vignette:
                     if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
                     {
-                        vignette.intensity.value = 0f;
+                        StartCoroutine(ShowVignette(_lastEffect,false));
+                        _hasApplied = false;
                     }
+                    break;
+                case EffectType.Letterbox:
+                    StartCoroutine(ShowLetterBox(_lastEffect,false));
+                    _hasApplied = false;
                     break;
             }
         }
@@ -112,6 +168,7 @@ public class TextDisplayManager : MonoBehaviour
     {
         float elapsed = 0f;
         Vector3 originalPos = Helpers.Camera.transform.localPosition;
+        _hasApplied = true;
         while (elapsed < effect.duration)
         {
             // 0..1 normalisierte Zeit
@@ -128,18 +185,19 @@ public class TextDisplayManager : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+        _hasApplied = false;
         Helpers.Camera.transform.localPosition = originalPos;
     }
-    private IEnumerator ShowVignette(DialogueEffect effect)
+    private IEnumerator ShowVignette(DialogueEffect effect, bool playNormal = true)
     {
         float elapsed = 0f;
+
         if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
         {
             while (elapsed < effect.duration)
             {
-                // 0..1 normalisierte Zeit
                 float t = elapsed / effect.duration;
-
+                if (!playNormal) t = 1f - t;
                 // Curve gibt den Multiplikator für die Intensität
                 float curveValue = effect.curve.Evaluate(t);
                 float currentIntensity = effect.intensity * curveValue;

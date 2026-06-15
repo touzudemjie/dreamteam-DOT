@@ -3677,17 +3677,17 @@ MonoBehaviour:
   _dialogueAsset:
   - dialogueLines:
     - dialogueEffect:
-        type: 0
+        type: 5
         intensity: 1
-        duration: 0.2
+        duration: 1
         curve:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 2
-            outSlope: 2
+            inSlope: 0
+            outSlope: 0
             tangentMode: 0
             weightedMode: 0
             inWeight: 0
@@ -3712,8 +3712,6 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices:
       - condition: {fileID: 11400000, guid: 13791047e6f60b149b93dea6af14a334, type: 2}
         failedConditionId: failed
@@ -3736,7 +3734,7 @@ MonoBehaviour:
           m_PersistentCalls:
             m_Calls: []
     - dialogueEffect:
-        type: 3
+        type: 0
         intensity: 0.5
         duration: 1
         curve:
@@ -3771,8 +3769,6 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices: []
     - dialogueEffect:
         type: 0
@@ -3792,8 +3788,6 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices: []
     - dialogueEffect:
         type: 0
@@ -3813,30 +3807,81 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices: []
   - dialogueLines:
     - dialogueEffect:
-        type: 0
-        intensity: 0
-        duration: 0
+        type: 5
+        intensity: 0.5
+        duration: 1
         curve:
           serializedVersion: 2
-          m_Curve: []
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
         _sfxPitch: 1
       dialogueID: d_test2
-      nextDialogueID: END
+      nextDialogueID: d_test3
       speaker: zylinder
       textContent: "Danke f\xFCr den Apfel"
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
+      choices: []
+    - dialogueEffect:
+        type: 0
+        intensity: 0.5
+        duration: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_test3
+      nextDialogueID: END
+      speaker: zylinder
+      textContent: Also fr nh.
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 0}
       choices: []
   _severeLines:
   - dialogueEffect:
@@ -3857,8 +3902,6 @@ MonoBehaviour:
     sprite: {fileID: 0}
     music: {fileID: 0}
     talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
-    musicVolume: 0
-    hasSpecialEffect: 0
     choices: []
   _crossedSevereLines:
   - dialogueEffect:
@@ -3879,8 +3922,6 @@ MonoBehaviour:
     sprite: {fileID: 0}
     music: {fileID: 0}
     talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
-    musicVolume: 0
-    hasSpecialEffect: 0
     choices: []
   _severityLine: 4
   _NPCSeverityScore: 0
@@ -4098,8 +4139,6 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices: []
     - dialogueEffect:
         type: 0
@@ -4119,8 +4158,6 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices: []
     - dialogueEffect:
         type: 0
@@ -4140,8 +4177,6 @@ MonoBehaviour:
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
       choices: []
   _dialogueReferenceIndex: 1
   _nextKeys: 18000000
@@ -5875,6 +5910,11 @@ MonoBehaviour:
   _visual: {fileID: 1501609112}
   _inventoryKey: 3
   _clearKey: 23
+--- !u!1 &1340451244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5833713788775537587, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+  m_PrefabInstance: {fileID: 7045849470933703383}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1354236180
 GameObject:
   m_ObjectHideFlags: 0
@@ -8871,13 +8911,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: TextUIManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
-      propertyPath: m_text
+    - target: {fileID: 5212673546760400166, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: _letterBoxParent
       value: 
+      objectReference: {fileID: 1340451244}
+    - target: {fileID: 5212673546760400166, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: _letterBoxGoalPositions.Array.size
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 6549772070238670466, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 5212673546760400166, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: _letterBoxGoalPositions.Array.data[0].y
+      value: -500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212673546760400166, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: _letterBoxGoalPositions.Array.data[1].y
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370551342227760705, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097383215099352743, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -600
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
