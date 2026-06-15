@@ -52,8 +52,11 @@ public class DialogueLine
 
 }
 [System.Serializable]
-public struct DialogueChoice
+public class DialogueChoice
 {
+    public DialogueCondition condition;
+    public string failedConditionId;
+    public bool saveDialogueLineIndex;
     public bool lockDialogueAssetIndex;
     public string choiceText;
     public int severity;

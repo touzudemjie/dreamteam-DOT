@@ -176,6 +176,21 @@ public class TextDisplayManager : MonoBehaviour
             _currentReference.decisionSlider.CanIncreaseValue();
         }
     }
+    public IEnumerator SetUpChoiceButtonsNextFrame(int amount, string[] buttonTexts, DialogueChoice[] choices, Action<DialogueChoice> onChoiceSelected)
+    {
+        yield return null;
+        amount = Mathf.Clamp(amount, 0, _choiceButtons.Length);
+        for (int i = 0; i < amount; i++)
+        {
+            _choiceButtons[i].gameObject.SetActive(true);
+            _choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = buttonTexts[i];
+            _choiceButtons[i].onClick.RemoveAllListeners();
+            DialogueChoice choice = choices[i];
+            _choiceButtons[i].onClick.AddListener(() => onChoiceSelected(choice));
+            _currentReference.decisionSlider.gameObject.SetActive(true);
+            _currentReference.decisionSlider.CanIncreaseValue();
+        }
+    }
     public void ShowContinueSign(bool canShow)
     {
         if (this != null)
@@ -187,11 +202,14 @@ public class TextDisplayManager : MonoBehaviour
     {
         for (int i = 0; i <_choiceButtons.Length ; i++)
         {
-            if (_choiceButtons == null) break;
+            if (_choiceButtons[i] == null) break;
             _choiceButtons[i].onClick.RemoveAllListeners();
             _choiceButtons[i].gameObject.SetActive(false);
         }
-        _currentReference.decisionSlider.gameObject.SetActive(false);
+        if (_currentReference.decisionSlider != null)
+        {
+            _currentReference.decisionSlider.gameObject.SetActive(false);
+        }
     }
     public void AllignText(TextAlignmentOptions textAlignmentOptions)
     {

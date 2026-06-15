@@ -19,7 +19,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     [SerializeField] private Vector3 _textPosition;
     [SerializeField] private TextAlignmentOptions _textAlignment;
     [SerializeField] private float _typeSpeed = 0.05f;
+    [SerializeField] private float _periodTypeSpeed;
     private int _currentDialogueLineIndex;
+    private int _currentDialogueLineIndexTmp;
     private int _dialogueAssetIndex;
     public event Action OnStartDialogue;
     public event Action<string> OnLineFinshed;
@@ -41,6 +43,8 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     private bool _isTyping = false;
     public bool HascrossedSeverityLine { get; private set; }
     private bool _lockDialogueAssetIndex;
+    private bool _saveDialogueIndex;
+
     public bool HasDialogueEndedNaturally { get; private set; }
     void Start()
     {
@@ -48,7 +52,6 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         {
           _currentDialogueID = _dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
         }
-        Debug.Log("sdsadsads " + IsDialogueFinished);
     }
     public void OnInteract()
     {
@@ -161,13 +164,25 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         {
             buttonText[i] = choices[i].choiceText;
         }
-        TextDisplayManager.Instance.SetUpChoiceButtons(choices.Length, buttonText, choices,OnChoiceSelected);
+        StartCoroutine(TextDisplayManager.Instance.SetUpChoiceButtonsNextFrame(choices.Length, buttonText, choices,OnChoiceSelected));
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
         _NPCSeverityScore += choice.severity;
         choice.onChosen?.Invoke();
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
+        _saveDialogueIndex = choice.saveDialogueLineIndex;
+        _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
+        if (choice.condition != null)
+        {
+            if (!choice.condition.Evaluate())
+            {
+                TextDisplayManager.Instance.DeactivateChoiceButtons();
+                ShowDialogueLine(choice.failedConditionId);
+                _currentDialogueID = choice.failedConditionId;
+            }
+            return;
+        }
         if (_NPCSeverityScore > _severityLine)
         {
             HascrossedSeverityLine = true;
@@ -281,6 +296,18 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                 char nextChar = fullText[_currentText.Length];
                 AppendNewLine(nextChar, line);
                 _currentText.Append(nextChar);
+                if (_currentText.Length < fullText.Length)
+                {
+                    if (nextChar == '.' && fullText[_currentText.Length] == '.')
+                    {
+                        Debug.LogError("Test");
+                        _typeTimer = _periodTypeSpeed;
+                    }
+                    else
+                    {
+                        _typeTimer = _typeSpeed;
+                    }
+                }
                 TextDisplayManager.Instance.ShowText(_currentText.ToString());
             }
             else
@@ -351,9 +378,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     }
     private void OnDestroy()
     {
-        if (this != null)
+        if (Application.isPlaying)
         {
-         EndDialogue();
+            EndDialogue();
         }
     }
     public void EndDialogue()
@@ -387,6 +414,11 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                 }
             }
             _currentDialogueLineIndex = 0;
+        }
+        if (_saveDialogueIndex)
+        {
+            _currentDialogueLineIndex = _currentDialogueLineIndexTmp;
+            _saveDialogueIndex = false;
         }
         TextDisplayManager.Instance.ShowContinueSign(false);
         TextDisplayManager.Instance.DeactivateChoiceButtons();

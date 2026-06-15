@@ -3679,13 +3679,23 @@ MonoBehaviour:
     - dialogueID: d_test0
       nextDialogueID: d_test1
       speaker: 
-      textContent: <color=#FF0000><b>Welt</b></color>
+      textContent: 'Hallo. sdhsahdjsahd .. jsahdjsahdjhsj '
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
       musicVolume: 0
       hasSpecialEffect: 0
-      choices: []
+      choices:
+      - condition: {fileID: 0}
+        failedConditionId: 
+        saveDialogueLineIndex: 0
+        lockDialogueAssetIndex: 0
+        choiceText: 
+        severity: 0
+        nextDialogueID: 
+        onChosen:
+          m_PersistentCalls:
+            m_Calls: []
     - dialogueID: d_test1
       nextDialogueID: 
       speaker: 
@@ -3696,20 +3706,38 @@ MonoBehaviour:
       musicVolume: 0
       hasSpecialEffect: 0
       choices:
-      - lockDialogueAssetIndex: 1
+      - condition: {fileID: 0}
+        failedConditionId: 
+        saveDialogueLineIndex: 0
+        lockDialogueAssetIndex: 1
         choiceText: Nein
         severity: 0
         nextDialogueID: d_nein
         onChosen:
           m_PersistentCalls:
             m_Calls: []
-      - lockDialogueAssetIndex: 0
+      - condition: {fileID: 0}
+        failedConditionId: 
+        saveDialogueLineIndex: 0
+        lockDialogueAssetIndex: 0
         choiceText: ja
         severity: 0
         nextDialogueID: d_ja
         onChosen:
           m_PersistentCalls:
-            m_Calls: []
+            m_Calls:
+            - m_Target: {fileID: 753717618}
+              m_TargetAssemblyTypeName: 
+              m_MethodName: 
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: 
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
     - dialogueID: d_ja
       nextDialogueID: END
       speaker: 
@@ -3768,10 +3796,11 @@ MonoBehaviour:
   _textPosition: {x: 0, y: 0, z: 0}
   _textAlignment: 257
   _typeSpeed: 0.1
+  _periodTypeSpeed: 1
   _textDisplayReferenceIndex: 0
   _playOnlyOneLine: 0
   _shouldSkipWithoutPressing: 0
-  _shouldLoopOver: 0
+  _shouldLoopOver: 1
   _onlyText: 0
 --- !u!136 &753717620
 CapsuleCollider:
@@ -8627,6 +8656,10 @@ PrefabInstance:
     - target: {fileID: 2204263331799428970, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_Name
       value: TextUIManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549772070238670466, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -85,7 +85,7 @@ public class ButtonNavigationScript : MonoBehaviour
             _isArrowOn = !_isArrowOn;
         }
     }
-
+   
     private void OnDisable()
     {
         if (_arrowPosition != null)
@@ -94,6 +94,7 @@ public class ButtonNavigationScript : MonoBehaviour
             _arrowPosition.gameObject.SetActive(true);
             _isArrowOn = true;
         }
+        _hasConfirmed = false;
     }
     private void NavigateButtons()
     {
@@ -145,6 +146,7 @@ public class ButtonNavigationScript : MonoBehaviour
             }
             if (confirm)
             {
+                Debug.Log("TEST");
                 _hasConfirmed = true;
                 SetArrow();
                 if (_pressedSprite != null)
@@ -164,7 +166,6 @@ public class ButtonNavigationScript : MonoBehaviour
             }
         }
     }
-
     private void SetArrow()
     {
         if (_arrowPosition != null)
@@ -187,6 +188,7 @@ public class ButtonNavigationScript : MonoBehaviour
 
     private void OnEnable()
     {
+        _hasConfirmed = false;
         _selectedIndex = 0;
         if (_arrowPosition != null)
         {

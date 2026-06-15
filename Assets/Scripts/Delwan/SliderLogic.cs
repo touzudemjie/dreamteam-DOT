@@ -38,5 +38,6 @@ public class SliderLogic : MonoBehaviour
     private void OnDisable()
     {
         _slider.value = 0;
+        _currentDuration = 0;
     }
 }
