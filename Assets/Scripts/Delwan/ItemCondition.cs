@@ -1,10 +1,10 @@
 // Beispiel-Implementation
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HasItemCondition", menuName = "Dialogue/Conditions/HasItem")]
+[CreateAssetMenu(fileName = "HasItemCondition", menuName = "SO/Conditions/Item")]
 public class ItemCondition : DialogueCondition
 {
-    //[SerializeField] private ItemSO _requiredItem;
+    [SerializeField] private PickItemList _requiredItem;
 
     //public override bool Evaluate()
     //{
@@ -12,6 +12,6 @@ public class ItemCondition : DialogueCondition
     //}
     public override bool Evaluate()
     {
-        return false;
+        return Inventory.Instance.HasItem(_requiredItem);
     }
 }

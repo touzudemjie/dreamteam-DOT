@@ -35,6 +35,11 @@ public class Inventory : MonoBehaviour
             ClearInventory();
         }
         _visual.gameObject.SetActive(showInventory);
+        if (Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            Debug.Log("Hii");
+            Add(PickItemList.Apfel);
+        }
     }
 
     
@@ -58,9 +63,8 @@ public class Inventory : MonoBehaviour
 
     public bool HasItem(PickItemList item)
     {
-        if(GameManager.Instance.playerData != null)
+        if (GameManager.Instance.playerData != null)
             return GameManager.Instance.playerData.itemList.Contains(item);
-
         Debug.LogWarning("PlayerData nicht verfügbar");
             return false;
     }

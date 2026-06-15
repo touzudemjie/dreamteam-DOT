@@ -3678,37 +3678,27 @@ MonoBehaviour:
   - dialogueLines:
     - dialogueID: d_test0
       nextDialogueID: d_test1
-      speaker: 
-      textContent: 'Hallo. sdhsahdjsahd .. jsahdjsahdjhsj '
+      speaker: Zylinder
+      textContent: Hast du den Apfel?
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
       musicVolume: 0
       hasSpecialEffect: 0
       choices:
-      - condition: {fileID: 0}
-        failedConditionId: 
-        saveDialogueLineIndex: 0
-        lockDialogueAssetIndex: 0
-        choiceText: 
+      - condition: {fileID: 11400000, guid: 13791047e6f60b149b93dea6af14a334, type: 2}
+        failedConditionId: failed
+        saveDialogueLineIndex: 1
+        lockDialogueAssetIndex: 1
+        choiceText: ja
         severity: 0
-        nextDialogueID: 
+        nextDialogueID: d_ja
         onChosen:
           m_PersistentCalls:
             m_Calls: []
-    - dialogueID: d_test1
-      nextDialogueID: 
-      speaker: 
-      textContent: Hast du Zigaretten?
-      sprite: {fileID: 0}
-      music: {fileID: 0}
-      talkSFX: {fileID: 0}
-      musicVolume: 0
-      hasSpecialEffect: 0
-      choices:
       - condition: {fileID: 0}
         failedConditionId: 
-        saveDialogueLineIndex: 0
+        saveDialogueLineIndex: 1
         lockDialogueAssetIndex: 1
         choiceText: Nein
         severity: 0
@@ -3716,32 +3706,10 @@ MonoBehaviour:
         onChosen:
           m_PersistentCalls:
             m_Calls: []
-      - condition: {fileID: 0}
-        failedConditionId: 
-        saveDialogueLineIndex: 0
-        lockDialogueAssetIndex: 0
-        choiceText: ja
-        severity: 0
-        nextDialogueID: d_ja
-        onChosen:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 753717618}
-              m_TargetAssemblyTypeName: 
-              m_MethodName: 
-              m_Mode: 0
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: 
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
     - dialogueID: d_ja
       nextDialogueID: END
       speaker: 
-      textContent: Wunderbar.
+      textContent: Wunderbar, du hast den Apfel.
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
@@ -3751,7 +3719,17 @@ MonoBehaviour:
     - dialogueID: d_nein
       nextDialogueID: END
       speaker: 
-      textContent: Ehrenlos.
+      textContent: Warum hast du den Apfel nicht.
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 0}
+      musicVolume: 0
+      hasSpecialEffect: 0
+      choices: []
+    - dialogueID: failed
+      nextDialogueID: END
+      speaker: 
+      textContent: Du hast kein Apfel.
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
@@ -3762,7 +3740,7 @@ MonoBehaviour:
     - dialogueID: d_test2
       nextDialogueID: END
       speaker: zylinder
-      textContent: "Danke f\xFCr die Zigaretten"
+      textContent: "Danke f\xFCr den Apfel"
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
@@ -3800,7 +3778,7 @@ MonoBehaviour:
   _textDisplayReferenceIndex: 0
   _playOnlyOneLine: 0
   _shouldSkipWithoutPressing: 0
-  _shouldLoopOver: 1
+  _shouldLoopOver: 0
   _onlyText: 0
 --- !u!136 &753717620
 CapsuleCollider:
@@ -5712,6 +5690,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 361886847}
+    - targetCorrespondingSourceObject: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1315001629}
     - targetCorrespondingSourceObject: {fileID: 1593727746557118, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2031373066}
@@ -5729,6 +5710,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4490257326247362, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
   m_PrefabInstance: {fileID: 1315001621}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1315001629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361886839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85ed26b84f1eca4b8ff71affc021920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  _visual: {fileID: 1501609112}
+  _inventoryKey: 3
+  _clearKey: 23
 --- !u!1 &1354236180
 GameObject:
   m_ObjectHideFlags: 0
@@ -6656,13 +6652,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7886763474104673236, guid: f78d932793b9ca64baee566b233e90d9, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f78d932793b9ca64baee566b233e90d9, type: 3}
+--- !u!114 &1501609112 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7886763474104673236, guid: f78d932793b9ca64baee566b233e90d9, type: 3}
+  m_PrefabInstance: {fileID: 1501609111}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb81d184cdcb4d449593b84a9e2e738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualInventory
 --- !u!1 &1507796271
 GameObject:
   m_ObjectHideFlags: 0
@@ -6992,6 +6999,50 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 524491572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1518003861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1518003863}
+  - component: {fileID: 1518003862}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1518003862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518003861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c810d566db8022b4ebe3e3a1376c713b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+--- !u!4 &1518003863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518003861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.51514, y: -0, z: -295.7988}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1597729300
 PrefabInstance:
@@ -8657,6 +8708,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TextUIManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_text
+      value: <funky> Haloo
+      objectReference: {fileID: 0}
     - target: {fileID: 6549772070238670466, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -8743,3 +8798,4 @@ SceneRoots:
   - {fileID: 7042530727207274630}
   - {fileID: 764666410}
   - {fileID: 9121801043156935492}
+  - {fileID: 1518003863}

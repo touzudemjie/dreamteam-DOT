@@ -173,15 +173,21 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         _saveDialogueIndex = choice.saveDialogueLineIndex;
         _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
+        Debug.Log("Choice text " +choice.choiceText);
         if (choice.condition != null)
         {
             if (!choice.condition.Evaluate())
             {
+                Debug.Log("Condition ist null");
                 TextDisplayManager.Instance.DeactivateChoiceButtons();
                 ShowDialogueLine(choice.failedConditionId);
                 _currentDialogueID = choice.failedConditionId;
+                return;
             }
-            return;
+            else
+            {
+                _lockDialogueAssetIndex = false;
+            }
         }
         if (_NPCSeverityScore > _severityLine)
         {
@@ -193,6 +199,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         }
         else
         {
+            Debug.Log("JHDSJDSJHDJ");
             TextDisplayManager.Instance.DeactivateChoiceButtons();
             ShowDialogueLine(choice.nextDialogueID);
             _currentDialogueID = choice.nextDialogueID;
