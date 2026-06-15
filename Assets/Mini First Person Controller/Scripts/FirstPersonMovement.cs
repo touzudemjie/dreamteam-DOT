@@ -24,7 +24,7 @@ public class FirstPersonMovement : MonoBehaviour
 
     private InputAction _sprintAction;
     private InputAction _moveAction;
-    private bool _canMove;
+    public bool CanMove { get; private set; }
     void Awake()
     {
         // Get the rigidbody on this.
@@ -47,8 +47,8 @@ public class FirstPersonMovement : MonoBehaviour
 
     void Move()
     {
-        _canMove = NPCDialogue.IsDialogueFinished;
-        if (_canMove)
+        CanMove = NPCDialogue.IsDialogueFinished;
+        if (CanMove)
         {
             // Update IsRunning from input.
             IsRunning = canRun && _sprintAction.IsPressed();

@@ -3676,7 +3676,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueScript
   _dialogueAsset:
   - dialogueLines:
-    - dialogueID: d_test0
+    - dialogueEffect:
+        type: 0
+        intensity: 1
+        duration: 0.2
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_test0
       nextDialogueID: d_test1
       speaker: Zylinder
       textContent: Hast du den Apfel?
@@ -3706,7 +3735,36 @@ MonoBehaviour:
         onChosen:
           m_PersistentCalls:
             m_Calls: []
-    - dialogueID: d_ja
+    - dialogueEffect:
+        type: 3
+        intensity: 0.5
+        duration: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_ja
       nextDialogueID: END
       speaker: 
       textContent: Wunderbar, du hast den Apfel.
@@ -3716,7 +3774,18 @@ MonoBehaviour:
       musicVolume: 0
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: d_nein
+    - dialogueEffect:
+        type: 0
+        intensity: 0
+        duration: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_nein
       nextDialogueID: END
       speaker: 
       textContent: Warum hast du den Apfel nicht.
@@ -3726,7 +3795,18 @@ MonoBehaviour:
       musicVolume: 0
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: failed
+    - dialogueEffect:
+        type: 0
+        intensity: 0
+        duration: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: failed
       nextDialogueID: END
       speaker: 
       textContent: Du hast kein Apfel.
@@ -3737,7 +3817,18 @@ MonoBehaviour:
       hasSpecialEffect: 0
       choices: []
   - dialogueLines:
-    - dialogueID: d_test2
+    - dialogueEffect:
+        type: 0
+        intensity: 0
+        duration: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_test2
       nextDialogueID: END
       speaker: zylinder
       textContent: "Danke f\xFCr den Apfel"
@@ -3748,7 +3839,18 @@ MonoBehaviour:
       hasSpecialEffect: 0
       choices: []
   _severeLines:
-  - dialogueID: Angry
+  - dialogueEffect:
+      type: 0
+      intensity: 0
+      duration: 0
+      curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _sfxPitch: 1
+    dialogueID: Angry
     nextDialogueID: END
     speaker: Zylinder
     textContent: "Sch\xE4m dich..."
@@ -3759,7 +3861,18 @@ MonoBehaviour:
     hasSpecialEffect: 0
     choices: []
   _crossedSevereLines:
-  - dialogueID: tot
+  - dialogueEffect:
+      type: 0
+      intensity: 0
+      duration: 0
+      curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _sfxPitch: 1
+    dialogueID: tot
     nextDialogueID: END
     speaker: Zylinder
     textContent: "F\xFCr mich bist du <color=\"red\">tot</color>"
@@ -3967,7 +4080,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TextDisplayer
   _pages:
     dialogueLines:
-    - dialogueID: test
+    - dialogueEffect:
+        type: 0
+        intensity: 0
+        duration: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: test
       nextDialogueID: test2
       speaker: zylinder
       textContent: Ich war mal einst ein zylinder
@@ -3977,7 +4101,18 @@ MonoBehaviour:
       musicVolume: 0
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: test2
+    - dialogueEffect:
+        type: 0
+        intensity: 0
+        duration: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: test2
       nextDialogueID: test3
       speaker: zylinder
       textContent: So war es
@@ -3987,7 +4122,18 @@ MonoBehaviour:
       musicVolume: 0
       hasSpecialEffect: 0
       choices: []
-    - dialogueID: test3
+    - dialogueEffect:
+        type: 0
+        intensity: 0
+        duration: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: test3
       nextDialogueID: END
       speaker: zylinder
       textContent: YAYA.
@@ -5584,6 +5730,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1130725078037024, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: m_Name
       value: First Person Controller_Delwan
@@ -7029,6 +7179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c810d566db8022b4ebe3e3a1376c713b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _postProcessing: {fileID: 1659190965}
+  postProcessingProfile: {fileID: 0}
 --- !u!4 &1518003863
 Transform:
   m_ObjectHideFlags: 0
@@ -7288,6 +7440,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1659190965 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8781468824716455562, guid: be1257f8de00b324980353d13f187bab, type: 3}
+  m_PrefabInstance: {fileID: 9121801043156935492}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
 --- !u!1 &1784489240
 GameObject:
   m_ObjectHideFlags: 0
@@ -8710,7 +8873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_text
-      value: <funky> Haloo
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6549772070238670466, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_Enabled

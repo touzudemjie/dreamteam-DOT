@@ -154,6 +154,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         }
         _currentText.Clear();
         _isTyping = true;
+        TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
         _typeTimer = 0f;
         SetLineReferences(line);
     }
@@ -173,7 +174,11 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         _saveDialogueIndex = choice.saveDialogueLineIndex;
         _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
-        Debug.Log("Choice text " +choice.choiceText);
+        TextDisplayManager.Instance.CancelEffect();
+        if (_dialogueDict.TryGetValue(GetCurrentDialogueID(), out DialogueLine line))
+        {
+          TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
+        }
         if (choice.condition != null)
         {
             if (!choice.condition.Evaluate())
@@ -245,12 +250,15 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             }
             else if ((pressedContinueButton && line.nextDialogueID.ToUpper() == "END" && !_playOnlyOneLine && line.choices.Length == 0) || line.nextDialogueID.ToUpper() == "END" && _skipDialogue && !_playOnlyOneLine && line.choices.Length == 0)
             {
+                TextDisplayManager.Instance.CancelEffect();
                 _currentDialogueLineIndex++;
                 HasDialogueEndedNaturally = true;
                 EndDialogue();
             }
             else if  ((pressedContinueButton && !IsDialogueFinished && !_playOnlyOneLine && line.choices.Length == 0) || _skipDialogue && line.choices.Length == 0)
             {
+                TextDisplayManager.Instance.CancelEffect();
+                TextDisplayManager.Instance.ApplyEffect(line.dialogueEffect);
                 _currentDialogueLineIndex++;
                 _currentDialogueID = line.nextDialogueID;
                 _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine nextLine);

@@ -19,7 +19,8 @@ public class DialogueEffect
     public EffectType type;
     public float intensity;
     public float duration;
-    public AnimationCurve curve; 
+    public AnimationCurve curve;
+    public float _sfxPitch = 1;
 }
 
 public enum EffectType
@@ -37,6 +38,7 @@ public enum EffectType
 [System.Serializable]
 public class DialogueLine
 {
+    public DialogueEffect dialogueEffect;
     public string dialogueID;
     public string nextDialogueID;
     public string speaker;

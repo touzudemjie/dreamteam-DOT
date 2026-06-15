@@ -1,12 +1,14 @@
 using System;
+using System.Collections;
+using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UsefulClasses;
-using UnityEngine.InputSystem.LowLevel;
-using System.Collections;
-using UnityEngine.SceneManagement;
 public class TextDisplayManager : MonoBehaviour
 {
     [System.Serializable]
@@ -30,6 +32,7 @@ public class TextDisplayManager : MonoBehaviour
     private Button[] _choiceButtons;
     public static TextDisplayManager Instance { get; private set; }
     private Canvas _dialogueCanvas;
+    private DialogueEffect _lastEffect;
     private void Awake()
     {
         if (Instance != this && Instance != null)
@@ -74,7 +77,38 @@ public class TextDisplayManager : MonoBehaviour
     private void Update()
     {
     }
-    IEnumerator ApplyEffect(DialogueEffect effect)
+    public void ApplyEffect(DialogueEffect effect)
+    {
+        StopAllCoroutines();
+        _lastEffect = effect;
+        switch (effect.type)
+        {
+            case EffectType.CameraShake:
+                StartCoroutine(CameraShake(effect));
+                break;
+            case EffectType.Vignette:
+                StartCoroutine(ShowVignette(effect));
+                break;
+            
+        }
+    }
+    public void CancelEffect()
+    {
+        if (_lastEffect != null)
+        {
+            switch (_lastEffect.type)
+            {
+                case EffectType.Vignette:
+                    if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
+                    {
+                        vignette.intensity.value = 0f;
+                    }
+                    break;
+            }
+        }
+
+    }
+    private IEnumerator CameraShake(DialogueEffect effect)
     {
         float elapsed = 0f;
         Vector3 originalPos = Helpers.Camera.transform.localPosition;
@@ -94,8 +128,28 @@ public class TextDisplayManager : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
         Helpers.Camera.transform.localPosition = originalPos;
+    }
+    private IEnumerator ShowVignette(DialogueEffect effect)
+    {
+        float elapsed = 0f;
+        if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
+        {
+            while (elapsed < effect.duration)
+            {
+                // 0..1 normalisierte Zeit
+                float t = elapsed / effect.duration;
+
+                // Curve gibt den Multiplikator für die Intensität
+                float curveValue = effect.curve.Evaluate(t);
+                float currentIntensity = effect.intensity * curveValue;
+
+                vignette.intensity.value = currentIntensity;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+
     }
     private void DecideRandom()
     {

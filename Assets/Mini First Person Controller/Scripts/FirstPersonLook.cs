@@ -18,26 +18,31 @@ public class FirstPersonLook : MonoBehaviour
     private TimeReverse _timeReverse;
     [SerializeField] private Vector2 _cursorPosition;
     private LinkedList<CameraSnapshot> _cameraSnapshots = new LinkedList<CameraSnapshot>();
+    private FirstPersonMovement _firstPersonMovement;
     void Reset()
     {
         // Get the character from the FirstPersonMovement in parents.
         character = GetComponentInParent<FirstPersonMovement>().transform;
+        _firstPersonMovement = GetComponentInParent<FirstPersonMovement>();
         character.TryGetComponent(out _timeReverse);
     }
 
     void Start()
     {
+        _firstPersonMovement = GetComponentInParent<FirstPersonMovement>();
         character.TryGetComponent(out _timeReverse);
         if (_canLockMouse)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
-
     void Update()
     {
-        Rotate();
-        ChangeMousePosition();
+        if (_firstPersonMovement.CanMove)
+        {
+            Rotate();
+            ChangeMousePosition();
+        }
     }
     public void ChangeMousePosition()
     {
