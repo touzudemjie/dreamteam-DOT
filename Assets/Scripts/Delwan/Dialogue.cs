@@ -16,6 +16,7 @@ public class Dialogue
 [System.Serializable]
 public class DialogueEffect
 {
+    public bool shouldAccumalateEffect;
     public EffectType type;
     public float intensity;
     public float duration;

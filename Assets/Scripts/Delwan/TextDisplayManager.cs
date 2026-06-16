@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
@@ -39,8 +41,9 @@ public class TextDisplayManager : MonoBehaviour
     private Button[] _choiceButtons;
     public static TextDisplayManager Instance { get; private set; }
     private Canvas _dialogueCanvas;
-    private DialogueEffect _lastEffect;
+    //private DialogueEffect _lastEffect;
     private bool _hasApplied;
+    private List<DialogueEffect> _effects = new List<DialogueEffect>();
     private void Awake()
     {
         if (Instance != this && Instance != null)
@@ -96,27 +99,31 @@ public class TextDisplayManager : MonoBehaviour
     private void Update()
     {
     }
-    public void ApplyEffect(DialogueEffect effect)
+    public void ApplyEffect(DialogueEffect nextEffect)
     {
-        if (_lastEffect != null && _lastEffect.type == effect.type && _hasApplied || effect.type == EffectType.none )
-            return; // Gleicher Effekt läuft bereits → ignorieren
+        if (_effects.Count > 0)
+        {
+            if (nextEffect.type == EffectType.none || _effects[_effects.Count - 1].type == nextEffect.type && _hasApplied)
+                return;
+        }
+        // Gleicher Effekt läuft bereits → ignorieren
 
         // Typ hat gewechselt → alten Effekt rückgängig machen
-        if (_lastEffect != null && _hasApplied)
+        if (_hasApplied && !nextEffect.shouldAccumalateEffect)
             CancelEffect(); 
-        _lastEffect = effect;
-        switch (effect.type)
+        _effects.Add(nextEffect);   
+        switch (nextEffect.type)
         {
             case EffectType.CameraShake:
-                StartCoroutine(CameraShake(effect));
+                StartCoroutine(CameraShake(nextEffect));
                 break;
             case EffectType.Vignette:
                 _hasApplied = true;
-                StartCoroutine(ShowVignette(effect));
+                StartCoroutine(ShowVignette(nextEffect));
                 break;
             case EffectType.Letterbox:
                 _hasApplied = true;
-                StartCoroutine(ShowLetterBox(effect));
+                StartCoroutine(ShowLetterBox(nextEffect));
                 break;
 
         }
@@ -143,24 +150,40 @@ public class TextDisplayManager : MonoBehaviour
         _letterBoxes[1].anchoredPosition = letterBoxUpGoalPosition;
     }
 
-    public void CancelEffect()
+    public void CancelEffect(bool cancelLastEffect = true)
     {
-        if (_lastEffect != null)
+        if (_effects.Count > 0)
         {
-            switch (_lastEffect.type)
+            List<DialogueEffect> cancelEffects = new List<DialogueEffect>();
+            if (cancelLastEffect)
             {
-                case EffectType.Vignette:
-                    if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
-                    {
-                        StartCoroutine(ShowVignette(_lastEffect,false));
-                        _hasApplied = false;
-                    }
-                    break;
-                case EffectType.Letterbox:
-                    StartCoroutine(ShowLetterBox(_lastEffect,false));
-                    _hasApplied = false;
-                    break;
+                cancelEffects.Add(_effects[_effects.Count - 1]);
             }
+            else
+            {
+                cancelEffects = _effects;
+            }
+            for (int i = cancelEffects.Count -1; i >= 0; i--)
+            {
+                DialogueEffect lastEffect = cancelEffects[i];
+                _effects.Remove(lastEffect);
+                switch (lastEffect.type)
+                {
+                    case EffectType.Vignette:
+                        if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
+                        {
+                            StartCoroutine(ShowVignette(lastEffect, false));
+                            _hasApplied = false;
+                        }
+                        break;
+                    case EffectType.Letterbox:
+                        StartCoroutine(ShowLetterBox(lastEffect, false));
+                        _hasApplied = false;
+                        break;
+                }
+
+            }
+
         }
 
     }
@@ -214,9 +237,8 @@ public class TextDisplayManager : MonoBehaviour
         int random = 0;
         do
         {
-            random = UnityEngine.Random.Range(0, _choiceButtons.Length);
-
-        } while (_choiceButtons[random].onClick == null);
+          random = UnityEngine.Random.Range(0, _choiceButtons.Length);
+        } while (!_choiceButtons[random].gameObject.activeSelf);
         _choiceButtons[random].onClick.Invoke();
         DeactivateChoiceButtons();
     }
