@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     public PlayerData playerData;
     public static GameManager Instance;
     [SerializeField] private Volume _postProcessing;
-    public VolumeProfile postProcessingProfile;
+    [HideInInspector]  public VolumeProfile postProcessingProfile;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        postProcessingProfile = _postProcessing.profile;
+        if (_postProcessing != null)
+        {
+          postProcessingProfile = _postProcessing.profile;
+        }
     }
 }

@@ -3709,6 +3709,44 @@ MonoBehaviour:
       dialogueID: d_test0
       nextDialogueID: d_test1
       speaker: Zylinder
+      textContent: Ich habe eine Frage.
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 0}
+      choices: []
+    - dialogueEffect:
+        shouldAccumalateEffect: 0
+        type: 5
+        intensity: 1
+        duration: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_test1
+      nextDialogueID: 
+      speaker: Zylinder
       textContent: Hast du den Apfel?
       sprite: {fileID: 0}
       music: {fileID: 0}
@@ -3729,15 +3767,15 @@ MonoBehaviour:
         saveDialogueLineIndex: 1
         lockDialogueAssetIndex: 1
         choiceText: Nein
-        severity: 0
+        severity: 10
         nextDialogueID: d_nein
         onChosen:
           m_PersistentCalls:
             m_Calls: []
     - dialogueEffect:
         shouldAccumalateEffect: 1
-        type: 1
-        intensity: 0.5
+        type: 4
+        intensity: 3
         duration: 1
         curve:
           serializedVersion: 2
@@ -3774,7 +3812,7 @@ MonoBehaviour:
       choices: []
     - dialogueEffect:
         shouldAccumalateEffect: 0
-        type: 4
+        type: 0
         intensity: 0
         duration: 0
         curve:
@@ -3852,8 +3890,8 @@ MonoBehaviour:
       talkSFX: {fileID: 0}
       choices: []
     - dialogueEffect:
-        shouldAccumalateEffect: 1
-        type: 4
+        shouldAccumalateEffect: 0
+        type: 0
         intensity: 0.5
         duration: 1
         curve:
@@ -3892,7 +3930,7 @@ MonoBehaviour:
   _severeLines:
   - dialogueEffect:
       shouldAccumalateEffect: 0
-      type: 0
+      type: 5
       intensity: 0
       duration: 0
       curve:
@@ -3903,9 +3941,29 @@ MonoBehaviour:
         m_RotationOrder: 4
       _sfxPitch: 1
     dialogueID: Angry
-    nextDialogueID: END
+    nextDialogueID: Angry2
     speaker: Zylinder
     textContent: "Sch\xE4m dich..."
+    sprite: {fileID: 0}
+    music: {fileID: 0}
+    talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+    choices: []
+  - dialogueEffect:
+      shouldAccumalateEffect: 0
+      type: 0
+      intensity: 0
+      duration: 0
+      curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _sfxPitch: 1
+    dialogueID: Angry2
+    nextDialogueID: END
+    speaker: Zylinder
+    textContent: Also fr du hund
     sprite: {fileID: 0}
     music: {fileID: 0}
     talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -3924,9 +3982,29 @@ MonoBehaviour:
         m_RotationOrder: 4
       _sfxPitch: 1
     dialogueID: tot
+    nextDialogueID: tot2
+    speaker: Zylinder
+    textContent: ICH HASSE DICH!
+    sprite: {fileID: 0}
+    music: {fileID: 0}
+    talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
+    choices: []
+  - dialogueEffect:
+      shouldAccumalateEffect: 0
+      type: 0
+      intensity: 0
+      duration: 0
+      curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _sfxPitch: 1
+    dialogueID: tot2
     nextDialogueID: END
     speaker: Zylinder
-    textContent: "F\xFCr mich bist du <color=\"red\">tot</color>"
+    textContent: OHNE WITZ SOGAR!
     sprite: {fileID: 0}
     music: {fileID: 0}
     talkSFX: {fileID: 8300000, guid: 7af3491552750534d87164d55140a415, type: 3}
@@ -9002,6 +9080,10 @@ PrefabInstance:
     - target: {fileID: 9034974948872756793, guid: be1257f8de00b324980353d13f187bab, type: 3}
       propertyPath: m_Name
       value: D_PostProcessing
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034974948872756793, guid: be1257f8de00b324980353d13f187bab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

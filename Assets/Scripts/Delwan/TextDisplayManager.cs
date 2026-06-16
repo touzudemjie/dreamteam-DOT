@@ -28,21 +28,16 @@ public class TextDisplayManager : MonoBehaviour
         public SliderLogic decisionSlider;
     }
     [SerializeField] private DialogueReferences[] dialogueReferences;
-
     [SerializeField] private DialogueReferences _currentReference;
-
     [SerializeField] private GameObject _letterBoxParent;
-
     [SerializeField] private Vector3[] _letterBoxGoalPositions;
-    private Vector3[] _letterBoxStartPositions = new Vector3[2];
+    private Vector3[] _letterBoxStartPositions;
     private RectTransform[] _letterBoxes;
     public Key[] continueKeys;
     public MouseButton mouseContinueButton;
     private Button[] _choiceButtons;
     public static TextDisplayManager Instance { get; private set; }
     private Canvas _dialogueCanvas;
-    //private DialogueEffect _lastEffect;
-    private bool _hasApplied;
     private List<DialogueEffect> _effects = new List<DialogueEffect>();
     private void Awake()
     {
@@ -63,54 +58,92 @@ public class TextDisplayManager : MonoBehaviour
     }
     private void SetUp()
     {
-        _letterBoxes = _letterBoxParent.GetComponentsInChildren<RectTransform>()
-            .Where(letterBox => letterBox.gameObject != _letterBoxParent)
-            .ToArray();
-        for (int i = 0; i < _letterBoxParent.transform.childCount; i++)
+        // Letterboxes
+        if (_letterBoxParent == null)
         {
-            _letterBoxStartPositions[i] = _letterBoxParent.transform.GetChild(i).gameObject.GetComponent<RectTransform>().anchoredPosition;
+            Debug.LogError("TextDisplayManager: _letterBoxParent is not set to anything.");
+            return;
         }
+        _letterBoxes = _letterBoxParent.GetComponentsInChildren<RectTransform>()
+            .Where(lb => lb.gameObject != _letterBoxParent)
+            .ToArray();
+        _letterBoxStartPositions = new Vector3[_letterBoxes.Length];
+        for (int i = 0; i < _letterBoxes.Length; i++)
+        {
+            _letterBoxStartPositions[i] = _letterBoxes[i].anchoredPosition;
+        }
+        // Canvas
         _dialogueCanvas = GetComponentInChildren<Canvas>();
+        if (_dialogueCanvas == null)
+        {
+            Debug.LogError("TextDisplayManager: found no Canvas.");
+            return;
+        }
         _dialogueCanvas.worldCamera = Helpers.Camera;
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+        // References
+        if (dialogueReferences == null || dialogueReferences.Length == 0)
+        {
+            Debug.LogError("TextDisplayManager: dialogueReferences is empty.");
+            return;
+        }
         _currentReference = dialogueReferences[0];
+        if (_currentReference.choicesObject == null)
+        {
+            Debug.LogError("TextDisplayManager: choicesObject is null.");
+            return;
+        }
         _choiceButtons = new Button[_currentReference.choicesObject.transform.childCount];
         for (int i = 0; i < _currentReference.choicesObject.transform.childCount; i++)
         {
             _choiceButtons[i] = _currentReference.choicesObject.transform.GetChild(i).GetComponent<Button>();
+        }
+
+        if (_currentReference.decisionSlider == null)
+        {
+            Debug.LogError("TextDisplayManager: decisionSlider ist null.");
+            return;
         }
         _currentReference.decisionSlider.OnValueReachedMax += DecideRandom;
     }
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
+        if (_currentReference?.decisionSlider != null)
+        {
+            _currentReference.decisionSlider.OnValueReachedMax -= DecideRandom;
+        }
     }
-    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    private void SceneManager_activeSceneChanged(Scene prev, Scene next)
     {
         _dialogueCanvas = GetComponentInChildren<Canvas>();
+        if (_dialogueCanvas == null)
+        {
+            Debug.LogError("TextDisplayManager: No Canvas after Scene transition found.");
+            return;
+        }
         _dialogueCanvas.worldCamera = Helpers.Camera;
     }
-
     public void SetNextDialogueObject(int index)
     {
-        if (index > dialogueReferences.Length) return;
+        if (index < 0 || index >= dialogueReferences.Length)
+        {
+            Debug.LogWarning($"TextDisplayManager: Index {index} is outside the bounds of the array.");
+            return;
+        }
         _currentReference = dialogueReferences[index];
-    }
-    private void Update()
-    {
     }
     public void ApplyEffect(DialogueEffect nextEffect)
     {
         if (_effects.Count > 0)
         {
-            if (nextEffect.type == EffectType.none || _effects[_effects.Count - 1].type == nextEffect.type && _hasApplied)
+            if (nextEffect.type == EffectType.none || _effects.Any(e => e.type == nextEffect.type))
                 return;
         }
-        // Gleicher Effekt läuft bereits → ignorieren
-
-        // Typ hat gewechselt → alten Effekt rückgängig machen
-        if (_hasApplied && !nextEffect.shouldAccumalateEffect)
-            CancelEffect(); 
+        if (!nextEffect.shouldAccumalateEffect)
+        {
+            CancelEffect();
+        }
         _effects.Add(nextEffect);   
         switch (nextEffect.type)
         {
@@ -118,14 +151,11 @@ public class TextDisplayManager : MonoBehaviour
                 StartCoroutine(CameraShake(nextEffect));
                 break;
             case EffectType.Vignette:
-                _hasApplied = true;
                 StartCoroutine(ShowVignette(nextEffect));
                 break;
             case EffectType.Letterbox:
-                _hasApplied = true;
                 StartCoroutine(ShowLetterBox(nextEffect));
                 break;
-
         }
     }
 
@@ -154,6 +184,11 @@ public class TextDisplayManager : MonoBehaviour
     {
         if (_effects.Count > 0)
         {
+            if (GameManager.Instance.postProcessingProfile == null)
+            {
+                Debug.LogError("PostProcessingProfile is not set to an instance babes");
+                return;
+            }
             List<DialogueEffect> cancelEffects = new List<DialogueEffect>();
             if (cancelLastEffect)
             {
@@ -173,70 +208,59 @@ public class TextDisplayManager : MonoBehaviour
                         if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
                         {
                             StartCoroutine(ShowVignette(lastEffect, false));
-                            _hasApplied = false;
                         }
                         break;
                     case EffectType.Letterbox:
                         StartCoroutine(ShowLetterBox(lastEffect, false));
-                        _hasApplied = false;
                         break;
                 }
-
             }
-
         }
-
     }
     private IEnumerator CameraShake(DialogueEffect effect)
     {
         float elapsed = 0f;
         Vector3 originalPos = Helpers.Camera.transform.localPosition;
-        _hasApplied = true;
         while (elapsed < effect.duration)
         {
-            // 0..1 normalisierte Zeit
             float t = elapsed / effect.duration;
-
-            // Curve gibt den Multiplikator für die Intensität
             float curveValue = effect.curve.Evaluate(t);
             float currentIntensity = effect.intensity * curveValue;
-
-            // Shake anwenden
             Vector3 shakeOffset = UnityEngine.Random.insideUnitSphere * currentIntensity;
             Helpers.Camera.transform.localPosition = originalPos + shakeOffset;
-
             elapsed += Time.deltaTime;
             yield return null;
         }
-        _hasApplied = false;
         Helpers.Camera.transform.localPosition = originalPos;
     }
     private IEnumerator ShowVignette(DialogueEffect effect, bool playNormal = true)
     {
+        if (GameManager.Instance == null || GameManager.Instance.postProcessingProfile == null)
+        {
+            Debug.LogError("TextDisplayManager: GameManager or postProcessingProfile is null.");
+            yield break;
+        }
         float elapsed = 0f;
-
         if (GameManager.Instance.postProcessingProfile.TryGet(out Vignette vignette))
         {
             while (elapsed < effect.duration)
             {
                 float t = elapsed / effect.duration;
                 if (!playNormal) t = 1f - t;
-                // Curve gibt den Multiplikator für die Intensität
                 float curveValue = effect.curve.Evaluate(t);
                 float currentIntensity = effect.intensity * curveValue;
-
                 vignette.intensity.value = currentIntensity;
                 elapsed += Time.deltaTime;
                 yield return null;
             }
         }
-
     }
     private void DecideRandom()
     {
         int random = 0;
         do
         {
+          if (!_choiceButtons.Any(b => b.gameObject.activeSelf)) return;
           random = UnityEngine.Random.Range(0, _choiceButtons.Length);
         } while (!_choiceButtons[random].gameObject.activeSelf);
         _choiceButtons[random].onClick.Invoke();
@@ -244,8 +268,19 @@ public class TextDisplayManager : MonoBehaviour
     }
     public void SetLineReferences(DialogueLine line)
     {
-        _currentReference.dialogueSprite.sprite = line.sprite;   
-        _currentReference.nameText.text = line.speaker;
+        if (line == null)
+        {
+            Debug.LogWarning("TextDisplayManager: DialogueLine is null.");
+            return;
+        }
+        if (_currentReference.dialogueSprite != null)
+        {
+            _currentReference.dialogueSprite.sprite = line.sprite;
+        }
+        if (_currentReference.nameText != null)
+        {
+            _currentReference.nameText.text = line.speaker;
+        }
     }
     public void SetContinueSign(bool isActive)
     {
@@ -313,24 +348,12 @@ public class TextDisplayManager : MonoBehaviour
     public IEnumerator SetUpChoiceButtonsNextFrame(int amount, string[] buttonTexts, DialogueChoice[] choices, Action<DialogueChoice> onChoiceSelected)
     {
         yield return null;
-        amount = Mathf.Clamp(amount, 0, _choiceButtons.Length);
-        for (int i = 0; i < amount; i++)
-        {
-            _choiceButtons[i].gameObject.SetActive(true);
-            _choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = buttonTexts[i];
-            _choiceButtons[i].onClick.RemoveAllListeners();
-            DialogueChoice choice = choices[i];
-            _choiceButtons[i].onClick.AddListener(() => onChoiceSelected(choice));
-            _currentReference.decisionSlider.gameObject.SetActive(true);
-            _currentReference.decisionSlider.CanIncreaseValue();
-        }
+        SetUpChoiceButtons(amount,buttonTexts,choices,onChoiceSelected);
     }
     public void ShowContinueSign(bool canShow)
     {
-        if (this != null)
-        {
-            _currentReference.continueSign.SetActive(canShow);
-        }
+        if (Instance == null) return;
+        _currentReference.continueSign.SetActive(canShow);
     }
     public void DeactivateChoiceButtons()
     {
@@ -345,7 +368,7 @@ public class TextDisplayManager : MonoBehaviour
             _currentReference.decisionSlider.gameObject.SetActive(false);
         }
     }
-    public void AllignText(TextAlignmentOptions textAlignmentOptions)
+    public void AlignText(TextAlignmentOptions textAlignmentOptions)
     {
         _currentReference.textBox.alignment = textAlignmentOptions;
     }
