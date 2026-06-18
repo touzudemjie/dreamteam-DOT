@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 public class AudioManagerScript : MonoBehaviour
 {
     public static AudioManagerScript Instance {  get; set; }
     [SerializeField] private AudioSource _musicSourceA;
     [SerializeField] private AudioSource _musicSourceB;
-    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource _sfxSource;
     public event Action OnSfxEnd;
     public bool IsPlayingSfx3D { get; private set; }
     public bool IsPlayingSfx {  get; private set; }
@@ -17,6 +19,8 @@ public class AudioManagerScript : MonoBehaviour
 
     private AudioSource _activeMusicSource;
     private Coroutine _transitionCoroutine;
+    [SerializeField] private Slider _audioSlider;
+    [SerializeField] private Slider _sfxSlider;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,19 +30,28 @@ public class AudioManagerScript : MonoBehaviour
         Instance = this;
         _activeMusicSource = _musicSourceA;
     }
-
     private void Start()
     {
-        
+        _audioSlider.onValueChanged.AddListener((volume) => ChangeAudioVolume(volume));
+        _sfxSlider.onValueChanged.AddListener(volume => ChangeSfxVolume(volume));
     }
-    public void PlayMusicTransitionally(AudioClip clip, float targetVolume = 1f)
+    void ChangeAudioVolume(float volume)
+    {
+        _musicSourceA.volume = volume;
+        _musicSourceB.volume = volume;
+    }
+    void ChangeSfxVolume(float volume)
+    {
+        _sfxSource.volume = volume;
+    }
+    public void PlayMusicTransitionally(AudioClip clip)
     {
         if (clip == _activeMusicSource.clip) return;
         if (_transitionCoroutine != null)
         {
             StopCoroutine(_transitionCoroutine);
         }
-        _transitionCoroutine = StartCoroutine(TransitionMusic(clip, targetVolume));
+        _transitionCoroutine = StartCoroutine(TransitionMusic(clip, _activeMusicSource.volume));
     }
     private void Update()
     {
@@ -113,17 +126,17 @@ public class AudioManagerScript : MonoBehaviour
     {
         if (!IsPlayingSfx || skipPreviousClip)
         {
-            sfxSource.clip = clip;
+            _sfxSource.clip = clip;
             _sfxTime = clip.length;
             IsPlayingSfx = true;
-            sfxSource.Play();
+            _sfxSource.Play();
         }
     }
     public void StopSfx()
     {
         if (IsPlayingSfx)
         {
-            sfxSource.Stop();
+            _sfxSource.Stop();
         }
     }
     public void PlaySfx3D(AudioClip clip, Vector3 position, float volume = 1f)

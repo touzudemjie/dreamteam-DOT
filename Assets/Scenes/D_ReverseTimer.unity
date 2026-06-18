@@ -3927,6 +3927,83 @@ MonoBehaviour:
       music: {fileID: 0}
       talkSFX: {fileID: 0}
       choices: []
+  - dialogueLines:
+    - dialogueEffect:
+        shouldAccumalateEffect: 0
+        type: 5
+        intensity: 0.5
+        duration: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_test1
+      nextDialogueID: d_test2
+      speaker: zylinder
+      textContent: "Wei\xDFt du ich mag \xC4pfel."
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 0}
+      choices: []
+    - dialogueEffect:
+        shouldAccumalateEffect: 0
+        type: 0
+        intensity: 0.5
+        duration: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _sfxPitch: 1
+      dialogueID: d_test2
+      nextDialogueID: END
+      speaker: zylinder
+      textContent: Bin ein fan davon.
+      sprite: {fileID: 0}
+      music: {fileID: 0}
+      talkSFX: {fileID: 0}
+      choices: []
   _severeLines:
   - dialogueEffect:
       shouldAccumalateEffect: 0
@@ -5073,6 +5150,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963700081}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1037240593 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3520426093792019466, guid: 046475b183831084a99b201cb092740e, type: 3}
+  m_PrefabInstance: {fileID: 7042530727207274630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &1041933820
 GameObject:
   m_ObjectHideFlags: 0
@@ -5389,6 +5477,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991e1c89db9838d449deb6f1c8fb3c8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShowTimer
+--- !u!114 &1165956750 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7661976290455750410, guid: 046475b183831084a99b201cb092740e, type: 3}
+  m_PrefabInstance: {fileID: 7042530727207274630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1001 &1201507904
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8899,6 +8998,54 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 745015931556027718, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745015931556027718, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745015931556027718, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1815418834690791378, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2992872167159707945, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: _sfxSlider
+      value: 
+      objectReference: {fileID: 1165956750}
+    - target: {fileID: 2992872167159707945, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: _audioSlider
+      value: 
+      objectReference: {fileID: 1037240593}
+    - target: {fileID: 3021217814974420371, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345972464227807765, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345972464227807765, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345972464227807765, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814240264829853232, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868406898161861200, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8938,6 +9085,10 @@ PrefabInstance:
     - target: {fileID: 5297344735154790902, guid: 046475b183831084a99b201cb092740e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7341062838551151325, guid: 046475b183831084a99b201cb092740e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8431137632825482381, guid: 046475b183831084a99b201cb092740e, type: 3}
       propertyPath: m_Name

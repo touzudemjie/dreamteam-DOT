@@ -1,14 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-
 public class NPCDialogue : MonoBehaviour, IInteractable
 {
     [SerializeField] private Dialogue[] _dialogueAsset;
@@ -26,6 +21,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     public event Action OnStartDialogue;
     public event Action<string> OnLineFinshed;
     public event Action OnEndDialogue;
+    public event Action OnSeverityLineCrossed;
     private Dictionary<string, DialogueLine> _dialogueDict = new Dictionary<string, DialogueLine>();
     private string _currentDialogueID;
     private StringBuilder _currentText = new StringBuilder();
@@ -87,7 +83,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         _dialogueDict.TryGetValue(_currentDialogueID,out DialogueLine dialogueLine);
         if(dialogueLine != null)
         {
-            return dialogueLine.nextDialogueID.ToUpper() == "END";
+            return IsEndId(GetNextDialogueID());
         }
         else
         {
@@ -178,11 +174,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     void OnChoiceSelected(DialogueChoice choice)
     {
         _NPCSeverityScore += choice.severity;
-        choice.onChosen?.Invoke();
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         _saveDialogueIndex = choice.saveDialogueLineIndex;
         _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
-      
         if (choice.condition != null)
         {
             if (!choice.condition.Evaluate())
@@ -201,20 +195,23 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             }
             else
             {
-                _lockDialogueAssetIndex = false;
+                _saveDialogueIndex = false;
             }
         }
         if (_NPCSeverityScore > _severityLine)
         {
+            OnSeverityLineCrossed?.Invoke();
             HascrossedSeverityLine = true;
             TextDisplayManager.Instance.DeactivateChoiceButtons();
             _currentDialogueLineIndex = 0;
             _lockDialogueAssetIndex = false;
+            _saveDialogueIndex = false;
             _currentDialogueID = _severeLines[_currentDialogueLineIndex].dialogueID;
             ShowDialogueLine(_severeLines[_currentDialogueLineIndex].dialogueID);
         }
         else
         {
+            choice.onChosen?.Invoke();
             TextDisplayManager.Instance.DeactivateChoiceButtons();
             ShowDialogueLine(choice.nextDialogueID);
             _currentDialogueID = choice.nextDialogueID;
@@ -253,9 +250,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         bool pressedContinueButton = false;
         foreach (Key continueKeyCode in TextDisplayManager.Instance.continueKeys)
         {
-            if (Keyboard.current[continueKeyCode].wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame)
+            pressedContinueButton = (Keyboard.current?[continueKeyCode].wasPressedThisFrame ?? false ) || (Mouse.current?.leftButton.wasPressedThisFrame ?? false);
+            if (pressedContinueButton)
             {
-                pressedContinueButton = true;
                 break;
             }
         }
@@ -265,10 +262,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             {
                 TypeWholeText(line);
             }
-            else if ((pressedContinueButton && line.nextDialogueID.ToUpper() == "END" && !_playOnlyOneLine && line.choices.Length == 0) || (line.nextDialogueID.ToUpper() == "END" && _skipDialogue && !_playOnlyOneLine && line.choices.Length == 0))
+            else if ((pressedContinueButton && IsEndId(GetNextDialogueID()) && !_playOnlyOneLine && line.choices.Length == 0) || (IsEndId(GetNextDialogueID()) && _skipDialogue && !_playOnlyOneLine && line.choices.Length == 0))
             {
                 TextDisplayManager.Instance.CancelEffect(false);
-                _currentDialogueLineIndex++;
                 HasDialogueEndedNaturally = true;
                 EndDialogue();
             }
@@ -354,7 +350,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     }
     private void EvaluateOptionalBools(DialogueLine line)
     {
-        if (line.nextDialogueID.ToUpper() == "END")
+        if (IsEndId(GetNextDialogueID()))
         {
             TextDisplayManager.Instance.ShowContinueSign(true);
         }
@@ -431,7 +427,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                 TextDisplayManager.Instance.ActivateAllReferences(false);
             }
         }
-        if (GetNextDialogueID().ToUpper() == "END")
+        if (IsEndId(GetNextDialogueID()))
         {
             if (!_lockDialogueAssetIndex)
             {
@@ -451,8 +447,6 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             _currentDialogueLineIndex = _currentDialogueLineIndexTmp;
             _saveDialogueIndex = false;
         }
-        _currentDialogueLineIndex = !HascrossedSeverityLine ? _currentDialogueLineIndex % _crossedSevereLines.Length : 0;
-        Debug.Log("Dialoge " + _currentDialogueLineIndex);
         TextDisplayManager.Instance.ShowContinueSign(false);
         TextDisplayManager.Instance.DeactivateChoiceButtons();
         _isTyping = false;
@@ -462,4 +456,6 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         _inputLockedFrames = LOCKEDFRAMES; // Need to lock 2 frames because of the input handling without it the Dialogue would not end properly
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+    private bool IsEndId(string id) =>!string.IsNullOrEmpty(id) && string.Equals(id, "END", StringComparison.OrdinalIgnoreCase);
 }
