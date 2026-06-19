@@ -173,10 +173,10 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
-        _NPCSeverityScore += choice.severity;
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         _saveDialogueIndex = choice.saveDialogueLineIndex;
         _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
+      
         if (choice.condition != null)
         {
             if (!choice.condition.Evaluate())
@@ -195,9 +195,11 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             }
             else
             {
+                _lockDialogueAssetIndex = false;
                 _saveDialogueIndex = false;
             }
         }
+        _NPCSeverityScore += choice.severity;
         if (_NPCSeverityScore > _severityLine)
         {
             OnSeverityLineCrossed?.Invoke();
