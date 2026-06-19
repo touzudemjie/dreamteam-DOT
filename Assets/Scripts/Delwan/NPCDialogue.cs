@@ -18,6 +18,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     private int _currentDialogueLineIndex;
     private int _currentDialogueLineIndexTmp;
     private int _dialogueAssetIndex;
+    private int _sourceIndex;
     public event Action OnStartDialogue;
     public event Action<string> OnLineFinshed;
     public event Action OnEndDialogue;
@@ -42,11 +43,12 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     private bool _saveDialogueIndex;
 
     public bool HasDialogueEndedNaturally { get; private set; }
+
     void Start()
     {
         if (_dialogueAsset != null)
         {
-          _currentDialogueID = _dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
+            _currentDialogueID = _dialogueAsset[_dialogueAssetIndex].dialogueLines[0].dialogueID;
         }
     }
     public void OnInteract()
@@ -54,7 +56,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         if (IsDialogueFinished && _inputLockedFrames <= 0 && _dialogueAsset != null)
         {
             StartDialogue();
-           _inputLockedFrames = LOCKEDFRAMES;
+            _inputLockedFrames = LOCKEDFRAMES;
         }
     }
     public string GetNextDialogueID()
@@ -80,8 +82,8 @@ public class NPCDialogue : MonoBehaviour, IInteractable
     }
     public bool ReachedEnd()
     {
-        _dialogueDict.TryGetValue(_currentDialogueID,out DialogueLine dialogueLine);
-        if(dialogueLine != null)
+        _dialogueDict.TryGetValue(_currentDialogueID, out DialogueLine dialogueLine);
+        if (dialogueLine != null)
         {
             return IsEndId(GetNextDialogueID());
         }
@@ -130,7 +132,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             TextDisplayManager.Instance.ActivateAllReferences(true);
         }
         ShowDialogueLine(_currentDialogueID);
-        if(_dialogueDict.TryGetValue(GetCurrentDialogueID(), out DialogueLine line))
+        if (_dialogueDict.TryGetValue(GetCurrentDialogueID(), out DialogueLine line))
         {
             if (line.dialogueEffect != null)
             {
@@ -152,11 +154,12 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         {
             AudioManagerScript.Instance.PlayMusicTransitionally(line.music);
         }
-        else if(line.music == null && AudioManagerScript.Instance != null)
+        else if (line.music == null && AudioManagerScript.Instance != null)
         {
             AudioManagerScript.Instance.StopMusic();
         }
         _currentText.Clear();
+        _sourceIndex = 0; // NEU: bei jeder neuen Zeile auch die Original-Position zurücksetzen
         _isTyping = true;
 
         _typeTimer = 0f;
@@ -169,14 +172,14 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         {
             buttonText[i] = choices[i].choiceText;
         }
-        StartCoroutine(TextDisplayManager.Instance.SetUpChoiceButtonsNextFrame(choices.Length, buttonText, choices,OnChoiceSelected));
+        StartCoroutine(TextDisplayManager.Instance.SetUpChoiceButtonsNextFrame(choices.Length, buttonText, choices, OnChoiceSelected));
     }
     void OnChoiceSelected(DialogueChoice choice)
     {
         _lockDialogueAssetIndex = choice.lockDialogueAssetIndex;
         _saveDialogueIndex = choice.saveDialogueLineIndex;
         _currentDialogueLineIndexTmp = _saveDialogueIndex ? _currentDialogueLineIndex : -1;
-      
+
         if (choice.condition != null)
         {
             if (!choice.condition.Evaluate())
@@ -252,7 +255,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         bool pressedContinueButton = false;
         foreach (Key continueKeyCode in TextDisplayManager.Instance.continueKeys)
         {
-            pressedContinueButton = (Keyboard.current?[continueKeyCode].wasPressedThisFrame ?? false ) || (Mouse.current?.leftButton.wasPressedThisFrame ?? false);
+            pressedContinueButton = (Keyboard.current?[continueKeyCode].wasPressedThisFrame ?? false) || (Mouse.current?.leftButton.wasPressedThisFrame ?? false);
             if (pressedContinueButton)
             {
                 break;
@@ -260,7 +263,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         }
         if (line != null)
         {
-            if (pressedContinueButton && _currentText.Length != line.textContent.Length)
+            // GEÄNDERT: Vergleich nutzt jetzt _sourceIndex statt _currentText.Length,
+            // weil _currentText durch zusätzliche '\n' länger sein kann als der Originaltext.
+            if (pressedContinueButton && _sourceIndex != line.textContent.Length)
             {
                 TypeWholeText(line);
             }
@@ -270,7 +275,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                 HasDialogueEndedNaturally = true;
                 EndDialogue();
             }
-            else if  ((pressedContinueButton && !IsDialogueFinished && !_playOnlyOneLine && line.choices.Length == 0) || (_skipDialogue && line.choices.Length == 0))
+            else if ((pressedContinueButton && !IsDialogueFinished && !_playOnlyOneLine && line.choices.Length == 0) || (_skipDialogue && line.choices.Length == 0))
             {
                 _currentDialogueLineIndex++;
                 _currentDialogueID = line.nextDialogueID;
@@ -292,9 +297,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         TextDisplayManager.Instance.ShowText(line.textContent);
         _isTyping = false;
         _typeTimer = _typeSpeed;
-        string oldValue = _currentText.ToString();
         _currentText.Clear();
         _currentText.Append(line.textContent);
+        _sourceIndex = line.textContent.Length; // NEU: beim Skip "komplett konsumiert" markieren
         EvaluateOptionalBools(line);
     }
     void TypewriterTick()
@@ -310,27 +315,29 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         if (_typeTimer <= 0)
         {
             _typeTimer = _typeSpeed;
-            if (_currentText.Length < fullText.Length)
+            if (_sourceIndex < fullText.Length)
             {
-                if (fullText[_currentText.Length] == '<')
+                if (fullText[_sourceIndex] == '<')
                 {
-                    int i = _currentText.Length;
-                    while (i < fullText.Length - 1 && fullText[i] != '>')
+                    while (_sourceIndex < fullText.Length - 1 && fullText[_sourceIndex] != '>')
                     {
-                        _currentText.Append(fullText[i]);
-                        i++;
+                        _currentText.Append(fullText[_sourceIndex]);
+                        _sourceIndex++;
                     }
                 }
                 if (line.talkSFX != null)
                 {
                     AudioManagerScript.Instance.PlaySfx(line.talkSFX);
                 }
-                char nextChar = fullText[_currentText.Length];
-                AppendNewLine(nextChar, line);
+                char nextChar = fullText[_sourceIndex]; 
+                AppendNewLine(nextChar, fullText, _sourceIndex);
+
                 _currentText.Append(nextChar);
-                if (_currentText.Length < fullText.Length)
+                _sourceIndex++;
+
+                if (_sourceIndex < fullText.Length)
                 {
-                    if (nextChar == '.' && fullText[_currentText.Length] == '.')
+                    if (nextChar == '.' && fullText[_sourceIndex] == '.')
                     {
                         _typeTimer = _periodTypeSpeed;
                     }
@@ -374,9 +381,9 @@ public class NPCDialogue : MonoBehaviour, IInteractable
             EndDialogue();
         }
     }
-    private void AppendNewLine(char nextChar, DialogueLine line)
+
+    private void AppendNewLine(char nextChar, string fullText, int sourceIndex)
     {
-        string fullText = line.textContent;
         if (nextChar != ' ' && nextChar != '\n')
         {
             bool isStartOfWord = _currentText.Length == 0 ||
@@ -384,8 +391,7 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                                     _currentText[_currentText.Length - 1] == '\n';
             if (isStartOfWord)
             {
-                // Komplettes nächstes Wort ermitteln
-                int wordStart = _currentText.Length;
+                int wordStart = sourceIndex; 
                 int wordEnd = fullText.IndexOfAny(new char[] { ' ', '\n' }, wordStart);
                 if (wordEnd < 0)
                 {
@@ -393,16 +399,13 @@ public class NPCDialogue : MonoBehaviour, IInteractable
                 }
                 string nextWord = fullText.Substring(wordStart, wordEnd - wordStart);
                 string nextWordStripped = _tagRegex.Replace(nextWord, string.Empty);
-                // Aktuelle Zeile + Wort testen
                 string lastLine = _currentText.ToString();
                 int lastNewline = lastLine.LastIndexOf('\n');
                 string currentLine = lastNewline >= 0 ? lastLine.Substring(lastNewline + 1) : lastLine;
                 string currentLineStripped = _tagRegex.Replace(currentLine, string.Empty);
                 if (!TextDisplayManager.Instance.TextFitsInTextLine(currentLineStripped + nextWordStripped))
                 {
-                    // Newline vor dem Wort einfügen
                     _currentText.Append('\n');
-                    line.textContent = line.textContent.Insert(_currentText.Length - 1, "\n");
                 }
             }
         }
@@ -459,5 +462,5 @@ public class NPCDialogue : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private bool IsEndId(string id) =>!string.IsNullOrEmpty(id) && string.Equals(id, "END", StringComparison.OrdinalIgnoreCase);
+    private bool IsEndId(string id) => !string.IsNullOrEmpty(id) && string.Equals(id, "END", StringComparison.OrdinalIgnoreCase);
 }

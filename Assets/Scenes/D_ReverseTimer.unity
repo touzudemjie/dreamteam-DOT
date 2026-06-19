@@ -3709,7 +3709,7 @@ MonoBehaviour:
       dialogueID: d_test0
       nextDialogueID: d_test1
       speaker: Zylinder
-      textContent: Ich habe eine Frage.
+      textContent: Ich habe eine Frage. TEST TEST TEST
       sprite: {fileID: 0}
       music: {fileID: 0}
       talkSFX: {fileID: 0}
@@ -3767,7 +3767,7 @@ MonoBehaviour:
         saveDialogueLineIndex: 1
         lockDialogueAssetIndex: 1
         choiceText: Nein
-        severity: 10
+        severity: 0
         nextDialogueID: d_nein
         onChosen:
           m_PersistentCalls:
@@ -5657,7 +5657,7 @@ Transform:
   m_GameObject: {fileID: 1183327282}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 343.06, y: -1, z: 99.37254}
+  m_LocalPosition: {x: 340.05, y: -1, z: 94.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9282,6 +9282,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 468767438029667254, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 999181438409038711, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 317.74356
@@ -9326,6 +9330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TextUIManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3967937311429527465, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_lineSpacing
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 5212673546760400166, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: _letterBoxParent
       value: 
@@ -9341,6 +9349,14 @@ PrefabInstance:
     - target: {fileID: 5212673546760400166, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: _letterBoxGoalPositions.Array.data[1].y
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5708158316556113683, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
+      propertyPath: m_lineSpacing
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6370551342227760705, guid: 0f16ba978c0cf9543a9af7674c1e1ea6, type: 3}
       propertyPath: m_AnchoredPosition.y
