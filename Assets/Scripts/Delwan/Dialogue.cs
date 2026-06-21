@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 [System.Serializable]
@@ -55,6 +56,8 @@ public class DialogueLine
 [System.Serializable]
 public class DialogueChoice
 {
+   [field:SerializeField] public string ChoiceId {  get; set; }
+
     public DialogueCondition condition;
     public string failedConditionId;
     public bool saveDialogueLineIndex;
@@ -63,5 +66,13 @@ public class DialogueChoice
     public int severity;
     public string nextDialogueID;
     public UnityEvent onChosen;
+
+    public void GenerateIdIfMissing()
+    {
+        if (string.IsNullOrEmpty(ChoiceId))
+        {
+            ChoiceId = Guid.NewGuid().ToString();
+        }
+    }
 }
 

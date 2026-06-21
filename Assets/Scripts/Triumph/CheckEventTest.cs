@@ -18,7 +18,7 @@ public class CheckEventTest : MonoBehaviour
 
     private void Start()
     {
-        _playerData = GameManager.Instance.playerData;
+        _playerData = GameManager.Instance._playerData;
         _player = GameObject.FindWithTag("Player");
 
         _savedPos = _playerData.Position;

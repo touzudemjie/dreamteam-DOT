@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerData playerData;
+    public PlayerData _playerData;
     public static GameManager Instance;
     [SerializeField] private Volume _postProcessing;
     [HideInInspector]  public VolumeProfile postProcessingProfile;
@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         Instance = this;
 
-        playerData = SaveSystem.LoadPlayerData() ?? new PlayerData();
+        _playerData = SaveSystem.LoadPlayerData() ?? new PlayerData();
     }
     private void Start()
     {

@@ -9,8 +9,8 @@ public class PickableObject : MonoBehaviour, IPickable
 
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameManager.Instance.playerData != null);
-        Debug.Log("Start: " + GameManager.Instance.playerData);
+        yield return new WaitUntil(() => GameManager.Instance._playerData != null);
+        Debug.Log("Start: " + GameManager.Instance._playerData);
         if (Inventory.Instance.HasItem(pickItem))
         {
             gameObject.SetActive(false);

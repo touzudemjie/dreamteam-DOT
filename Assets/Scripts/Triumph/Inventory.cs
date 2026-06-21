@@ -51,27 +51,27 @@ public class Inventory : MonoBehaviour
 
     public void Add(PickItemList item)
     {
-        GameManager.Instance.playerData.SaveItem(item);
+        GameManager.Instance._playerData.SaveItem(item);
         _visual.DisplayItem(item.ToString());
     }
 
     public void Remove(PickItemList item)
     {
-        GameManager.Instance.playerData.RemoveItem(item);
+        GameManager.Instance._playerData.RemoveItem(item);
         _visual.HideItem(item.ToString());
     }
 
     public bool HasItem(PickItemList item)
     {
-        if (GameManager.Instance.playerData != null)
-            return GameManager.Instance.playerData.itemList.Contains(item);
+        if (GameManager.Instance._playerData != null)
+            return GameManager.Instance._playerData.ItemList.Contains(item);
         Debug.LogWarning("PlayerData nicht verfügbar");
             return false;
     }
 
     public void ClearInventory()
     {
-        foreach (PickItemList item in new List<PickItemList>(GameManager.Instance.playerData.itemList))
+        foreach (PickItemList item in new List<PickItemList>(GameManager.Instance._playerData.ItemList))
         {
             Remove(item);
         }
@@ -80,9 +80,9 @@ public class Inventory : MonoBehaviour
 
     void RecoverLastSession()
     {
-        if(GameManager.Instance.playerData != null)
+        if(GameManager.Instance._playerData != null)
         {
-            foreach (PickItemList item in GameManager.Instance.playerData.itemList)
+            foreach (PickItemList item in GameManager.Instance._playerData.ItemList)
             {
                 _visual.DisplayItem(item.ToString());
             }

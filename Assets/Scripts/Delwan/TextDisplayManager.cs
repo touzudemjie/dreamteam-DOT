@@ -39,6 +39,7 @@ public class TextDisplayManager : MonoBehaviour
     public static TextDisplayManager Instance { get; private set; }
     private Canvas _dialogueCanvas;
     private List<DialogueEffect> _effects = new List<DialogueEffect>();
+    private NPCDialogue _currentNPCDialogue;
     private void Awake()
     {
         if (Instance != this && Instance != null)
@@ -55,6 +56,11 @@ public class TextDisplayManager : MonoBehaviour
     void Start()
     {
         SetUp();
+    }
+    public void SaveCurrentNPCDialogue(NPCDialogueSaveData npcSaveData, string name = "")
+    {
+        GameManager.Instance._playerData.SaveNPCData(npcSaveData);
+        SaveSystem.SavePlayerdata(GameManager.Instance._playerData);
     }
     private void SetUp()
     {
