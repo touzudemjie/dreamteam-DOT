@@ -57,7 +57,7 @@ public class TextDisplayManager : MonoBehaviour
     {
         SetUp();
     }
-    public void SaveCurrentNPCDialogue(NPCDialogueSaveData npcSaveData, string name = "")
+    public void SaveCurrentNPCDialogue(NPCDialogueSaveData npcSaveData)
     {
         GameManager.Instance._playerData.SaveNPCData(npcSaveData);
         SaveSystem.SavePlayerdata(GameManager.Instance._playerData);
