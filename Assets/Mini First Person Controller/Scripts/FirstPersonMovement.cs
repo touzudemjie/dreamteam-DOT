@@ -62,6 +62,7 @@ public class FirstPersonMovement : MonoBehaviour
             Vector2 targetVelocity = _moveAction.ReadValue<Vector2>() * targetMovingSpeed;
             if (!playerRb.isKinematic)
             {
+                Debug.Log("Velocity " + playerRb.linearVelocity);
                 playerRb.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, playerRb.linearVelocity.y, targetVelocity.y);
             }
         }
