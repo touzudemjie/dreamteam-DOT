@@ -25579,7 +25579,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &343866482
 Transform:
   m_ObjectHideFlags: 0
@@ -26802,7 +26802,7 @@ MonoBehaviour:
   _drawAccuracy: 0.2
   _resetColorTimer:
     <MinDuration>k__BackingField: 0
-    Duration: 0
+    Duration: 3
     _hasRandomRange: 0
   _lineClosedThreshold: 0.5
 --- !u!120 &358892479

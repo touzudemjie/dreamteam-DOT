@@ -66,6 +66,16 @@ public class FirstPersonMovement : MonoBehaviour
                 playerRb.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, playerRb.linearVelocity.y, targetVelocity.y);
             }
         }
+        if (!NPCDialogue.IsDialogueFinished)
+        {
+            Debug.Log("Test1");
+            playerRb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+        else
+        {
+            Debug.Log("Test2");
+            playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        }
     }
     private void Update()
     {
